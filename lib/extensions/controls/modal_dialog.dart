@@ -4,9 +4,7 @@
 
 library  modaldialog_controls_buckshotui_org;
 
-import 'dart:html';
 import 'package:buckshot/buckshot.dart';
-import 'package:dartnet_event_model/events.dart';
 import 'package:logging/logging.dart';
 
 /**

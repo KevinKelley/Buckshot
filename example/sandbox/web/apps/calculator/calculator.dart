@@ -3,7 +3,6 @@ library calculator_apps_buckshot;
 import 'dart:html';
 import 'dart:math' as Math;
 import 'package:buckshot/buckshot.dart';
-import 'package:dartnet_event_model/events.dart';
 
 part 'common/i_calculator.dart';
 part 'common/output_changed_event_args.dart';

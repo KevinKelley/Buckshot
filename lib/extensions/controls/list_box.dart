@@ -7,9 +7,6 @@
 library listbox_controls_buckshot;
 
 import 'package:buckshot/buckshot.dart';
-import 'package:dartnet_event_model/events.dart';
-import 'package:buckshot/web/web.dart';
-
 
 /**
 * A control that provides a scrollable list of selectable items.

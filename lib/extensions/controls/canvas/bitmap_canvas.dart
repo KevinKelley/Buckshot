@@ -6,7 +6,6 @@ library webglcanvas_canvas_controls_buckshot;
 
 import 'dart:html';
 import 'package:buckshot/buckshot.dart';
-import 'package:buckshot/web/web.dart';
 import 'package:buckshot/extensions/controls/canvas/canvas_base.dart';
 
 /**

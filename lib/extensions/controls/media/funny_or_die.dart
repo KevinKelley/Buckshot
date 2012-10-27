@@ -6,7 +6,6 @@ library funnyordie_media_controls_buckshot;
 
 import 'dart:html';
 import 'package:buckshot/buckshot.dart';
-import 'package:buckshot/web/web.dart';
 
 class FunnyOrDie extends FrameworkElement
 {

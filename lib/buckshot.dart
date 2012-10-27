@@ -17,11 +17,9 @@ import 'package:xml/xml.dart';
 import 'package:dartnet_event_model/events.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:buckshot/web/web.dart';
 
 export 'package:dartnet_event_model/events.dart';
 export 'package:meta/meta.dart';
-export 'package:buckshot/web/web.dart';
 
 // Uncomment this to run with reflection.
 // Also below, set reflectionEnabled = true.

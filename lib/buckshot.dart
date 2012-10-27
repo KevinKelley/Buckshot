@@ -9,7 +9,6 @@
 
 library core_buckshotui_org;
 
-import 'dart:html';
 import 'dart:json';
 import 'dart:isolate';
 import 'dart:math';
@@ -18,7 +17,11 @@ import 'package:xml/xml.dart';
 import 'package:dartnet_event_model/events.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'web/web.dart';
+import 'package:buckshot/web/web.dart';
+
+export 'package:dartnet_event_model/events.dart';
+export 'package:meta/meta.dart';
+export 'package:buckshot/web/web.dart';
 
 // Uncomment this to run with reflection.
 // Also below, set reflectionEnabled = true.

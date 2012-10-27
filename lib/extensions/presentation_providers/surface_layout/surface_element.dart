@@ -1,18 +1,11 @@
-part of core_buckshotui_org;
+part of surface_layout_buckshot;
 
-// Copyright (c) 2012, John Evans
-// https://github.com/prujohn/Buckshot
-// See LICENSE file for Apache 2.0 licensing information.
-
-/**
-* Represents a base class for all visual elements in the framework.
-* Generally speaking all elements that render DOM output should derive
-* from this class.
-*/
-class FrameworkElement extends FrameworkObject
+class SurfaceElement extends FrameworkObject implements SurfaceLayoutElement
 {
-  ElementRect _previousMeasurement;
-  ElementRect _previousPosition;
+  bool _watchingMeasurement = false;
+  bool _watchingPosition = false;
+  RectMeasurement _previousMeasurement;
+  RectMeasurement _previousPosition;
 
   StyleTemplate _style;
 
@@ -131,10 +124,8 @@ class FrameworkElement extends FrameworkObject
   /// Fires when an object stops being dragged.
   FrameworkEvent<DragEventArgs> dragEnd;
 
-  FrameworkElement()
+  SurfaceElement()
   {
-    Browser.appendClass(rawElement, "FrameworkElement");
-
     //give a blank style so merging works immediately
     _style = new StyleTemplate();
 
@@ -150,7 +141,8 @@ class FrameworkElement extends FrameworkObject
 
   }
 
-  FrameworkElement.register() : super.register();
+  // satisfies the non-reflection registration requirements
+  SurfaceElement.register() : super.register();
   makeMe() => null;
 
 
@@ -696,13 +688,13 @@ class FrameworkElement extends FrameworkObject
 //    }
 //
 //    keyUp = new FrameworkEvent<EventArgs>
-//    ._watchFirstAndLast(
+//    .watchFirstAndLast(
 //      () => rawElement.on.keyUp.add(keyHandler),
 //      () => rawElement.on.keyUp.add(keyHandler)
 //      );
 //
 //    keyDown = new FrameworkEvent<EventArgs>
-//    ._watchFirstAndLast(
+//    .watchFirstAndLast(
 //      () => rawElement.on.keyDown.add(keyHandler),
 //      () => rawElement.on.keyDown.add(keyHandler)
 //      );
@@ -710,13 +702,13 @@ class FrameworkElement extends FrameworkObject
     // only begins animation loop on first request of the event
     // to preserve resources when not in use.
     measurementChanged = new BuckshotEvent<MeasurementChangedEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => _startWatchMeasurement(),
       () =>  _stopWatchMeasurement()
     );
 
     positionChanged = new BuckshotEvent<MeasurementChangedEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => _startWatchPosition(),
       () =>  _stopWatchPosition()
     );
@@ -735,7 +727,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     mouseUp = new BuckshotEvent<MouseEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.mouseUp.add(mouseUpHandler),
       () => rawElement.on.mouseUp.remove(mouseUpHandler)
     );
@@ -756,7 +748,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     mouseDown = new BuckshotEvent<MouseEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.mouseDown.add(mouseDownHandler),
       () => rawElement.on.mouseDown.remove(mouseDownHandler)
     );
@@ -775,7 +767,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     mouseMove = new BuckshotEvent<MouseEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.mouseMove.add(mouseMoveHandler),
       () => rawElement.on.mouseMove.remove(mouseMoveHandler)
     );
@@ -795,7 +787,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     click = new BuckshotEvent<MouseEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.click.add(clickHandler),
       () => rawElement.on.click.remove(clickHandler)
     );
@@ -810,7 +802,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     gotFocus = new BuckshotEvent<EventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.focus.add(gotFocusHandler),
       () => rawElement.on.focus.remove(gotFocusHandler)
     );
@@ -824,7 +816,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     lostFocus = new BuckshotEvent<EventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.blur.add(lostFocusHandler),
       () => rawElement.on.blur.remove(lostFocusHandler)
     );
@@ -848,7 +840,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     mouseEnter = new BuckshotEvent<EventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.mouseOver.add(mouseEnterHandler),
       () => rawElement.on.mouseOver.remove(mouseEnterHandler)
     );
@@ -877,7 +869,7 @@ class FrameworkElement extends FrameworkObject
 
 
     mouseLeave = new BuckshotEvent<EventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.mouseOut.add(mouseLeaveHandler),
       () => rawElement.on.mouseOut.remove(mouseLeaveHandler)
     );
@@ -896,7 +888,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     dragEnter = new BuckshotEvent<DragEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.dragEnter.add(dragEnterHandler),
       () => rawElement.on.dragEnter.remove(dragEnterHandler)
     );
@@ -909,7 +901,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     dragLeave = new BuckshotEvent<DragEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.dragLeave.add(dragLeaveHandler),
       () => rawElement.on.dragLeave.remove(dragLeaveHandler)
     );
@@ -924,7 +916,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     dragOver = new BuckshotEvent<DragEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.dragOver.add(dragOverHandler),
       () => rawElement.on.dragOver.remove(dragOverHandler)
     );
@@ -940,7 +932,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     drop = new BuckshotEvent<DragEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.drop.add(dropHandler),
       () => rawElement.on.drop.remove(dropHandler)
     );
@@ -953,7 +945,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     dragStart = new BuckshotEvent<DragEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.dragStart.add(dragStartHandler),
       () => rawElement.on.dragStart.remove(dragStartHandler)
     );
@@ -966,7 +958,7 @@ class FrameworkElement extends FrameworkObject
     }
 
     dragEnd = new BuckshotEvent<DragEventArgs>
-    ._watchFirstAndLast(
+    .watchFirstAndLast(
       () => rawElement.on.dragEnd.add(dragEndHandler),
       () => rawElement.on.dragEnd.remove(dragEndHandler)
     );

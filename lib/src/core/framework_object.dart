@@ -9,11 +9,7 @@ part of core_buckshotui_org;
 * [Binding] and [FrameworkProperty] model. */
 class FrameworkObject extends BuckshotObject
 {
-  bool _watchingMeasurement = false;
-  bool _watchingPosition = false;
   bool _firstLoad = true;
-  ElementRect _previousMeasurement;
-  ElementRect _previousPosition;
   bool isLoaded = false;
 
   /** Parent object of this object. */
@@ -40,18 +36,6 @@ class FrameworkObject extends BuckshotObject
   final FrameworkEvent<EventArgs> loaded = new FrameworkEvent<EventArgs>();
   /// Fires when the FrameworkElement is removed from the DOM.
   final FrameworkEvent<EventArgs> unloaded = new FrameworkEvent<EventArgs>();
-  /// Fires when the measurement of the the element changes.
-  FrameworkEvent<MeasurementChangedEventArgs> measurementChanged;
-  /// Fires when the position of the element changes.
-  FrameworkEvent<MeasurementChangedEventArgs> positionChanged;
-
-  /**
-  * Accesses the underlying raw HTML root element.
-  *
-  * **CAUTION:** Advanced use only.  Changing element properties directly may
-  * cause undesirable results in the framework.
-  */
-  Element rawElement;
 
   /// A meta-data tag that represents the container context of an element,
   /// if it has one.
@@ -75,8 +59,6 @@ class FrameworkObject extends BuckshotObject
       //_rawElement = _unwrap(rawElement);
 
       _initFrameworkObjectProperties();
-
-      _initFrameworkObjectEvents();
 
       if (reflectionEnabled){
         return;
@@ -112,116 +94,6 @@ class FrameworkObject extends BuckshotObject
       });
 
     dataContext = new FrameworkProperty(this, "dataContext");
-  }
-
-  void _startWatchMeasurement(){
-    _watchingMeasurement = true;
-
-    watchIt(int time){
-      if (!_watchingMeasurement) return;
-
-      rawElement.rect.then((ElementRect m){
-        if (!_watchingMeasurement) return;
-
-        mostRecentMeasurement = m;
-
-        if (_previousMeasurement == null){
-          measurementChanged.invoke(this,
-            new MeasurementChangedEventArgs(m, m));
-        }else{
-          if (
-              _previousMeasurement.bounding.width != m.bounding.width
-              || _previousMeasurement.bounding.height != m.bounding.height
-              || _previousMeasurement.client.width != m.client.width
-              || _previousMeasurement.client.height != m.client.height
-              || _previousMeasurement.offset.width != m.offset.width
-              || _previousMeasurement.offset.height != m.offset.height
-              || _previousMeasurement.scroll.width != m.scroll.width
-              || _previousMeasurement.scroll.height != m.scroll.height
-              ){
-
-            measurementChanged.invoke(this,
-              new MeasurementChangedEventArgs(_previousMeasurement, m));
-          }
-        }
-        _previousMeasurement = m;
-      });
-    }
-
-    FrameworkAnimation.workers['${safeName}_watch_measurement'] = watchIt;
-
-  }
-
-  void _stopWatchMeasurement(){
-    if (FrameworkAnimation.workers.containsKey('${safeName}_watch_measurement')){
-      FrameworkAnimation.workers.remove('${safeName}_watch_measurement');
-    }
-
-    _previousMeasurement = null;
-    _watchingMeasurement = false;
-  }
-
-  void _startWatchPosition(){
-    _watchingPosition= true;
-
-    watchIt(int time){
-      if (!_watchingPosition) return;
-
-      rawElement.rect.then((ElementRect m){
-        if (!_watchingPosition) return;
-
-        mostRecentMeasurement = m;
-
-        if (_previousPosition == null){
-          positionChanged.invoke(this,
-            new MeasurementChangedEventArgs(m, m));
-        }else{
-          if (
-              _previousPosition.bounding.left != m.bounding.left
-              || _previousPosition.bounding.top != m.bounding.top
-              || _previousPosition.client.left != m.client.left
-              || _previousPosition.client.top != m.client.top
-              || _previousPosition.offset.left != m.offset.left
-              || _previousPosition.offset.top != m.offset.top
-              || _previousPosition.scroll.left != m.scroll.left
-              || _previousPosition.scroll.top != m.scroll.top
-              ){
-
-            positionChanged.invoke(this,
-              new MeasurementChangedEventArgs(_previousPosition, m));
-          }
-        }
-        _previousPosition = m;
-      });
-    }
-
-    FrameworkAnimation.workers['${safeName}_watch_position'] = watchIt;
-
-  }
-
-  void _stopWatchPosition(){
-    if (FrameworkAnimation.workers.containsKey('${safeName}_watch_position')){
-      FrameworkAnimation.workers.remove('${safeName}_watch_position');
-    }
-
-    _previousPosition = null;
-    _watchingPosition = false;
-  }
-
-  void _initFrameworkObjectEvents(){
-    // only begins animation loop on first request of the event
-    // to preserve resources when not in use.
-    measurementChanged = new BuckshotEvent<MeasurementChangedEventArgs>
-    ._watchFirstAndLast(
-      () => _startWatchMeasurement(),
-      () =>  _stopWatchMeasurement()
-    );
-
-    positionChanged = new BuckshotEvent<MeasurementChangedEventArgs>
-    ._watchFirstAndLast(
-      () => _startWatchPosition(),
-      () =>  _stopWatchPosition()
-    );
   }
 
   void addToLayoutTree(FrameworkObject parentElement){

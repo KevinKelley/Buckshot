@@ -25,6 +25,7 @@ export 'package:meta/meta.dart';
 // Also below, set reflectionEnabled = true.
 // import 'dart:mirrors';
 
+part 'src/core/presentation_provider.dart';
 part 'src/core/system.dart';
 part 'src/core/framework_object.dart';
 part 'src/core/framework_property.dart';
@@ -47,7 +48,6 @@ part 'src/polyfills/polyfill.dart';
 part 'src/polyfills/stack_polyfill.dart';
 
 part 'src/events/buckshot_event.dart';
-part 'src/events/measurement_changed_event_args.dart';
 part 'src/events/attached_property_changed_event_args.dart';
 part 'src/events/property_changed_event_args.dart';
 part 'src/events/drag_event_args.dart';
@@ -55,7 +55,6 @@ part 'src/events/drag_event_args.dart';
 part 'src/mvvm/view_model_base.dart';
 part 'src/mvvm/view.dart';
 part 'src/mvvm/data_template.dart';
-
 
 part 'src/binding/binding.dart';
 part 'src/binding/binding_mode.dart';

@@ -1,4 +1,4 @@
-import 'package:buckshot/generator_console.dart';
+//import 'package:buckshot/generator_console.dart';
 import 'dart:io';
 
 void main(){

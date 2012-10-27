@@ -1,12 +1,10 @@
 # Dart Excludes
 *~
 *.js
-.children
 .project
 *.map
 *.lock
 *.tmp
 *.log
 packages
-packages/
-debug/
+debug

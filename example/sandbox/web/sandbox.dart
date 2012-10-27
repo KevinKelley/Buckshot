@@ -3,7 +3,7 @@
 // See LICENSE file for Apache 2.0 licensing information.
 
 import 'dart:html';
-import 'package:buckshot/buckshot_browser.dart';
+import 'package:buckshot/buckshot.dart';
 import 'package:dartnet_event_model/events.dart';
 import 'package:buckshot/extensions/controls/media/youtube.dart';
 import 'package:buckshot/extensions/controls/media/hulu.dart';

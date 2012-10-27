@@ -1,5 +1,5 @@
 
-import 'package:buckshot/buckshot_browser.dart';
+import 'package:buckshot/buckshot.dart';
 
 part 'views/main_view.dart';
 part 'viewmodels/viewmodel.dart';

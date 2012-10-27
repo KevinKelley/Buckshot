@@ -1,7 +1,7 @@
 library popup_controls_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/buckshot_browser.dart';
+import 'package:buckshot/buckshot.dart';
 import 'package:dartnet_event_model/events.dart';
 
 /**

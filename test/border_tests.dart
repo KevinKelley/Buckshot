@@ -1,6 +1,6 @@
 library border_tests_buckshot;
 
-import 'package:buckshot/buckshot_browser.dart';
+import 'package:buckshot/buckshot.dart';
 import 'package:unittest/unittest.dart';
 
 run(){

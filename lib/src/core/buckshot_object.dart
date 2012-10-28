@@ -18,15 +18,23 @@ abstract class BuckshotObject extends HashableObject
   final HashMap<String, EventHandler> _eventHandlers =
       new HashMap<String, EventHandler>();
 
-  BuckshotObject();
+  BuckshotObject(){
+    initProperties();
+    initEvents();
+  }
   BuckshotObject.register();
+
+  abstract makeMe();
+  abstract initProperties();
+  abstract initEvents();
 
   /// Gets a boolean value indicating whether the given object
   /// is a container or not.
   bool get isContainer => this is FrameworkContainer;
 
   /**
-   * Registers an event for later lookup during template event binding
+   * Registers an event for later lookup during template event binding.
+   * Returns immediately if reflection is enabled.
    *
    * This will go away once Dart supports reflection on all platforms.
    */
@@ -39,6 +47,7 @@ abstract class BuckshotObject extends HashableObject
    * Registers an event handler to the framework.
    *
    * This will go away once Dart supports reflection on all platforms.
+   * Returns immediately if reflection is enabled.
    */
   void registerEventHandler(String name, EventHandler func){
     if (reflectionEnabled) return;
@@ -75,8 +84,6 @@ abstract class BuckshotObject extends HashableObject
 
     return hasEventInternal(buckshot.reflectMe(this).type);
   }
-
-  abstract makeMe();
 
   /**
    * Returns a boolean value indicting whether the object contains

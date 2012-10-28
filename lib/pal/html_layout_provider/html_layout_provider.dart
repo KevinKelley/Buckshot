@@ -5,15 +5,8 @@
 library html_layout_provider;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presentation_providers/surface_layout/surface_layout.dart';
-export 'package:buckshot/extensions/presentation_providers/surface_layout/surface_layout.dart';
-
-/**
- * Sets the Buckshot presentation provider to the HtmlLayoutProvider.
- */
-void setPresentionProvider(){
-  PresentationProvider.provider = new HtmlLayoutProvider();
-}
+import 'package:buckshot/pal/surface_layout/surface_layout_provider.dart';
+export 'package:buckshot/pal/surface_layout/surface_layout_provider.dart';
 
 /**
  * Html box model presentation provider.
@@ -31,7 +24,7 @@ class HtmlLayoutProvider extends SurfaceLayout
    * This measurement occurs within the browser layout interrupt to prevent
    * contention with animations.
    */
-  @override Future<RectMeasurement> measure(SurfaceLayoutElement element){
+  @override Future<RectMeasurement> measure(SurfaceElement element){
     assert(rawElement[element] != null);
 
     final c = new Completer();
@@ -46,7 +39,7 @@ class HtmlLayoutProvider extends SurfaceLayout
     return c.future;
   }
 
-  @override void createPrimitive(SurfaceLayoutElement element,
+  @override void createPrimitive(SurfaceElement element,
                        SurfacePrimitive primitiveKind){
 
     if (rawElement[element] != null){

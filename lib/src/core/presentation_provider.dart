@@ -4,6 +4,15 @@
 
 part of core_buckshotui_org;
 
+class Presentation<T extends PresentationProvider>
+{
+  final T provider;
+
+  Presentation(this.provider);
+
+
+}
+
 abstract class PresentationProvider
 {
   static PresentationProvider _provider;
@@ -22,5 +31,32 @@ abstract class PresentationProvider
     _provider = provider;
   }
 
-  static get provider => _provider;
+  static PresentationProvider get provider => _provider;
+}
+
+abstract class PresentationElement
+{
+  /** Fires when the element is loaded in the presentation. */
+  FrameworkEvent<EventArgs> loaded;
+
+  /** Fires when element is unloaded from the presentation. */
+  FrameworkEvent<EventArgs> unloaded;
+
+  /** Parent object of this object. */
+  FrameworkObject parent;
+
+  /// Represents a name identifier for the element.
+  /// Assigning a name to an element
+  /// allows it to be found and bound to by other elements.
+  FrameworkProperty<String> name;
+
+  /// Represents the data context assigned to the FrameworkElement.
+  /// Declarative xml binding can be used to bind to data context.
+  FrameworkProperty<Dynamic> dataContext;
+
+  /**
+   * Called when the object is loaded into the presentation layer for the
+   * first time.
+   */
+  abstract void onFirstLoad();
 }

@@ -11,8 +11,8 @@ part of core_buckshotui_org;
 */
 class FrameworkElement extends FrameworkObject
 {
-  ElementRect _previousMeasurement;
-  ElementRect _previousPosition;
+  MeasurementRect _previousMeasurement;
+  MeasurementRect _previousPosition;
 
   StyleTemplate _style;
 

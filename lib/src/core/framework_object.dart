@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Represents and element that can participate in the framework's
 * [Binding] and [FrameworkProperty] model. */
-class FrameworkObject extends BuckshotObject
+class FrameworkObject extends BuckshotObject implements PresentationElement
 {
   bool _firstLoad = true;
   bool isLoaded = false;
@@ -58,8 +58,6 @@ class FrameworkObject extends BuckshotObject
       //grab the unwrapped version
       //_rawElement = _unwrap(rawElement);
 
-      _initFrameworkObjectProperties();
-
       if (reflectionEnabled){
         return;
       }
@@ -67,14 +65,14 @@ class FrameworkObject extends BuckshotObject
       registerEvent('attachedpropertychanged', attachedPropertyChanged);
       registerEvent('loaded', loaded);
       registerEvent('unloaded', unloaded);
-      registerEvent('measurementchanged', measurementChanged);
-      registerEvent('positionchanged', positionChanged);
   }
 
   FrameworkObject.register() : super.register();
   makeMe() => null;
 
-  void _initFrameworkObjectProperties(){
+  @override void initEvents(){}
+
+  @override void initProperties(){
     name = new FrameworkProperty(
       this,
       "name",
@@ -303,7 +301,6 @@ class FrameworkObject extends BuckshotObject
     }
   }
 
-
   ElementRect mostRecentMeasurement;
 
   Future<ElementRect> updateMeasurement(){
@@ -357,9 +354,7 @@ class FrameworkObject extends BuckshotObject
    *  Called by the framework to allow an element to construct it's
    *  HTML representation and assign to [rawElement].
    */
-  void createElement(){
-    rawElement = new DivElement();
-  }
+  void createElement(){}
 
   /// Called by the framework to request that an element update it's
   /// visual layout.

@@ -187,7 +187,7 @@ class CollectionPresenter extends FrameworkElement implements FrameworkContainer
 
 
 class ItemCreatedEventArgs extends EventArgs{
-  final Dynamic itemCreated;
+  final dynamic itemCreated;
 
   ItemCreatedEventArgs(this.itemCreated);
 }

@@ -71,13 +71,13 @@ abstract class Control extends FrameworkElement
     }else{
       final tName = templateName;
       assert(tName != null);
-      assert(!tName.isEmpty());
+      assert(!tName.isEmpty);
       _finishApplyVisualTemplate('');
     }
   }
 
   void _finishApplyVisualTemplate(String t){
-    if (t.isEmpty()){
+    if (t.isEmpty){
       template = this;
       super.applyVisualTemplate();
       return;

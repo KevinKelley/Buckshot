@@ -7,6 +7,6 @@ class TemplateObject extends BuckshotObject
   TemplateObject.register() : super.register();
   makeMe() => null;
 
-  abstract initProperties();
-  abstract initEvents();
+  @override void initProperties(){}
+  @override void initEvents(){}
 }

@@ -402,7 +402,7 @@ class Template {
         }else{
           //property node
 
-          if (ofXMLNode.children.isEmpty()){
+          if (ofXMLNode.children.isEmpty){
             //assume text assignment
             p.value = ofXMLNode.text.trim();
             c.complete(true);

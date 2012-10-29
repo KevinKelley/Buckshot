@@ -67,7 +67,7 @@ class Color extends FrameworkResource
    * This is a convenience method that gracefully handles accidental
    * assignments to properties that are actually of type Brush.
    */
-  void renderBrush(Element element){
+  void renderBrush(element){
     element.style.background = "${value.value}";
   }
 }

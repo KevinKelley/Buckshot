@@ -8,16 +8,19 @@ class AnimationState extends TemplateObject
 {
   FrameworkProperty<String> target;
   FrameworkProperty<String> property;
-  FrameworkProperty<Dynamic> value;
+  FrameworkProperty<dynamic> value;
 
-  AnimationState(){
-    _initAnimationStateProperties();
-  }
+  AnimationState();
 
   AnimationState.register() : super.register();
   makeMe() => new AnimationState();
 
-  _initAnimationStateProperties(){
+  @override void initEvents(){
+    super.initEvents();
+  }
+
+  @override void initProperties(){
+    super.initProperties();
 
     target = new FrameworkProperty(this, 'target');
 

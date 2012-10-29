@@ -4,6 +4,9 @@ part of core_buckshotui_org;
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
+
+//TODO does this need to derive from BuckshotObject?
+
 /**
 * Represents a binding between two [FrameworkProperty] properties.
 *
@@ -27,6 +30,9 @@ class Binding extends BuckshotObject
   *   **This value is set by the framework**.
   */
   bool bindingSet = false;
+
+  initProperties() => super.initProperties();
+  initEvents() => super.initEvents();
 
   /**
   * Instantiates a binding between [fromProperty] and [toProperty],
@@ -106,7 +112,7 @@ class Binding extends BuckshotObject
       _toProperty
         .sourceObject
         ._bindings
-        .last()
+        .last
         .bindingMode = BindingMode.TwoWay;
 
     }else{
@@ -170,5 +176,5 @@ class Binding extends BuckshotObject
 class _DefaultConverter implements IValueConverter{
   const _DefaultConverter();
 
-  Dynamic convert(Dynamic value, [Dynamic parameter]) => value;
+  dynamic convert(dynamic value, [dynamic parameter]) => value;
 }

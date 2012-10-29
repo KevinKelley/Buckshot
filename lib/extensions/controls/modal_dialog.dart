@@ -61,8 +61,8 @@ class ModalDialog extends Control
   FrameworkProperty<Thickness> cornerRadius;
   FrameworkProperty<Brush> maskBrush;
   FrameworkProperty<num> maskOpacity;
-  FrameworkProperty<Dynamic> title;
-  FrameworkProperty<Dynamic> body;
+  FrameworkProperty<dynamic> title;
+  FrameworkProperty<dynamic> body;
   Binding b1, b2;
   Border bDialog;
   Grid cvRoot;

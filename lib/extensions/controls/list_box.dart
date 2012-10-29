@@ -15,7 +15,7 @@ class ListBox extends Control implements FrameworkContainer
 {
   FrameworkProperty<bool> horizontalScrollEnabled;
   FrameworkProperty<bool> verticalScrollEnabled;
-  FrameworkProperty<Dynamic> selectedItem;
+  FrameworkProperty<dynamic> selectedItem;
   /// Represents the [Panel] element which will contain the generated UI for
   /// each element of the collection.
   FrameworkProperty<Panel> presentationPanel;

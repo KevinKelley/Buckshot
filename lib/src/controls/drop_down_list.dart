@@ -111,7 +111,7 @@ class DropDownList extends Control
 class DropDownItem extends TemplateObject
 {
   FrameworkProperty<String> name;
-  FrameworkProperty<Dynamic> item;
+  FrameworkProperty<dynamic> item;
 
   DropDownItem(){
     _initDropDownListItemProperties();
@@ -123,6 +123,6 @@ class DropDownItem extends TemplateObject
   void _initDropDownListItemProperties(){
     name = new FrameworkProperty(this, "name", (String v){}, '');
 
-    item = new FrameworkProperty(this, "value", (Dynamic v){}, null);
+    item = new FrameworkProperty(this, "value", (dynamic v){}, null);
   }
 }

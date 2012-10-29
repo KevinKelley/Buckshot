@@ -34,10 +34,10 @@ class YamlMap implements Map, Hashable {
   Collection getKeys() => _map.getKeys().map(_unwrapKey);
   Collection getValues() => _map.getValues();
   int get length => _map.length;
-  bool isEmpty() => _map.isEmpty();
+  bool get isEmpty => _map.isEmpty;
   String toString() => _map.toString();
 
-  int hashCode() => _hashCode(_map);
+  int get hashCode => _hashCode(_map);
 
   bool operator ==(other) {
     if (other is! YamlMap) return false;
@@ -69,7 +69,7 @@ class _WrappedHashKey implements Hashable {
 
   _WrappedHashKey(this.value);
 
-  int hashCode() => _hashCode(value);
+  int get hashCode => _hashCode(value);
 
   String toString() => value.toString();
 

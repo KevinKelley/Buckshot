@@ -54,7 +54,7 @@ abstract class PresenterElement
 
   /// Represents the data context assigned to the FrameworkElement.
   /// Declarative xml binding can be used to bind to data context.
-  FrameworkProperty<Dynamic> dataContext;
+  FrameworkProperty<dynamic> dataContext;
 
   /**
    * Called when the object is loaded into the presentation layer for the

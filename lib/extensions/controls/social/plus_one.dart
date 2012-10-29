@@ -102,7 +102,7 @@ class PlusOneAnnotationTypes{
 class StringToPlusOneButtonSizeConverter implements IValueConverter{
   const StringToPlusOneButtonSizeConverter();
 
-  Dynamic convert(Dynamic value, [Dynamic parameter]){
+  dynamic convert(dynamic value, [dynamic parameter]){
       if (!(value is String)) return value;
 
       switch(value){
@@ -124,7 +124,7 @@ class StringToPlusOneButtonSizeConverter implements IValueConverter{
 class StringToPlusOneAnnotationTypeConverter implements IValueConverter{
   const StringToPlusOneAnnotationTypeConverter();
 
-  Dynamic convert(Dynamic value, [Dynamic parameter]){
+  dynamic convert(dynamic value, [dynamic parameter]){
       if (!(value is String)) return value;
 
       switch(value){

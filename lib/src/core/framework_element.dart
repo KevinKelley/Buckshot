@@ -23,7 +23,7 @@ class FrameworkElement extends FrameworkObject
       new HashMap<String, String>();
 
   // registered polyfills
-  final HashMap<String, Dynamic> _polyfills = new HashMap<String, Object>();
+  final HashMap<String, dynamic> _polyfills = new HashMap<String, Object>();
 
   FrameworkProperty<bool> userSelect;
   /// Represents the margin [Thickness] area outside the FrameworkElement boundary.
@@ -405,14 +405,14 @@ class FrameworkElement extends FrameworkObject
     width = new FrameworkProperty(
       this,
       "width",
-      (Dynamic value) => calculateWidth(value),
+      (dynamic value) => calculateWidth(value),
       defaultValue:"auto",
       converter:const StringToNumericConverter());
 
     height = new FrameworkProperty(
       this,
       "height",
-      (Dynamic value) => calculateHeight(value),
+      (dynamic value) => calculateHeight(value),
       defaultValue:"auto",
       converter:const StringToNumericConverter());
 

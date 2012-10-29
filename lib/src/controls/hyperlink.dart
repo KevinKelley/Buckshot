@@ -9,10 +9,10 @@ part of core_buckshotui_org;
 */
 class Hyperlink extends Control implements FrameworkContainer
 {
-  Dynamic _content;
+  dynamic _content;
 
   /// Represents the content of the hyperlink.
-  FrameworkProperty<Dynamic> content;
+  FrameworkProperty<dynamic> content;
   /// Represents the html 'target' value of the hyperlink.
   FrameworkProperty<String> targetName;
   /// Represents the url navigation target of the hyperlink.

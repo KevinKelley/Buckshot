@@ -9,7 +9,7 @@ import 'package:buckshot/pal/surface/surface.dart';
 export 'package:buckshot/pal/surface/surface.dart';
 
 /**
- * Html box model presentation provider.
+ * Html5 Canvas box model presentation provider.
  */
 class HtmlCanvasSurface extends Surface
 {

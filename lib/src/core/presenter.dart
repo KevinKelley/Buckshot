@@ -4,37 +4,39 @@
 
 part of core_buckshotui_org;
 
-class Presentation<T extends PresentationProvider>
-{
-  final T provider;
+Presenter _presenter = null;
 
-  Presentation(this.provider);
-
-
+/**
+ * Gets the Buckshot [Presenter] set for this runtime session.
+ */
+Presenter get presenter => _presenter;
+/**
+ * Sets the Buckshot [Presenter] for this runtime session.  The
+ * provider may only be set once per session.
+ */
+set presenter(Presenter newProvider){
+  if (_presenter != null){
+    throw 'Presentation provider is already set.';
+  }
+  _presenter = newProvider;
 }
 
-abstract class PresentationProvider
-{
-  static PresentationProvider _provider;
 
+/**
+ * Base contract for PAL providers.
+ */
+abstract class Presenter
+{
   String get namespace;
 
-  /**
-   * Sets the given [provider] as the presentation provider for this instance
-   * of Buckshot.  Note that this can only be set once per runtime session.
-   */
-  static set provider(PresentationProvider provider){
-    if (_provider != null){
-      throw 'Presentation provider already set.';
-    }
-
-    _provider = provider;
-  }
-
-  static PresentationProvider get provider => _provider;
+  /** Initializes the given [element] to the [Presenter]. */
+  abstract void initElement(PresenterElement element);
 }
 
-abstract class PresentationElement
+/**
+ * Base contract for objects participating in the PAL.
+ */
+abstract class PresenterElement
 {
   /** Fires when the element is loaded in the presentation. */
   FrameworkEvent<EventArgs> loaded;

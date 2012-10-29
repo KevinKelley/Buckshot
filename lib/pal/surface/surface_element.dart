@@ -1,9 +1,10 @@
-part of surface_layout_buckshot;
+part of surface_buckshot;
 
 class SurfaceElement extends FrameworkObject
 {
   RectMeasurement previousMeasurement;
   RectMeasurement previousPosition;
+  RectMeasurement mostRecentMeasurement;
 
   FrameworkProperty<bool> userSelect;
   /// Represents the margin [Thickness] area outside the FrameworkElement boundary.
@@ -47,6 +48,7 @@ class SurfaceElement extends FrameworkObject
 
   final FrameworkEvent<MeasurementChangedEventArgs> measurementChanged
     = new FrameworkEvent<MeasurementChangedEventArgs>();
+
   final FrameworkEvent<MeasurementChangedEventArgs> positionChanged
     = new FrameworkEvent<MeasurementChangedEventArgs>();
 
@@ -58,7 +60,13 @@ class SurfaceElement extends FrameworkObject
   @override void initProperties(){
     super.initProperties();
 
+    width = new FrameworkProperty<num>(this, 'width',
+        propertyChangedCallback: (num value) => presenter.setWidth(this, value),
+        converter: const StringToNumericConverter());
 
+    height = new FrameworkProperty<num>(this, 'height',
+        propertyChangedCallback: (num value) => presenter.setHeight(this, value),
+        converter: const StringToNumericConverter());
   }
 
   @override void initEvents(){
@@ -67,5 +75,4 @@ class SurfaceElement extends FrameworkObject
     registerEvent('measurementchanged', measurementChanged);
     registerEvent('positionchanged', positionChanged);
   }
-
 }

@@ -304,24 +304,25 @@ void registerGlobalEventHandler(String handlerName, EventHandler handler){
  */
 Future<FrameworkElement> setView(View view, [String elementID = 'BuckshotHost'])
 {
-  final el = query('#${elementID}');
-
-  if (el == null){
-    throw new BuckshotException('Could not find DOM element with '
-        'ID of "${elementID}"');
-  }
-
-  return _initFramework()
-    .chain((_) => view.ready)
-    .chain((rootVisual){
-      el.elements.clear();
-      final b = new Border()
-        ..isLoaded = true;
-      el.elements.add(b.rawElement);
-      b.content.value = rootVisual;
-      _log.fine('View ($rootVisual) set to DOM at ($elementID)');
-      return new Future.immediate(rootVisual);
-    });
+  throw const NotImplementedException();
+//  final el = query('#${elementID}');
+//
+//  if (el == null){
+//    throw new BuckshotException('Could not find DOM element with '
+//        'ID of "${elementID}"');
+//  }
+//
+//  return _initFramework()
+//    .chain((_) => view.ready)
+//    .chain((rootVisual){
+//      el.elements.clear();
+//      final b = new Border()
+//        ..isLoaded = true;
+//      el.elements.add(b.rawElement);
+//      b.content.value = rootVisual;
+//      _log.fine('View ($rootVisual) set to DOM at ($elementID)');
+//      return new Future.immediate(rootVisual);
+//    });
 }
 
 

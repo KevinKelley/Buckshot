@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Represents and element that can participate in the framework's
 * [Binding] and [FrameworkProperty] model. */
-class FrameworkObject extends BuckshotObject implements PresentationElement
+class FrameworkObject extends BuckshotObject implements PresenterElement
 {
   bool _firstLoad = true;
   bool isLoaded = false;
@@ -51,20 +51,19 @@ class FrameworkObject extends BuckshotObject implements PresentationElement
           new FrameworkEvent<AttachedPropertyChangedEventArgs>();
 
   FrameworkObject() {
-      applyVisualTemplate();
+    //TODO visual template needs to apply before this
+    presenter.initElement(this);
 
-      if (rawElement == null) createElement();
+    applyVisualTemplate();
 
-      //grab the unwrapped version
-      //_rawElement = _unwrap(rawElement);
+    //if (rawElement == null) createElement();
 
-      if (reflectionEnabled){
-        return;
-      }
+    //grab the unwrapped version
+    //_rawElement = _unwrap(rawElement);
 
-      registerEvent('attachedpropertychanged', attachedPropertyChanged);
-      registerEvent('loaded', loaded);
-      registerEvent('unloaded', unloaded);
+    registerEvent('attachedpropertychanged', attachedPropertyChanged);
+    registerEvent('loaded', loaded);
+    registerEvent('unloaded', unloaded);
   }
 
   FrameworkObject.register() : super.register();
@@ -299,18 +298,6 @@ class FrameworkObject extends BuckshotObject implements PresentationElement
     }else if (cc.containerContent is FrameworkElement){
       cc.containerContent._onRemoveFromDOM();
     }
-  }
-
-  ElementRect mostRecentMeasurement;
-
-  Future<ElementRect> updateMeasurement(){
-    if (!isLoaded) return null;
-
-    final rf = rawElement.rect;
-
-    rf.then((ElementRect r) { mostRecentMeasurement = r;});
-
-    return rf;
   }
 
   /// Returns the first non-null [dataContext] [FrameworkProperty]

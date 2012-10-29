@@ -2,20 +2,60 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library html_layout_provider;
+library html_surface_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/surface_layout/surface_layout_provider.dart';
-export 'package:buckshot/pal/surface_layout/surface_layout_provider.dart';
+import 'package:buckshot/pal/surface/surface.dart';
+export 'package:buckshot/pal/surface/surface.dart';
 
 /**
  * Html box model presentation provider.
  */
-class HtmlLayoutProvider extends SurfaceLayout
+class HtmlSurface extends Surface
 {
   final Expando<Element> rawElement = new Expando<Element>();
+  Element _rootDiv;
 
-  String get namespace => 'html.provider.buckshotui.org';
+  HtmlSurface(){
+    _rootDiv = query('#BuckshotHost');
+    if (_rootDiv == null){
+      throw "Unable to initialize the HtmlSurface provider. "
+        "Div with ID 'BuckshotHost' not found in HTML page.";
+    }
+  }
+
+  String get namespace => 'http://surface.buckshotui.org/html';
+
+  @override void setWidth(SurfaceElement element, num value){
+    assert(rawElement[element] != null);
+    rawElement[element].style.width = '${value}px';
+  }
+
+  @override void setHeight(SurfaceElement element, num value){
+    assert(rawElement[element] != null);
+    rawElement[element].style.height = '${value}px';
+  }
+
+  @override void setFill(SurfaceElement element, Brush value){
+    assert(rawElement[element] != null);
+    //TODO renderbrush() needs to move into the PAL
+    value.renderBrush(rawElement[element]);
+  }
+
+
+  @override void render(SurfaceElement rootElement){
+    assert(rawElement[rootElement] != null);
+
+    _rootDiv.elements.clear();
+
+    _rootDiv.elements.add(rawElement[rootElement]);
+
+  }
+
+  /** Initializes the given [element] to the [Presenter]. */
+  @override void initElement(SurfaceElement element){
+    //TODO may not need this.
+  }
 
   /**
    * Returns a [Future] containing the bounding position and dimensions of the
@@ -48,7 +88,10 @@ class HtmlLayoutProvider extends SurfaceLayout
 
     switch(primitiveKind){
       case SurfacePrimitive.box:
-        rawElement[element] = new DivElement();
+        final box = new DivElement()
+          ..style.background = 'Orange';
+        rawElement[element] = box;
+
         break;
       case SurfacePrimitive.text:
         rawElement[element] = new ParagraphElement();

@@ -1,20 +1,33 @@
-library surface_layout_buckshot;
+library surface_buckshot;
 import 'package:buckshot/buckshot.dart';
 export 'package:buckshot/buckshot.dart';
 part 'measurement_changed_event_args.dart';
 part 'surface_element.dart';
 
+
 /**
- * This class provides a presentation model for a 2d box-model layout surface.
- * In other words, DOM, SVG, etc.
+ * This class provides a presentation model for a 2d layout surface.
+ * In other words, DOM, SVG, Canvas, etc.
+ *
+ * Presenters using this interface are expected to provide a box-model
+ * layout implementation.
  */
-abstract class SurfaceLayout extends PresentationProvider
+abstract class Surface extends Presenter
 {
   abstract Future<RectMeasurement> measure(SurfaceElement element);
 
   abstract void createPrimitive(SurfaceElement element,
                                 SurfacePrimitive primitiveKind);
 
+  /** Initializes the given [element] to the [Presenter]. */
+  abstract void initElement(SurfaceElement element);
+
+  /** Renders to the surface beginning from the given [rootElement]. */
+  abstract void render(SurfaceElement rootElement);
+
+  abstract void setWidth(SurfaceElement element, num value);
+  abstract void setHeight(SurfaceElement element, num value);
+  abstract void setFill(SurfaceElement element, Brush value);
 }
 
 /**

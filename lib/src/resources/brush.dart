@@ -15,5 +15,5 @@ abstract class Brush extends FrameworkResource
 
   /**
   * Renders the brush output to the given [Element].*/
-  abstract void renderBrush(Element component);
+  abstract void renderBrush(component);
 }

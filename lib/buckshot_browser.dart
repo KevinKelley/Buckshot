@@ -5,12 +5,12 @@
 library browser_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/html_layout_provider/html_layout_provider.dart';
-export 'package:buckshot/pal/html_layout_provider/html_layout_provider.dart';
+import 'package:buckshot/pal/html_surface/html_surface.dart';
+export 'package:buckshot/pal/html_surface/html_surface.dart';
 
 /**
- * Sets the Buckshot presentation provider to the HtmlLayoutProvider.
+ * Initializes the Buckshot [presenter] to the [HtmlSurface] presenter.
  */
-void setPresentationProvider(){
-  PresentationProvider.provider = new HtmlLayoutProvider();
+void initPresenter(){
+  presenter = new HtmlSurface();
 }

@@ -1,4 +1,4 @@
-part of surface_layout_buckshot;
+part of surface_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot

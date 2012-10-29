@@ -61,11 +61,13 @@ class SurfaceElement extends FrameworkObject
     super.initProperties();
 
     width = new FrameworkProperty<num>(this, 'width',
-        propertyChangedCallback: (num value) => presenter.setWidth(this, value),
+        propertyChangedCallback: (num value) =>
+            surfacePresenter.setWidth(this, value),
         converter: const StringToNumericConverter());
 
     height = new FrameworkProperty<num>(this, 'height',
-        propertyChangedCallback: (num value) => presenter.setHeight(this, value),
+        propertyChangedCallback: (num value) =>
+            surfacePresenter.setHeight(this, value),
         converter: const StringToNumericConverter());
   }
 

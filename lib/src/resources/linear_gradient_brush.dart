@@ -45,32 +45,4 @@ class LinearGradientBrush extends Brush
         defaultValue:new Color.predefined(Colors.White),
         converter:const StringToColorConverter());
   }
-
-  /// Overridden [Brush] method.
-  void renderBrush(Element element){
-    //set the fallback
-    element.style.background = fallbackColor.value.toColorString();
-
-    final colorString = new StringBuffer();
-
-    //create the string of stop colors
-    stops.value.forEach((GradientStop stop){
-      colorString.add(stop.color.value.toColorString());
-
-      if (stop.percent.value != -1) {
-        colorString.add(" ${stop.percent.value}%");
-      }
-
-      if (stop != stops.value.last) {
-        colorString.add(", ");
-      }
-    });
-
-    //set the background for all browser types
-    element.style.background = "-webkit-linear-gradient(${direction.value}, ${colorString})";
-    element.style.background = "-moz-linear-gradient(${direction.value}, ${colorString})";
-    element.style.background = "-ms-linear-gradient(${direction.value}, ${colorString})";
-    element.style.background = "-o-linear-gradient(${direction.value}, ${colorString})";
-    element.style.background = "linear-gradient(${direction.value}, ${colorString})";
-  }
 }

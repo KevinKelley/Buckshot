@@ -34,27 +34,24 @@ class HtmlCanvasSurface extends Surface
 
   @override void setWidth(SurfaceElement element, num value){
     assert(rawElement[element] != null);
-    rawElement[element].style.width = '${value}px';
+    throw const NotImplementedException();
   }
 
   @override void setHeight(SurfaceElement element, num value){
     assert(rawElement[element] != null);
-    rawElement[element].style.height = '${value}px';
+    throw const NotImplementedException();
   }
 
-  @override void setFill(SurfaceElement element, Brush value){
+  @override void setFill(SurfaceElement element, Brush brush){
     assert(rawElement[element] != null);
-    //TODO renderbrush() needs to move into the PAL
-    value.renderBrush(rawElement[element]);
+
+    throw const NotImplementedException();
   }
 
 
   @override void render(SurfaceElement rootElement){
     assert(rawElement[rootElement] != null);
-
-    _rootDiv.elements.clear();
-
-    _rootDiv.elements.add(rawElement[rootElement]);
+    throw const NotImplementedException();
 
   }
 
@@ -72,17 +69,7 @@ class HtmlCanvasSurface extends Surface
    */
   @override Future<RectMeasurement> measure(SurfaceElement element){
     assert(rawElement[element] != null);
-
-    final c = new Completer();
-
-    window.requestLayoutFrame((){
-      final bounding = rawElement[element].getBoundingClientRect();
-      c.complete(
-          new RectMeasurement(
-              bounding.left, bounding.top, bounding.width, bounding.height));
-    });
-
-    return c.future;
+    throw const NotImplementedException();
   }
 
   @override void createPrimitive(SurfaceElement element,
@@ -94,14 +81,9 @@ class HtmlCanvasSurface extends Surface
 
     switch(primitiveKind){
       case SurfacePrimitive.box:
-        final box = new DivElement()
-          ..style.background = 'Orange';
-        rawElement[element] = box;
-
-        break;
+        throw const NotImplementedException();
       case SurfacePrimitive.text:
-        rawElement[element] = new ParagraphElement();
-        break;
+        throw const NotImplementedException();
       default:
         throw 'Invalid Surface Primitive';
     }

@@ -5,6 +5,8 @@ part 'measurement_changed_event_args.dart';
 part 'surface_element.dart';
 
 
+Surface surfacePresenter = presenter as Surface;
+
 /**
  * This class provides a presentation model for a 2d layout surface.
  * In other words, DOM, SVG, Canvas, etc.
@@ -20,7 +22,7 @@ abstract class Surface extends Presenter
                                 SurfacePrimitive primitiveKind);
 
   /** Initializes the given [element] to the [Presenter]. */
-  abstract void initElement(SurfaceElement element);
+  abstract void initElement(PresenterElement element);
 
   /** Renders to the surface beginning from the given [rootElement]. */
   abstract void render(SurfaceElement rootElement);

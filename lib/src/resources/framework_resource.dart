@@ -42,14 +42,13 @@ class FrameworkResource extends FrameworkObject
   ///     stateBag[RESOURCE_PROPERTY] = {propertyNameOfElementResourceProperty};
   static const String RESOURCE_PROPERTY = "RESOURCE_PROPERTY";
 
-  FrameworkResource(){
-    _initFrameworkResourceProperties();
-  }
+  FrameworkResource();
 
   FrameworkResource.register() : super.register();
   makeMe() => null;
 
-  void _initFrameworkResourceProperties(){
+  @override void initProperties(){
+    super.initProperties();
     key = new FrameworkProperty(this, "key", defaultValue:"");
   }
 

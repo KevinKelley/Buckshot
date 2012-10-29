@@ -28,7 +28,8 @@ class FrameworkPropertyBase extends HashableObject
   final String propertyName;
 
   /** Fires when the property value changes. */
-  final FrameworkEvent<PropertyChangingEventArgs> propertyChanging;
+  final FrameworkEvent<PropertyChangingEventArgs> propertyChanging
+    = new FrameworkEvent<PropertyChangingEventArgs>();
 
   /**
    * Holds a converter that is used to convert strings into the type
@@ -38,9 +39,10 @@ class FrameworkPropertyBase extends HashableObject
 
   FrameworkPropertyBase(
     this.sourceObject,
-    this.propertyName, callback,
-   [this.stringToValueConverter = null]) :
-   propertyChanging = new FrameworkEvent<PropertyChangingEventArgs>(),
+    this.propertyName,
+    this.stringToValueConverter,
+    callback)
+  :
    propertyChangedCallback = (callback == null ? _makeEmpty() : callback);
 
   static _makeEmpty(){

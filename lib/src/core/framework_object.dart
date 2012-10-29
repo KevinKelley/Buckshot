@@ -75,7 +75,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     name = new FrameworkProperty(
       this,
       "name",
-      (String value){
+      propertyChangedCallback:(String value){
 
         if (name.previousValue != null){
           throw new BuckshotException('Attempted to assign name "${value}"'

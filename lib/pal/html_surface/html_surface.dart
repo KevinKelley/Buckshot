@@ -36,10 +36,69 @@ class HtmlSurface extends Surface
     rawElement[element].style.height = '${value}px';
   }
 
-  @override void setFill(SurfaceElement element, Brush value){
+  @override void setFill(SurfaceElement element, Brush brush){
     assert(rawElement[element] != null);
-    //TODO renderbrush() needs to move into the PAL
-    value.renderBrush(rawElement[element]);
+    final re = rawElement[element];
+
+    if (brush is SolidColorBrush){
+      re.style.background =
+          '${brush.color.value.toColorString()}';
+    }else if (brush is LinearGradientBrush){
+      re.style.background =
+          brush.fallbackColor.value.toColorString();
+
+      final colorString = new StringBuffer();
+
+      //create the string of stop colors
+      brush.stops.value.forEach((GradientStop stop){
+        colorString.add(stop.color.value.toColorString());
+
+        if (stop.percent.value != -1) {
+          colorString.add(" ${stop.percent.value}%");
+        }
+
+        if (stop != brush.stops.value.last) {
+          colorString.add(", ");
+        }
+      });
+
+      //set the background for all browser types
+      re.style.background = "-webkit-linear-gradient(${brush.direction.value}, ${colorString})";
+      re.style.background = "-moz-linear-gradient(${brush.direction.value}, ${colorString})";
+      re.style.background = "-ms-linear-gradient(${brush.direction.value}, ${colorString})";
+      re.style.background = "-o-linear-gradient(${brush.direction.value}, ${colorString})";
+      re.style.background = "linear-gradient(${brush.direction.value}, ${colorString})";
+    }else if (brush is RadialGradientBrush){
+      //set the fallback
+      re.style.background = brush.fallbackColor.value.toColorString();
+
+      final colorString = new StringBuffer();
+
+      //create the string of stop colors
+      brush.stops.value.forEach((GradientStop stop){
+        colorString.add(stop.color.value.toColorString());
+
+        if (stop.percent.value != -1) {
+          colorString.add(" ${stop.percent.value}%");
+        }
+
+        if (stop != brush.stops.value.last) {
+          colorString.add(", ");
+        }
+      });
+
+      //set the background for all browser types
+      re.style.background = "-webkit-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      re.style.background = "-moz-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      re.style.background = "-ms-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      re.style.background = "-o-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      re.style.background = "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+    }else{
+      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
+      re.style.background =
+          new SolidColorBrush.fromPredefined(Colors.White);
+    }
+
   }
 
 
@@ -53,7 +112,7 @@ class HtmlSurface extends Surface
   }
 
   /** Initializes the given [element] to the [Presenter]. */
-  @override void initElement(SurfaceElement element){
+  @override void initElement(PresenterElement element){
     //TODO may not need this.
   }
 

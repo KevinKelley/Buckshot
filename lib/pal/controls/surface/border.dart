@@ -11,7 +11,7 @@ class Border extends SurfaceElement
   makeMe() => new Border();
 
   @override createElement(){
-    (presenter as Surface).createPrimitive(this, SurfacePrimitive.box);
+    surfacePresenter.createPrimitive(this, SurfacePrimitive.box);
   }
 
   @override void initProperties(){
@@ -19,7 +19,7 @@ class Border extends SurfaceElement
 
     background = new FrameworkProperty(this, 'background',
         propertyChangedCallback: (Brush value){
-          presenter.setFill(this, value);
+          surfacePresenter.setFill(this, value);
         },
         converter: const StringToSolidColorBrushConverter());
   }

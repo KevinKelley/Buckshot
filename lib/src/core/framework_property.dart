@@ -72,14 +72,17 @@ class FrameworkProperty<T> extends FrameworkPropertyBase
   FrameworkProperty(
       BuckshotObject sourceObject,
       String propertyName,
-      [Function propertyChangedCallback,
-      T defaultValue = null,
-      converter = null])
+      {
+        Function propertyChangedCallback : null,
+        T defaultValue : null,
+        converter : null
+      })
   : super(
       sourceObject,
       propertyName,
-      propertyChangedCallback,
-      stringToValueConverter:converter)
+      converter,
+      propertyChangedCallback
+      )
   {
 
     if (!reflectionEnabled && sourceObject != null){

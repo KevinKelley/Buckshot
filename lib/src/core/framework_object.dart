@@ -143,6 +143,8 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     updateLayout();
 
     loaded.invoke(this, new EventArgs());
+
+    print('loaded $this');
   }
 
   /** Called when the object is unloaded from a [presenter] view. */

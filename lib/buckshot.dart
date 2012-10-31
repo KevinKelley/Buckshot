@@ -64,8 +64,6 @@ part 'src/binding/binding_data.dart';
 //part 'src/elements/stack_panel.dart';
 //part 'src/elements/text_block.dart';
 //part 'src/elements/border/border.dart';
-part 'src/elements/border/border_style.dart';
-part 'src/elements/border/string_to_border_style.dart';
 //part 'src/elements/layout_canvas.dart';
 //part 'src/elements/image.dart';
 //part 'src/elements/raw_html.dart';

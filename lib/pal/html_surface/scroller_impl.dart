@@ -1,18 +1,20 @@
 
-class BoxImpl extends Box
+class ScrollerImpl extends Scroller
 {
   final Element rawElement = new DivElement();
 
-  BoxImpl(){
-    rawElement.style.overflow = 'hidden';
-    rawElement.style.display = '-webkit-flex';
+  ScrollerImpl(){
+    rawElement.style.background = 'Orange';
   }
 
-  set cornerRadius(Thickness value){
-    super.cornerRadius = value;
+  set horizontalScroll(ScrollSetting value){
+    super.horizontalScroll = value;
+    rawElement.style.overflowX = '$value';
+  }
 
-    rawElement.style.borderRadius =
-      '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  set verticalScroll(ScrollSetting value){
+    super.verticalScroll = value;
+    rawElement.style.overflowY = '$value';
   }
 
   set margin(Thickness value){
@@ -20,31 +22,6 @@ class BoxImpl extends Box
 
     rawElement.style.margin =
       '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
-  }
-
-  set padding(Thickness value){
-    super.padding = value;
-
-    rawElement.style.padding =
-      '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
-  }
-
-  set strokeStyle(BorderStyle style){
-    super.strokeStyle = style;
-
-    rawElement.style.borderStyle = '$style';
-  }
-
-  set strokeColor(Color value){
-    super.strokeColor = value;
-
-    rawElement.style.borderColor = value.toColorString();
-  }
-
-  set strokeThickness(Thickness value){
-    super.strokeThickness = value;
-    rawElement.style.borderWidth =
-        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
   }
 
   set width(num value) {
@@ -55,11 +32,6 @@ class BoxImpl extends Box
   set height(num value) {
     super.height = value;
     rawElement.style.height = '${value}px';
-  }
-
-  set fill(Brush brush){
-    super.fill = brush;
-    _setFill(brush);
   }
 
   SurfaceElement get child{
@@ -149,56 +121,6 @@ class BoxImpl extends Box
       log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
       rawElement.style.background =
           new SolidColorBrush.fromPredefined(Colors.White);
-    }
-  }
-
-  @override void updateChildLayout(){
-    assert(child != null);
-
-    final rawChild = htmlPresenter.primitive[child].rawElement;
-
-    if (child.hAlign.value != null){
-      switch(child.hAlign.value){
-        case HorizontalAlignment.left:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = null;
-          break;
-        case HorizontalAlignment.right:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-end');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = null;
-          break;
-        case HorizontalAlignment.center:
-          rawElement.style.setProperty('-webkit-justify-content', 'center');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = null;
-          break;
-        case HorizontalAlignment.stretch:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'auto');
-          // this setting prevents the flex box from overflowing if it's child
-          // content is bigger than it's parent.
-          // Flexbox spec 7.2
-          rawChild.style.minWidth = '100%';
-          break;
-      }
-    }
-
-    if (child.vAlign.value == null) return;
-    switch(child.vAlign.value){
-      case VerticalAlignment.top:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-start');
-        break;
-      case VerticalAlignment.bottom:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-end');
-        break;
-      case VerticalAlignment.center:
-        rawElement.style.setProperty('-webkit-align-items', 'center');
-        break;
-      case VerticalAlignment.stretch:
-        rawElement.style.setProperty('-webkit-align-items', 'stretch');
-        break;
     }
   }
 }

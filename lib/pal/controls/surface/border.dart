@@ -22,12 +22,42 @@ class Border extends SurfaceElement implements FrameworkContainer
 
   get containerContent => content.value;
 
+//  @override void onLoaded(){
+//    super.onLoaded();
+//
+//    print('Border loaded...');
+//  }
+//
+//  @override void onUnloaded(){
+//    super.onUnloaded();
+//
+//    print('Border unloaded...');
+//  }
+
   @override void createElement(){
     _primitive = surfacePresenter.createPrimitive(this, new Box());
   }
 
   @override void initProperties(){
     super.initProperties();
+
+    cornerRadius = new FrameworkProperty(this, 'cornerRadius',
+        propertyChangedCallback: (Thickness value){
+          _primitive.cornerRadius = value;
+        },
+        converter: const StringToThicknessConverter());
+
+    padding = new FrameworkProperty(this, 'padding',
+        propertyChangedCallback: (Thickness value){
+          _primitive.padding = value;
+        },
+        converter: const StringToThicknessConverter());
+
+    margin = new FrameworkProperty(this, 'margin',
+        propertyChangedCallback: (Thickness value){
+          _primitive.margin = value;
+        },
+        converter: const StringToThicknessConverter());
 
     borderStyle = new FrameworkProperty(this, 'borderStyle',
         propertyChangedCallback: (BorderStyle style){

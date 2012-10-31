@@ -5,6 +5,8 @@ part 'measurement_changed_event_args.dart';
 part 'surface_element.dart';
 part 'surface_primitive.dart';
 part 'box.dart';
+part 'scroller.dart';
+part 'scroll_setting.dart';
 
 Surface surfacePresenter = presenter as Surface;
 

@@ -11,7 +11,6 @@ class Box extends SurfacePrimitive
   Color strokeColor;
   Thickness cornerRadius;
   Thickness padding;
-  Thickness margin;
   BorderStyle strokeStyle;
 
   set child(SurfaceElement child) {}

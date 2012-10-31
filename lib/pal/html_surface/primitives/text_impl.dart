@@ -1,33 +1,10 @@
 
-class StackPanelImpl extends StackPanel
+class TextImpl extends TextPrimitive
 {
-  final Element rawElement = new DivElement();
+  final Element rawElement = new ParagraphElement();
 
-  StackPanelImpl(){
-    rawElement.style.overflow = 'hidden';
-    rawElement.style.display = '-webkit-flex';
-    children.listChanged + onListChanged;
-  }
-
-  set orientation(Orientation value){
-    if (super.orientation == value) return;
-    super.orientation = value;
-
-    rawElement.style.flexFlow =
-      (value == Orientation.vertical) ? 'column' : 'row';
-
-    updateChildAlignments();
-  }
-
-  void onListChanged(_, ListChangedEventArgs args){
-    args.oldItems.forEach((child){
-      htmlPresenter.primitive[child].rawElement.remove();
-    });
-
-    args.newItems.forEach((child){
-      rawElement.elements.add(htmlPresenter.primitive[child].rawElement);
-      _setChildCrossAxisAlignment(htmlPresenter.primitive[child]);
-    });
+  TextImpl(){
+    rawElement.style.minWidth = '0px';
   }
 
   set margin(Thickness value){
@@ -47,59 +24,42 @@ class StackPanelImpl extends StackPanel
     rawElement.style.height = '${value}px';
   }
 
-  set fill(Brush brush){
-    super.fill = brush;
-    _setFill(brush);
+  set foreground(Color color){
+    super.foreground = color;
+    rawElement.style.color = color.toColorString();
   }
 
-  /**
-   * Updates the cross-axis alignments for all children. */
-  void updateChildAlignments(){
-    children.forEach((child){
-      _setChildCrossAxisAlignment(htmlPresenter.primitive[child]);
-    });
+  set text(String value){
+    super.text = value;
+    rawElement.text = value;
   }
 
-  void _setChildCrossAxisAlignment(SurfacePrimitive child){
-    final rawChild = child.rawElement as Element;
-
-    print('$orientation');
-    if (orientation == Orientation.horizontal){
-      if (child.vAlign == null) return;
-      switch(child.vAlign){
-        case VerticalAlignment.top:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
-          break;
-        case VerticalAlignment.bottom:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
-          break;
-        case VerticalAlignment.center:
-          rawChild.style.setProperty('-webkit-align-self', 'center');
-          break;
-        case VerticalAlignment.stretch:
-          rawChild.style.setProperty('-webkit-align-self', 'stretch');
-          break;
-      }
-    }else{
-      if (child.hAlign == null) return;
-      switch(child.hAlign){
-        case HorizontalAlignment.left:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
-          break;
-        case HorizontalAlignment.right:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
-          break;
-        case HorizontalAlignment.center:
-          rawChild.style.setProperty('-webkit-align-self', 'center');
-          break;
-        case HorizontalAlignment.stretch:
-          rawChild.style.setProperty('-webkit-align-self', 'stretch');
-          break;
-      }
-    }
+  set fontFamily(String value){
+    super.fontFamily = value;
+    rawElement.style.fontFamily = '$value';
   }
 
-  void _setFill(Brush brush){
+  set fontWeight(String weight){
+    super.fontWeight = weight;
+    rawElement.style.fontWeight = '$weight';
+  }
+
+  set fontSize(num size){
+    super.fontSize = size;
+    rawElement.style.fontSize = '${size}px';
+  }
+
+  set background(Brush brush){
+    super.background = brush;
+    _setBackground(brush);
+  }
+
+  set decoration(String value){
+    super.decoration = value;
+    rawElement.style.textDecoration = '$value';
+  }
+
+  void _setBackground(Brush brush){
     if (brush is SolidColorBrush){
       rawElement.style.background =
           '${brush.color.value.toColorString()}';

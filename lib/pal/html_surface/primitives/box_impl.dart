@@ -6,6 +6,7 @@ class BoxImpl extends Box
   BoxImpl(){
     rawElement.style.overflow = 'hidden';
     rawElement.style.display = '-webkit-flex';
+    rawElement.style.boxSizing = 'border-box';
   }
 
   set cornerRadius(Thickness value){
@@ -176,11 +177,11 @@ class BoxImpl extends Box
           break;
         case HorizontalAlignment.stretch:
           rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'auto');
+          rawChild.style.minWidth = '0px';
+          rawChild.style.setProperty('-webkit-flex', '1 1 auto');
           // this setting prevents the flex box from overflowing if it's child
           // content is bigger than it's parent.
           // Flexbox spec 7.2
-          rawChild.style.minWidth = '100%';
           break;
       }
     }

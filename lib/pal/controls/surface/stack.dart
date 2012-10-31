@@ -71,4 +71,9 @@ class Stack extends SurfaceElement implements FrameworkContainer
         },
         converter: const StringToThicknessConverter());
   }
+
+  @override void updateLayout(){
+    if (!isLoaded) return;
+    _primitive.updateChildAlignments();
+  }
 }

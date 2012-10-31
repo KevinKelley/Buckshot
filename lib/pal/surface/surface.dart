@@ -8,6 +8,7 @@ part 'primitives/box.dart';
 part 'primitives/scroller.dart';
 part 'primitives/scroll_setting.dart';
 part 'primitives/stackpanel.dart';
+part 'primitives/text_primitive.dart';
 
 Surface surfacePresenter = presenter as Surface;
 

@@ -8,11 +8,12 @@ part of core_buckshotui_org;
 * Converts a [String] to an [Orientation] enumerator.
 */
 class StringToOrientationConverter implements IValueConverter{
-  
+
   const StringToOrientationConverter();
-  
+
   dynamic convert(dynamic value, [dynamic parameter]){
-    if (!(value is String)) return value;
+    if (value is! String) return value;
+
     switch(value){
       case "horizontal":
         return Orientation.horizontal;
@@ -21,5 +22,5 @@ class StringToOrientationConverter implements IValueConverter{
       default:
         throw new BuckshotException('Invalid orientation value "$value".');
     }
-  } 
+  }
 }

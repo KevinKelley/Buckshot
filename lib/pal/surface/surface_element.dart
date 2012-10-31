@@ -13,8 +13,6 @@ class SurfaceElement extends FrameworkObject
   FrameworkProperty<num> width;
   /// Represents the height of the FrameworkElement.
   FrameworkProperty<num> height;
-  /// Represents the HTML 'ID' property of the FrameworkElement.
-  FrameworkProperty<String> htmlID;
   /// Represents the maximum width property of the FrameworkElement.
   FrameworkProperty<num> maxWidth;
   /// Represents the minimum height property of the FrameworkElement.

@@ -138,15 +138,15 @@ part 'src/resources/setter.dart';
 part 'src/resources/style_template.dart';
 part 'src/resources/gradient_stop.dart';
 
-part 'src/animation/framework_animation.dart';
-part 'src/animation/animation_resource.dart';
-part 'src/animation/animation_key_frame.dart';
-part 'src/animation/animation_state.dart';
-part 'src/animation/_css_compiler.dart';
+//part 'src/animation/framework_animation.dart';
+//part 'src/animation/animation_resource.dart';
+//part 'src/animation/animation_key_frame.dart';
+//part 'src/animation/animation_state.dart';
+//part 'src/animation_css_compiler.dart';
 
-part 'src/elements/shape/shape.dart';
-part 'src/elements/shape/ellipse.dart';
-part 'src/elements/shape/rectangle.dart';
+//part 'src/elements/shape/shape.dart';
+//part 'src/elements/shape/ellipse.dart';
+//part 'src/elements/shape/rectangle.dart';
 //part 'elements/shape/Line.dart';
 //part 'elements/shape/PolyLine.dart';
 //part 'elements/shape/Polygon.dart';

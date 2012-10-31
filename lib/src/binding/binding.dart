@@ -41,8 +41,8 @@ class Binding extends BuckshotObject
   Binding(
     this._fromProperty,
     this._toProperty,
-    [this.bindingMode = BindingMode.OneWay,
-    this.converter = const _DefaultConverter()])
+    {this.bindingMode : BindingMode.OneWay,
+    this.converter : const _DefaultConverter()})
   {
     if (_fromProperty == null || _toProperty == null) {
       throw const BuckshotException("Attempted to bind"
@@ -71,8 +71,8 @@ class Binding extends BuckshotObject
   Binding.loose(
     this._fromProperty,
     this._toProperty,
-    [this.bindingMode = BindingMode.OneWay,
-    this.converter = const _DefaultConverter()])
+    {this.bindingMode : BindingMode.OneWay,
+    this.converter : const _DefaultConverter()})
   {
     if (_fromProperty == null || _toProperty == null) return;
 
@@ -104,7 +104,7 @@ class Binding extends BuckshotObject
           new Binding.loose(
                   _toProperty,
                   _fromProperty,
-                  BindingMode.OneWay);
+                  bindingMode: BindingMode.OneWay);
       this._twoWayPartner = other;
       other._twoWayPartner = this;
 

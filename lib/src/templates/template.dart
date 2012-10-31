@@ -486,7 +486,7 @@ class Template {
 
   static void _processTextNode(ofElement, ofXMLNode){
     if (ofXMLNode.text.trim() != ""){
-      if (!ofElement.isContainer) {
+      if (!ofElement.stateBag.containsKey(FrameworkObject.CONTAINER_CONTEXT)) {
         throw const TemplateException("Text node found in element"
         " which does not have a container context defined.");
       }
@@ -508,7 +508,7 @@ class Template {
     }
 
     FrameworkProperty placeholder =
-        new FrameworkProperty(null, "placeholder",(_){});
+        new FrameworkProperty(null, "placeholder");
 
     String stripped = binding.substring(1, binding.length - 1);
 

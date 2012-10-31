@@ -5,4 +5,6 @@ class StackPanel extends SurfacePrimitive
   Orientation orientation;
   ObservableList<SurfaceElement> children =
       new ObservableList<SurfaceElement>();
+
+  void updateChildAlignments(){}
 }

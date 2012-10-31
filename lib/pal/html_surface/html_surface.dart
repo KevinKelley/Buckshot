@@ -10,6 +10,7 @@ export 'package:buckshot/buckshot.dart';
 part 'primitives/box_impl.dart';
 part 'primitives/scroller_impl.dart';
 part 'primitives/stackpanel_impl.dart';
+part 'primitives/text_impl.dart';
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
 set htmlPresenter(HtmlSurface p) {
@@ -91,6 +92,8 @@ class HtmlSurface extends Surface
       p = new ScrollerImpl();
     } else if (primitiveKind is StackPanel){
       p = new StackPanelImpl();
+    } else if (primitiveKind is TextPrimitive){
+      p = new TextImpl();
     }else{
         throw 'Invalid Surface Primitive';
     }
@@ -176,7 +179,7 @@ class HtmlSurface extends Surface
         _loadChildren(container.containerContent);
       }
     }else{
-      throw "Invalid container type found.";
+      log('Invalid container type found.');
     }
   }
 }

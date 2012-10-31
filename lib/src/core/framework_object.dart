@@ -321,7 +321,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
   List<FrameworkProperty> _resolveAllDataContexts(){
     var list = new List<FrameworkProperty>();
 
-    if (dataContext.value != null) list.add(dataContext);
+    if (dataContext != null && dataContext.value != null) list.add(dataContext);
 
     if (parent == null) return list;
 

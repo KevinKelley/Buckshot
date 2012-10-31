@@ -22,19 +22,7 @@ class Border extends SurfaceElement implements FrameworkContainer
 
   get containerContent => content.value;
 
-//  @override void onLoaded(){
-//    super.onLoaded();
-//
-//    print('Border loaded...');
-//  }
-//
-//  @override void onUnloaded(){
-//    super.onUnloaded();
-//
-//    print('Border unloaded...');
-//  }
-
-  @override void createElement(){
+  @override void createPrimitive(){
     _primitive = surfacePresenter.createPrimitive(this, new Box());
   }
 

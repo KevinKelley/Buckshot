@@ -15,7 +15,7 @@ class Image extends SurfaceElement
   Image.register() : super.register();
   makeMe() => new Image();
 
-  @override void createElement(){
+  @override void createPrimitive(){
     _primitive = surfacePresenter.createPrimitive(this, new ImagePrimitive());
   }
 

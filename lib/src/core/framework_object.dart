@@ -96,7 +96,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
 
   @deprecated void addToLayoutTree(FrameworkObject parentElement){
 
-    parentElement.rawElement.elements.add(rawElement);
+//    parentElement.rawElement.elements.add(rawElement);
 
     parent = parentElement;
 
@@ -283,9 +283,9 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
   }
 
   @deprecated void removeFromLayoutTree(){
-    if (rawElement != null){
-      rawElement.remove();
-    }
+//    if (rawElement != null){
+//      rawElement.remove();
+//    }
 
     //db('Removed from Layout Tree', this);
     final p = parent;
@@ -350,14 +350,14 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     //the base method just calls CreateElement
     //sub-classes (like Control) will use this to apply
     //a visual template
-    createElement();
+    createPrimitive();
   }
 
   /**
    *  Called by the framework to allow an element to construct it's
-   *  HTML representation and assign to [rawElement].
+   *  primitive model.
    */
-  createElement(){}
+  void createPrimitive(){}
 
   /// Called by the framework to request that an element update it's
   /// visual layout.

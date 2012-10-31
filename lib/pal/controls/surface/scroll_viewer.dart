@@ -38,7 +38,7 @@ class ScrollViewer extends SurfaceElement implements FrameworkContainer
         propertyChangedCallback: (value) => _primitive.child = value);
   }
 
-  @override void createElement(){
+  @override void createPrimitive(){
     _primitive = surfacePresenter.createPrimitive(this, new Scroller());
   }
 

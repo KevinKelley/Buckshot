@@ -19,7 +19,7 @@ class Stack extends SurfaceElement implements FrameworkContainer
 
   ObservableList<SurfaceElement> get children => _primitive.children;
 
-  @override void createElement(){
+  @override void createPrimitive(){
     _primitive = surfacePresenter.createPrimitive(this, new StackPanel());
   }
 

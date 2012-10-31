@@ -1,18 +1,35 @@
 
-class BoxImpl extends Box
+class StackPanelImpl extends StackPanel
 {
   final Element rawElement = new DivElement();
 
-  BoxImpl(){
+  StackPanelImpl(){
     rawElement.style.overflow = 'hidden';
     rawElement.style.display = '-webkit-flex';
+    children.listChanged + onListChanged;
   }
 
-  set cornerRadius(Thickness value){
-    super.cornerRadius = value;
+  set orientation(Orientation value){
+    if (super.orientation == value) return;
+    super.orientation = value;
 
-    rawElement.style.borderRadius =
-      '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+    rawElement.style.flexFlow =
+      (value == Orientation.vertical) ? 'column' : 'row';
+
+    children.forEach((child){
+      _setChildCrossAxisAlignment(htmlPresenter.primitive[child]);
+    });
+  }
+
+  void onListChanged(_, ListChangedEventArgs args){
+    args.oldItems.forEach((child){
+      htmlPresenter.primitive[child].rawElement.remove();
+    });
+
+    args.newItems.forEach((child){
+      rawElement.elements.add(htmlPresenter.primitive[child].rawElement);
+      _setChildCrossAxisAlignment(htmlPresenter.primitive[child]);
+    });
   }
 
   set margin(Thickness value){
@@ -20,31 +37,6 @@ class BoxImpl extends Box
 
     rawElement.style.margin =
       '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
-  }
-
-  set padding(Thickness value){
-    super.padding = value;
-
-    rawElement.style.padding =
-      '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
-  }
-
-  set strokeStyle(BorderStyle style){
-    super.strokeStyle = style;
-
-    rawElement.style.borderStyle = '$style';
-  }
-
-  set strokeColor(Color value){
-    super.strokeColor = value;
-
-    rawElement.style.borderColor = value.toColorString();
-  }
-
-  set strokeThickness(Thickness value){
-    super.strokeThickness = value;
-    rawElement.style.borderWidth =
-        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
   }
 
   set width(num value) {
@@ -62,23 +54,43 @@ class BoxImpl extends Box
     _setFill(brush);
   }
 
-  SurfaceElement get child{
-    if (rawElement.elements.isEmpty) return null;
+  void _setChildCrossAxisAlignment(SurfacePrimitive child){
+    final rawChild = child.rawElement as Element;
 
-    return htmlPresenter.surfaceElement[rawElement.elements[0]];
-  }
-
-  set child(SurfaceElement newChild){
-    if (newChild == null){
-      rawElement.elements.clear();
-      return;
+    print('$orientation');
+    if (orientation == Orientation.horizontal){
+      if (child.vAlign == null) return;
+      switch(child.vAlign){
+        case VerticalAlignment.top:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
+          break;
+        case VerticalAlignment.bottom:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
+          break;
+        case VerticalAlignment.center:
+          rawChild.style.setProperty('-webkit-align-self', 'center');
+          break;
+        case VerticalAlignment.stretch:
+          rawChild.style.setProperty('-webkit-align-self', 'stretch');
+          break;
+      }
+    }else{
+      if (child.hAlign == null) return;
+      switch(child.hAlign){
+        case HorizontalAlignment.left:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
+          break;
+        case HorizontalAlignment.right:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
+          break;
+        case HorizontalAlignment.center:
+          rawChild.style.setProperty('-webkit-align-self', 'center');
+          break;
+        case HorizontalAlignment.stretch:
+          rawChild.style.setProperty('-webkit-align-self', 'stretch');
+          break;
+      }
     }
-    if (newChild.isLoaded){
-      throw 'Child already child of another element.';
-    }
-    rawElement.elements.clear();
-    rawElement.elements.add(htmlPresenter.primitive[newChild].rawElement);
-    newChild.parent = htmlPresenter.surfaceElement[rawElement];
   }
 
   void _setFill(Brush brush){
@@ -149,56 +161,6 @@ class BoxImpl extends Box
       log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
       rawElement.style.background =
           new SolidColorBrush.fromPredefined(Colors.White);
-    }
-  }
-
-  @override void updateChildLayout(){
-    assert(child != null);
-
-    final rawChild = htmlPresenter.primitive[child].rawElement;
-
-    if (child.hAlign.value != null){
-      switch(child.hAlign.value){
-        case HorizontalAlignment.left:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = null;
-          break;
-        case HorizontalAlignment.right:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-end');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = null;
-          break;
-        case HorizontalAlignment.center:
-          rawElement.style.setProperty('-webkit-justify-content', 'center');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = null;
-          break;
-        case HorizontalAlignment.stretch:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'auto');
-          // this setting prevents the flex box from overflowing if it's child
-          // content is bigger than it's parent.
-          // Flexbox spec 7.2
-          rawChild.style.minWidth = '100%';
-          break;
-      }
-    }
-
-    if (child.vAlign.value == null) return;
-    switch(child.vAlign.value){
-      case VerticalAlignment.top:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-start');
-        break;
-      case VerticalAlignment.bottom:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-end');
-        break;
-      case VerticalAlignment.center:
-        rawElement.style.setProperty('-webkit-align-items', 'center');
-        break;
-      case VerticalAlignment.stretch:
-        rawElement.style.setProperty('-webkit-align-items', 'stretch');
-        break;
     }
   }
 }

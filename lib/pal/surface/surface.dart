@@ -3,19 +3,16 @@ import 'package:buckshot/buckshot.dart';
 export 'package:buckshot/buckshot.dart';
 part 'measurement_changed_event_args.dart';
 part 'surface_element.dart';
-part 'surface_primitive.dart';
-part 'box.dart';
-part 'scroller.dart';
-part 'scroll_setting.dart';
+part 'primitives/surface_primitive.dart';
+part 'primitives/box.dart';
+part 'primitives/scroller.dart';
+part 'primitives/scroll_setting.dart';
+part 'primitives/stackpanel.dart';
 
 Surface surfacePresenter = presenter as Surface;
 
 /**
- * This class provides a presentation model for a 2d layout surface.
- * In other words, DOM, SVG, Canvas, etc.
- *
- * Presenters using this interface are expected to provide a box-model
- * layout implementation.
+ * This class provides a presentation abstraction for a 2d layout surface.
  */
 abstract class Surface extends Presenter
 {

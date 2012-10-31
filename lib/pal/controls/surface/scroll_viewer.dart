@@ -49,6 +49,7 @@ class ScrollViewer extends SurfaceElement implements FrameworkContainer
           if (!isLoaded) return;
           parent.updateLayout();
         },
+        defaultValue: HorizontalAlignment.left,
         converter: const StringToHorizontalAlignmentConverter());
 
     vAlign = new FrameworkProperty(this, 'vAlign',
@@ -57,6 +58,7 @@ class ScrollViewer extends SurfaceElement implements FrameworkContainer
           if (!isLoaded) return;
           parent.updateLayout();
         },
+        defaultValue: VerticalAlignment.top,
         converter: const StringToVerticalAlignmentConverter());
 
     width = new FrameworkProperty(this, 'width',

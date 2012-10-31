@@ -1,0 +1,15 @@
+## PAL Surface Abstraction ##
+A surface is an abstract notion of a 2D visual space. Libraries can build on
+surface with specific implementations.  Some examples of these implementations
+would be:
+
+* HTML Surface
+* SVG
+* HTML5 Canvas
+* Native client viewport
+
+## Surface Primitives ##
+The Surface library provides a set of primitive abstracts that can be used by
+implementing libraries.  A surface primitive is basically a model, which can
+hold properties of the primitive.  Implementations can then use these properties
+to emit rendering instructions.

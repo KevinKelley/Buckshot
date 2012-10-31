@@ -7,13 +7,13 @@ library html_surface_buckshot;
 import 'dart:html';
 import 'package:buckshot/pal/surface/surface.dart';
 export 'package:buckshot/buckshot.dart';
-part 'box_impl.dart';
-part 'scroller_impl.dart';
+part 'primitives/box_impl.dart';
+part 'primitives/scroller_impl.dart';
+part 'primitives/stackpanel_impl.dart';
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
 set htmlPresenter(HtmlSurface p) {
   assert(presenter == null);
-
   presenter = p;
 }
 
@@ -23,9 +23,7 @@ set htmlPresenter(HtmlSurface p) {
 class HtmlSurface extends Surface
 {
   final Expando<SurfacePrimitive> primitive = new Expando<SurfacePrimitive>();
-
   final Expando<SurfaceElement> surfaceElement = new Expando<SurfaceElement>();
-
   Element _rootDiv;
 
   HtmlSurface(){
@@ -91,6 +89,8 @@ class HtmlSurface extends Surface
       p = new BoxImpl();
     } else if (primitiveKind is Scroller){
       p = new ScrollerImpl();
+    } else if (primitiveKind is StackPanel){
+      p = new StackPanelImpl();
     }else{
         throw 'Invalid Surface Primitive';
     }

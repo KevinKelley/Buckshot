@@ -53,22 +53,11 @@ class SurfaceElement extends FrameworkObject
     = new FrameworkEvent<MeasurementChangedEventArgs>();
 
   SurfaceElement();
-
   SurfaceElement.register() : super.register();
   makeMe() => null;
 
   @override void initProperties(){
     super.initProperties();
-
-    width = new FrameworkProperty<num>(this, 'width',
-        propertyChangedCallback: (num value) =>
-            surfacePresenter.setWidth(this, value),
-        converter: const StringToNumericConverter());
-
-    height = new FrameworkProperty<num>(this, 'height',
-        propertyChangedCallback: (num value) =>
-            surfacePresenter.setHeight(this, value),
-        converter: const StringToNumericConverter());
   }
 
   @override void initEvents(){

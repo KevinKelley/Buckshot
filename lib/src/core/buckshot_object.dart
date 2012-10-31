@@ -18,10 +18,7 @@ abstract class BuckshotObject extends HashableObject
   final HashMap<String, EventHandler> _eventHandlers =
       new HashMap<String, EventHandler>();
 
-  BuckshotObject(){
-    initProperties();
-    initEvents();
-  }
+  BuckshotObject();
   BuckshotObject.register();
 
   abstract makeMe();

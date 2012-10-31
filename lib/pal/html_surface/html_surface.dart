@@ -6,14 +6,25 @@ library html_surface_buckshot;
 
 import 'dart:html';
 import 'package:buckshot/pal/surface/surface.dart';
-export 'package:buckshot/pal/surface/surface.dart';
+export 'package:buckshot/buckshot.dart';
+part 'box_impl.dart';
+
+HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
+set htmlPresenter(HtmlSurface p) {
+  assert(presenter == null);
+
+  presenter = p;
+}
 
 /**
  * Html box model presentation provider.
  */
 class HtmlSurface extends Surface
 {
-  final Expando<Element> rawElement = new Expando<Element>();
+  final Expando<SurfacePrimitive> primitive = new Expando<SurfacePrimitive>();
+
+  final Expando<SurfaceElement> surfaceElement = new Expando<SurfaceElement>();
+
   Element _rootDiv;
 
   HtmlSurface(){
@@ -22,99 +33,25 @@ class HtmlSurface extends Surface
       throw "Unable to initialize the HtmlSurface provider. "
         "Div with ID 'BuckshotHost' not found in HTML page.";
     }
+
+    _setMutationObserver(_rootDiv);
   }
 
   String get namespace => 'http://surface.buckshotui.org/html';
 
-  @override void setWidth(SurfaceElement element, num value){
-    assert(rawElement[element] != null);
-    rawElement[element].style.width = '${value}px';
-  }
-
-  @override void setHeight(SurfaceElement element, num value){
-    assert(rawElement[element] != null);
-    rawElement[element].style.height = '${value}px';
-  }
-
-  @override void setFill(SurfaceElement element, Brush brush){
-    assert(rawElement[element] != null);
-    final re = rawElement[element];
-
-    if (brush is SolidColorBrush){
-      re.style.background =
-          '${brush.color.value.toColorString()}';
-    }else if (brush is LinearGradientBrush){
-      re.style.background =
-          brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      re.style.background = "-webkit-linear-gradient(${brush.direction.value}, ${colorString})";
-      re.style.background = "-moz-linear-gradient(${brush.direction.value}, ${colorString})";
-      re.style.background = "-ms-linear-gradient(${brush.direction.value}, ${colorString})";
-      re.style.background = "-o-linear-gradient(${brush.direction.value}, ${colorString})";
-      re.style.background = "linear-gradient(${brush.direction.value}, ${colorString})";
-    }else if (brush is RadialGradientBrush){
-      //set the fallback
-      re.style.background = brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      re.style.background = "-webkit-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      re.style.background = "-moz-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      re.style.background = "-ms-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      re.style.background = "-o-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      re.style.background = "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-    }else{
-      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
-      re.style.background =
-          new SolidColorBrush.fromPredefined(Colors.White);
-    }
-
-  }
-
-
   @override void render(SurfaceElement rootElement){
-    assert(rawElement[rootElement] != null);
+    assert(primitive[rootElement] != null);
 
     _rootDiv.elements.clear();
 
-    _rootDiv.elements.add(rawElement[rootElement]);
-
+    _rootDiv.elements.add(primitive[rootElement].rawElement);
   }
 
   /** Initializes the given [element] to the [Presenter]. */
   @override void initElement(PresenterElement element){
-    //TODO may not need this.
+    super.initElement(element);
   }
+
 
   /**
    * Returns a [Future] containing the bounding position and dimensions of the
@@ -124,12 +61,12 @@ class HtmlSurface extends Surface
    * contention with animations.
    */
   @override Future<RectMeasurement> measure(SurfaceElement element){
-    assert(rawElement[element] != null);
+    assert(primitive[element] != null);
 
     final c = new Completer();
 
     window.requestLayoutFrame((){
-      final bounding = rawElement[element].getBoundingClientRect();
+      final bounding = primitive[element].rawElement.getBoundingClientRect();
       c.complete(
           new RectMeasurement(
               bounding.left, bounding.top, bounding.width, bounding.height));
@@ -138,33 +75,59 @@ class HtmlSurface extends Surface
     return c.future;
   }
 
-  @override void createPrimitive(SurfaceElement element,
+  @override createPrimitive(SurfaceElement element,
                        SurfacePrimitive primitiveKind){
 
-    if (rawElement[element] != null){
-      throw 'Primitive already set.';
-    }
+    assert(primitive[element] == null);
 
-    switch(primitiveKind){
-      case SurfacePrimitive.box:
-        final box = new DivElement()
-          ..style.background = 'Orange';
-        rawElement[element] = box;
+    SurfacePrimitive p;
 
-        break;
-      case SurfacePrimitive.text:
-        rawElement[element] = new ParagraphElement();
-        break;
-      default:
+    if (primitiveKind is Box){
+      p = new BoxImpl();
+      primitive[element] = p;
+    }else{
         throw 'Invalid Surface Primitive';
     }
+
+//    switch(primitiveKind){
+//      case SurfacePrimitive.box:
+//        rawElement[element] =
+//          new DivElement()
+//            ..style.background = 'Orange';
+//        break;
+//      case SurfacePrimitive.text:
+//        rawElement[element] =
+//          new ParagraphElement();
+//        break;
+//      default:
+//        throw 'Invalid Surface Primitive';
+//    }
+
+    surfaceElement[p.rawElement] = element;
+    return p;
   }
-}
 
+  void _setMutationObserver(Element element){
+    new MutationObserver(_mutationHandler)
+      .observe(element, subtree: true, childList: true, attributes: false);
+  }
 
+  void _mutationHandler(List<MutationRecord> mutations,
+                        MutationObserver observer){
+    print('mutations: $mutations');
 
-// may need this to offer html-specific primitives
-class HtmlPrimitive extends SurfacePrimitive
-{
-  const HtmlPrimitive(String str) : super(str);
+    for (final MutationRecord r in mutations){
+      r.addedNodes.forEach((node){
+        if (surfaceElement[node] == null) return;
+        print('added element ${surfaceElement[node]}');
+        surfaceElement[node].onLoaded();
+      });
+
+      r.removedNodes.forEach((node){
+        if (surfaceElement[node] == null) return;
+        print('removed element ${surfaceElement[node]}');
+        surfaceElement[node].onUnloaded();
+      });
+    }
+  }
 }

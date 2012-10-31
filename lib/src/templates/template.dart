@@ -222,15 +222,14 @@ class Template {
   * * JSON
   * * YAML
   */
-  static Future<FrameworkElement> deserialize(String buckshotTemplate){
+  static Future<FrameworkObject> deserialize(String buckshotTemplate){
     final tt = buckshotTemplate.trim();
     var rawTemplate;
 
     return _initFramework()
-              .chain((_) => Template.getTemplate(tt))
-              .chain((template){
-                rawTemplate = template;
-                return Template.toFrameworkObject(Template.toXmlTree(template));
+              .chain((_){
+                rawTemplate = tt;
+                return Template.toFrameworkObject(Template.toXmlTree(tt));
               })
               .chain((result){
                 if (result == null){

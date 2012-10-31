@@ -15,5 +15,5 @@ export 'package:buckshot/pal/html_surface/html_surface.dart';
  * to the Buckshot API.
  */
 void initPresenter(){
-  presenter = new HtmlSurface();
+  htmlPresenter = new HtmlSurface();
 }

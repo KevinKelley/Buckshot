@@ -310,7 +310,7 @@ class Polly {
       setHorizontalFlexBoxAlignment(element.parent, element.hAlign.value);
     }
 
-    if (element.vAlign != null){
+    if (element.vAlign.value != null){
       setVerticalFlexBoxAlignment(element.parent, element.vAlign.value);
     }
   }

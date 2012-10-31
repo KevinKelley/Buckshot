@@ -108,23 +108,25 @@ Future _initFramework(){
     print(event);
   });
 
+  return new Future.immediate(false);
+
   // Initializes the system object name.
   buckshot.name.value = '__sys__';
 
-  if (!Polly.browserOK){
-    _log.warning('Buckshot Warning: Browser may not be compatible with Buckshot'
-    ' framework.');
-  }
+//  if (!Polly.browserOK){
+//    _log.warning('Buckshot Warning: Browser may not be compatible with Buckshot'
+//    ' framework.');
+//  }
 
   _log.config(reflectionEnabled
                 ? 'Reflection enabled.'
                 : 'Reflection disabled.');
 
-  _initCSS();
+//  _initCSS();
 
-  if (!reflectionEnabled){
-    _registerCoreElements();
-  }
+//  if (!reflectionEnabled){
+//    _registerCoreElements();
+//  }
 
   //any elements bound to these properties will also get updated...
   window.on.resize.add((e){

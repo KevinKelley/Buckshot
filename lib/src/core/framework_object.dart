@@ -51,16 +51,11 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
           new FrameworkEvent<AttachedPropertyChangedEventArgs>();
 
   FrameworkObject() {
-    //TODO visual template needs to apply before this
+    //TODO visual template needs to apply before this?
     presenter.initElement(this);
-
     applyVisualTemplate();
-
-    //if (rawElement == null) createElement();
-
-    //grab the unwrapped version
-    //_rawElement = _unwrap(rawElement);
-
+    initProperties();
+    initEvents();
     registerEvent('attachedpropertychanged', attachedPropertyChanged);
     registerEvent('loaded', loaded);
     registerEvent('unloaded', unloaded);
@@ -77,23 +72,23 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
       "name",
       propertyChangedCallback:(String value){
 
-        if (name.previousValue != null){
-          throw new BuckshotException('Attempted to assign name "${value}"'
-          ' to element that already has a name "${name.previousValue}"'
-          ' assigned.');
-        }
-
-        if (value != null){
-          namedElements[value] = this;
-          if (rawElement != null) rawElement.attributes["ID"] = value;
-        }
+//        if (name.previousValue != null){
+//          throw new BuckshotException('Attempted to assign name "${value}"'
+//          ' to element that already has a name "${name.previousValue}"'
+//          ' assigned.');
+//        }
+//
+//        if (value != null){
+//          namedElements[value] = this;
+//          if (rawElement != null) rawElement.attributes["ID"] = value;
+//        }
 
       });
 
     dataContext = new FrameworkProperty(this, "dataContext");
   }
 
-  void addToLayoutTree(FrameworkObject parentElement){
+  @deprecated void addToLayoutTree(FrameworkObject parentElement){
 
     parentElement.rawElement.elements.add(rawElement);
 
@@ -104,7 +99,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     onAddedToDOM();
   }
 
-  void onAddedToDOM(){
+  @deprecated void onAddedToDOM(){
     //parent is in the DOM so we should call loaded event and check for children
 
     updateDataContext();
@@ -117,12 +112,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
 
     onLoaded();
 
-    loaded.invoke(this, new EventArgs());
 
-    if (_firstLoad){
-      onFirstLoad();
-      _firstLoad = false;
-    }
 
     if (this is! FrameworkContainer) return;
 
@@ -140,8 +130,26 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     }
   }
 
-  void onLoaded(){}
-  void onUnloaded(){}
+  /** Called when the object is loaded into a [presenter] view. */
+  void onLoaded(){
+    isLoaded = true;
+    updateDataContext();
+
+    if (_firstLoad){
+      onFirstLoad();
+      _firstLoad = false;
+    }
+
+    updateLayout();
+
+    loaded.invoke(this, new EventArgs());
+  }
+
+  /** Called when the object is unloaded from a [presenter] view. */
+  void onUnloaded(){
+    isLoaded = false;
+    unloaded.invoke(this, new EventArgs());
+  }
   void onFirstLoad(){}
 
   bool _dataContextUpdated = false;
@@ -266,7 +274,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     }
   }
 
-  void removeFromLayoutTree(){
+  @deprecated void removeFromLayoutTree(){
     if (rawElement != null){
       rawElement.remove();
     }
@@ -281,7 +289,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     _onRemoveFromDOM();
   }
 
-  _onRemoveFromDOM(){
+  @deprecated _onRemoveFromDOM(){
     isLoaded = false;
 
     onUnloaded();
@@ -341,7 +349,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
    *  Called by the framework to allow an element to construct it's
    *  HTML representation and assign to [rawElement].
    */
-  void createElement(){}
+  createElement(){}
 
   /// Called by the framework to request that an element update it's
   /// visual layout.

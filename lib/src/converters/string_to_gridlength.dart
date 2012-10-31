@@ -8,7 +8,7 @@ part of core_buckshotui_org;
 /** 
 * Attempts to convert a given [String] to a [GridLength] object 
 */
-class StringToGridLengthConverter implements IValueConverter
+class StringToGridLengthConverter implements ValueConverter
 {
   const StringToGridLengthConverter();
   

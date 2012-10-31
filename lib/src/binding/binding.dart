@@ -22,7 +22,7 @@ class Binding extends BuckshotObject
 {
   BindingMode bindingMode;
   Binding _twoWayPartner;
-  final IValueConverter converter;
+  final ValueConverter converter;
   final FrameworkProperty _fromProperty, _toProperty;
 
   /**
@@ -173,7 +173,7 @@ class Binding extends BuckshotObject
 }
 
 
-class _DefaultConverter implements IValueConverter{
+class _DefaultConverter implements ValueConverter{
   const _DefaultConverter();
 
   dynamic convert(dynamic value, [dynamic parameter]) => value;

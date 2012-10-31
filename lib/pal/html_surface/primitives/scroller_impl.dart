@@ -1,5 +1,5 @@
 
-class ScrollerImpl extends Scroller
+class ScrollerImpl extends Scroller implements HtmlPrimitive
 {
   final Element rawElement = new DivElement();
 

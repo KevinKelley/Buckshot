@@ -1,5 +1,5 @@
 
-class BoxImpl extends Box
+class BoxImpl extends Box implements HtmlPrimitive
 {
   final Element rawElement = new DivElement();
 

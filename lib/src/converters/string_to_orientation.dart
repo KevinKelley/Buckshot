@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Converts a [String] to an [Orientation] enumerator.
 */
-class StringToOrientationConverter implements IValueConverter{
+class StringToOrientationConverter implements ValueConverter{
 
   const StringToOrientationConverter();
 

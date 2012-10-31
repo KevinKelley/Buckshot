@@ -8,7 +8,7 @@ part of core_buckshotui_org;
 * Represents a contract for an object that converts value to another value (and back).
 *
 * Bi-directional conversion not yet supported. */
-abstract class IValueConverter
+abstract class ValueConverter
 {
 
   /// Returns a converted value from a given [Dynamic] value and optional [Dynamic]

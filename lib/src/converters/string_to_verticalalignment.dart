@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Converts from [String] to [VerticalAlignment] enumerator.
 */
-class StringToVerticalAlignmentConverter implements IValueConverter{
+class StringToVerticalAlignmentConverter implements ValueConverter{
   
   const StringToVerticalAlignmentConverter();
   

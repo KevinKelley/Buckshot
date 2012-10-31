@@ -35,7 +35,7 @@ class FrameworkPropertyBase extends HashableObject
    * Holds a converter that is used to convert strings into the type
    * required by the property.
    */
-  final IValueConverter stringToValueConverter;
+  final ValueConverter stringToValueConverter;
 
   FrameworkPropertyBase(
     this.sourceObject,

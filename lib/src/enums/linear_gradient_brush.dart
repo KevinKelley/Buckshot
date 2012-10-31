@@ -24,7 +24,7 @@ String toString() => _str;
 /**
 * Converts a string value to a [LinearGradientDirection] enumeration.
 */
-class StringToLinearGradientDirectionConverter implements IValueConverter{
+class StringToLinearGradientDirectionConverter implements ValueConverter{
   const StringToLinearGradientDirectionConverter();
   
   dynamic convert(dynamic value, [dynamic parameter]){

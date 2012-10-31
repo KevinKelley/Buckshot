@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Provides a conversion between [String] and [HorizontalAlignment].
 */
-class StringToHorizontalAlignmentConverter implements IValueConverter{
+class StringToHorizontalAlignmentConverter implements ValueConverter{
   
   const StringToHorizontalAlignmentConverter();
   

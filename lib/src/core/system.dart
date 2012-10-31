@@ -341,7 +341,7 @@ Future<FrameworkElement> setView(View view, [String elementID = 'BuckshotHost'])
  */
 Binding bind(FrameworkProperty from, FrameworkProperty to,
              {BindingMode bindingMode : BindingMode.OneWay,
-              IValueConverter converter :const _DefaultConverter()}){
+              ValueConverter converter :const _DefaultConverter()}){
   return new Binding(from, to, bindingMode, converter);
 }
 
@@ -352,7 +352,7 @@ Binding bind(FrameworkProperty from, FrameworkProperty to,
  * If the optional [converter] is supplied, then the value returned is
  * first passed through converter.convert();
  */
-getResource(String resourceKey, {IValueConverter converter: null}){
+getResource(String resourceKey, {ValueConverter converter: null}){
   if (_resourceRegistry == null) return null;
 
   String lowered = resourceKey.trim().toLowerCase();

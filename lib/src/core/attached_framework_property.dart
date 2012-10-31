@@ -19,7 +19,7 @@ class AttachedFrameworkProperty extends FrameworkPropertyBase
 
   AttachedFrameworkProperty(String propertyName,
       Function propertyChangedCallback)
-    : super(null, propertyName, propertyChangedCallback)
+    : super(null, propertyName, null, propertyChangedCallback)
     {
       if (_attachedProperties == null){
         _attachedProperties = new HashMap<AttachedFrameworkProperty,

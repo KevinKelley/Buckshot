@@ -5,7 +5,7 @@ part of core_buckshotui_org;
 // See LICENSE file for Apache 2.0 licensing information.
 
 
-class StringToThicknessConverter implements IValueConverter{
+class StringToThicknessConverter implements ValueConverter{
 
   const StringToThicknessConverter();
 

@@ -4,7 +4,7 @@ part of core_buckshotui_org;
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-class StringToFrameworkElementConverter implements IValueConverter
+class StringToFrameworkElementConverter implements ValueConverter
 {
   const StringToFrameworkElementConverter();
 

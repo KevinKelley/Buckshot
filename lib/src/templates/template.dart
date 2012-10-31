@@ -513,7 +513,7 @@ class Template {
     String stripped = binding.substring(1, binding.length - 1);
 
     BindingMode mode = BindingMode.OneWay;
-    IValueConverter vc = null;
+    ValueConverter vc = null;
 
     //TODO support converters...
     var params = stripped.split(',');
@@ -549,7 +549,7 @@ class Template {
                 && converterSplit[1].endsWith('}')){
               _resolveBinding(placeholder, converterSplit[1]);
               var testValueConverter = placeholder.value;
-              if (testValueConverter is IValueConverter) {
+              if (testValueConverter is ValueConverter) {
                 vc = testValueConverter;
               }
             } //TODO: else throw?

@@ -1,5 +1,5 @@
 
-class TextImpl extends TextPrimitive
+class TextImpl extends TextPrimitive implements HtmlPrimitive
 {
   final Element rawElement = new ParagraphElement();
 

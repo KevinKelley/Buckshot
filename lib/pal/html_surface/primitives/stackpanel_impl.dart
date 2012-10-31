@@ -1,5 +1,5 @@
 
-class StackPanelImpl extends StackPanel
+class StackPanelImpl extends StackPanel implements HtmlPrimitive
 {
   final Element rawElement = new DivElement();
 
@@ -60,10 +60,9 @@ class StackPanelImpl extends StackPanel
     });
   }
 
-  void _setChildCrossAxisAlignment(SurfacePrimitive child){
+  void _setChildCrossAxisAlignment(HtmlPrimitive child){
     final rawChild = child.rawElement as Element;
 
-    print('$orientation');
     if (orientation == Orientation.horizontal){
       if (child.vAlign == null) return;
       switch(child.vAlign){

@@ -16,7 +16,7 @@ class ScrollSetting
 }
 
 
-class StringToScrollSettingConverter implements IValueConverter
+class StringToScrollSettingConverter implements ValueConverter
 {
 
   const StringToScrollSettingConverter();

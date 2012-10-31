@@ -1,7 +1,8 @@
 part of core_buckshotui_org;
 
 
-class TemplateObject extends BuckshotObject
+/** Deprecated: Derive directly from BuckshotObject instead. */
+@deprecated class TemplateObject extends BuckshotObject
 {
   TemplateObject();
   TemplateObject.register() : super.register();

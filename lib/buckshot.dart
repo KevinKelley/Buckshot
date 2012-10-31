@@ -155,7 +155,7 @@ part 'src/templates/template.dart';
 part 'src/templates/template_object.dart';
 part 'src/templates/template_exception.dart';
 
-part 'src/converters/i_value_converter.dart';
+part 'src/converters/value_converter.dart';
 part 'src/primitives/thickness.dart';
 part 'src/primitives/tuple.dart';
 

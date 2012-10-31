@@ -2,7 +2,7 @@
 /**
  * A primitive type for surface presentations.
  *
- * A box may contain a single child [SurfaceElement]
+ * A box may contain a single child [SurfaceElement].
  */
 class Box extends SurfacePrimitive
 {

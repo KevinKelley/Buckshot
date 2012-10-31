@@ -6,7 +6,7 @@ part of core_buckshotui_org;
 
 
 /** Provides a conversion between [String] and [InputTypes]. */
-class StringToInputTypesConverter implements IValueConverter{
+class StringToInputTypesConverter implements ValueConverter{
   const StringToInputTypesConverter();
     
   dynamic convert(dynamic value, [dynamic parameter]){

@@ -118,13 +118,6 @@ part 'src/resources/gradient_stop.dart';
 //part 'src/animation/animation_state.dart';
 //part 'src/animation_css_compiler.dart';
 
-//part 'src/elements/shape/shape.dart';
-//part 'src/elements/shape/ellipse.dart';
-//part 'src/elements/shape/rectangle.dart';
-//part 'elements/shape/Line.dart';
-//part 'elements/shape/PolyLine.dart';
-//part 'elements/shape/Polygon.dart';
-
 part 'src/templates/presentation_format_provider.dart';
 part 'src/templates/xml_template_provider.dart';
 part 'src/templates/template.dart';

@@ -1,3 +1,11 @@
+# DRAGONS! #
+This branch of buckshot is currently broken in many areas as the core is
+reorganized to work with the PAL (Presentation Abstraction Layer).
+
+All demos are currently broken.
+
+In other words: Don't use this branch!
+
 ![Buckshot Logo](http://www.lucastudios.com/img/lucaui_logo_candidate2.png)
 
 ### Buckshot [buhk-shot] *noun* When darts land wildly all over the board. ###

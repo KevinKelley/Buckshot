@@ -6,7 +6,10 @@ part of core_buckshotui_org;
 
 /**
 * Override base class for the native hashCode() function, which is
-* currently too slow. */
+* currently too slow.
+*
+* <www.dartbug.com/5746>
+* */
 class HashableObject
 {
   static int _hashNum = 0;

@@ -20,6 +20,9 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
   /// allows it to be found and bound to by other elements.
   FrameworkProperty<String> name;
 
+  /// A general-purpose object container.
+  FrameworkProperty<dynamic> tag;
+
   /// Represents the data context assigned to the FrameworkElement.
   /// Declarative xml binding can be used to bind to data context.
   FrameworkProperty<dynamic> dataContext;
@@ -56,6 +59,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     applyVisualTemplate();
     initProperties();
     initEvents();
+    assert(dataContext != null);
     registerEvent('attachedpropertychanged', attachedPropertyChanged);
     registerEvent('loaded', loaded);
     registerEvent('unloaded', unloaded);
@@ -67,6 +71,8 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
   @override void initEvents(){}
 
   @override void initProperties(){
+    tag = new FrameworkProperty(this, 'tag');
+
     name = new FrameworkProperty(
       this,
       "name",
@@ -323,7 +329,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
   List<FrameworkProperty> _resolveAllDataContexts(){
     var list = new List<FrameworkProperty>();
 
-    if (dataContext != null && dataContext.value != null) list.add(dataContext);
+    if (dataContext.value != null) list.add(dataContext);
 
     if (parent == null) return list;
 

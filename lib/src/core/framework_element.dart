@@ -44,8 +44,6 @@ class FrameworkElement extends FrameworkObject
   FrameworkProperty<num> minHeight;
   /// Represents the shape the cursor will take when passing over the FrameworkElement.
   FrameworkProperty<Cursors> cursor;
-  /// Represents a general use [Object] property of the FrameworkElement.
-  FrameworkProperty<Object> tag;
   /// Represents the horizontal alignment of this FrameworkElement inside another element.
   FrameworkProperty<HorizontalAlignment> hAlign;
   /// Represents the [VerticalAlignment] of this FrameworkElement inside another element.

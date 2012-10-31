@@ -40,13 +40,6 @@ part 'src/core/theme.dart';
 part 'src/core/debug.dart';
 part 'src/core/_buckshot.dart';
 
-part 'src/polyfills/polly.dart';
-part 'src/polyfills/flex_model.dart';
-part 'src/polyfills/_flexbox_polyfill.dart';
-part 'src/polyfills/aligning_panel.dart';
-part 'src/polyfills/polyfill.dart';
-part 'src/polyfills/stack_polyfill.dart';
-
 part 'src/events/buckshot_event.dart';
 part 'src/events/attached_property_changed_event_args.dart';
 part 'src/events/property_changed_event_args.dart';
@@ -60,39 +53,22 @@ part 'src/binding/binding.dart';
 part 'src/binding/binding_mode.dart';
 part 'src/binding/binding_data.dart';
 
-//part 'src/elements/panel.dart';
-//part 'src/elements/stack_panel.dart';
-//part 'src/elements/text_block.dart';
-//part 'src/elements/border/border.dart';
-//part 'src/elements/layout_canvas.dart';
-//part 'src/elements/image.dart';
-//part 'src/elements/raw_html.dart';
 //part 'src/elements/grid/grid.dart';
-//part 'src/elements/grid/row_definition.dart';
-//part 'src/elements/grid/column_definition.dart';
+part 'src/elements/grid/row_definition.dart';
+part 'src/elements/grid/column_definition.dart';
 //part 'src/elements/grid/_grid_cell.dart';
-//part 'src/elements/grid/grid_layout_definition.dart';
-//part 'src/elements/grid/grid_length.dart';
+part 'src/elements/grid/grid_layout_definition.dart';
+part 'src/elements/grid/grid_length.dart';
 //part 'src/elements/collection_presenter.dart';
 //part 'src/elements/content_presenter.dart';
-//part 'elements/DockPanel.dart';
 
 part 'src/elements/actions/action_base.dart';
 part 'src/elements/actions/play_animation.dart';
 part 'src/elements/actions/set_property.dart';
 part 'src/elements/actions/toggle_property.dart';
 
-//part 'src/controls/text_box.dart';
-//part 'src/controls/control/control.dart';
-//part 'src/controls/control/control_template.dart';
-//part 'src/controls/radio_button.dart';
-//part 'src/controls/radio_button_group.dart';
-//part 'src/controls/button.dart';
-//part 'src/controls/check_box.dart';
-//part 'src/controls/text_area.dart';
-//part 'src/controls/slider.dart';
-//part 'src/controls/hyperlink.dart';
-//part 'src/controls/drop_down_list.dart';
+part 'src/controls/control/control_template.dart';
+part 'src/controls/radio_button_group.dart';
 
 part 'src/converters/string_to_numeric.dart';
 part 'src/converters/string_to_thickness.dart';

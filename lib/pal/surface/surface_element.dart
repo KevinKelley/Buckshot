@@ -58,7 +58,7 @@ abstract class SurfaceElement extends FrameworkObject
   abstract void onMinHeightChanged(num value);
   abstract void onCursorChanged(Cursors value);
   abstract void onHAlignChanged(HorizontalAlignment value);
-  abstract void onValignChanged(VerticalAlignment value);
+  abstract void onVAlignChanged(VerticalAlignment value);
   abstract void onZOrderChanged(num value);
   abstract void onOpacityChanged(num value);
   abstract void onVisibilityChanged(num value);
@@ -89,7 +89,7 @@ abstract class SurfaceElement extends FrameworkObject
         converter: const StringToNumericConverter());
 
     vAlign = new FrameworkProperty(this, 'vAlign',
-        propertyChangedCallback: onValignChanged,
+        propertyChangedCallback: onVAlignChanged,
         converter: const StringToVerticalAlignmentConverter(),
         defaultValue: VerticalAlignment.top);
 

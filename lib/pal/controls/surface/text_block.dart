@@ -71,7 +71,7 @@ class TextBlock extends SurfaceElement
         converter: const StringToSolidColorBrushConverter());
   }
 
-  void createElement(){
+  @override void createPrimitive(){
     _primitive = surfacePresenter.createPrimitive(this, new TextPrimitive());
   }
 
@@ -95,7 +95,7 @@ class TextBlock extends SurfaceElement
     if (!isLoaded) return;
     parent.updateLayout();
   }
-  void onValignChanged(VerticalAlignment value){
+  void onVAlignChanged(VerticalAlignment value){
     _primitive.vAlign = value;
     if (!isLoaded) return;
     parent.updateLayout();

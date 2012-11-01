@@ -41,32 +41,4 @@ class RadialGradientBrush extends Brush {
     fallbackColor = new FrameworkProperty(this, "fallbackColor",
         defaultValue:new Color.predefined(Colors.White));
   }
-
-  /// Overridden [Brush] method.
-  void renderBrush(Element element){
-    //set the fallback
-    element.style.background = fallbackColor.value.toColorString();
-
-    final colorString = new StringBuffer();
-
-    //create the string of stop colors
-    stops.value.forEach((GradientStop stop){
-      colorString.add(stop.color.value.toColorString());
-
-      if (stop.percent.value != -1) {
-        colorString.add(" ${stop.percent.value}%");
-      }
-
-      if (stop != stops.value.last()) {
-        colorString.add(", ");
-      }
-    });
-
-    //set the background for all browser types
-    element.style.background = "-webkit-radial-gradient(50% 50%, ${drawMode.value}, ${colorString})";
-    element.style.background = "-moz-radial-gradient(50% 50%, ${drawMode.value}, ${colorString})";
-    element.style.background = "-ms-radial-gradient(50% 50%, ${drawMode.value}, ${colorString})";
-    element.style.background = "-o-radial-gradient(50% 50%, ${drawMode.value}, ${colorString})";
-    element.style.background = "radial-gradient(50% 50%, ${drawMode.value}, ${colorString})";
-  }
 }

@@ -49,7 +49,7 @@ class Image extends SurfaceElement
     if (!isLoaded) return;
     parent.updateLayout();
   }
-  void onValignChanged(VerticalAlignment value){
+  void onVAlignChanged(VerticalAlignment value){
     _primitive.vAlign = value;
     if (!isLoaded) return;
     parent.updateLayout();

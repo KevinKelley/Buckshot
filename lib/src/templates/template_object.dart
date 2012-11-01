@@ -1,8 +1,8 @@
 part of core_buckshotui_org;
 
 
-/** Deprecated: Derive directly from BuckshotObject instead. */
-@deprecated class TemplateObject extends BuckshotObject
+/** Deprecated: Derive directly from FrameworkObject instead. */
+@deprecated class TemplateObject extends FrameworkObject
 {
   TemplateObject();
   TemplateObject.register() : super.register();

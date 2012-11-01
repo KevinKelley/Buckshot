@@ -136,8 +136,6 @@ abstract class SurfaceElement extends FrameworkObject
   }
 
   @override void initEvents(){
-    super.initEvents();
-
     registerEvent('measurementchanged', measurementChanged);
     registerEvent('positionchanged', positionChanged);
   }

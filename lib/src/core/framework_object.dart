@@ -7,8 +7,16 @@ part of core_buckshotui_org;
 /**
 * Represents and element that can participate in the framework's
 * [Binding] and [FrameworkProperty] model. */
-class FrameworkObject extends BuckshotObject implements PresenterElement
+abstract class FrameworkObject extends HashableObject implements PresenterElement
 {
+  final HashMap<String, dynamic> stateBag = new HashMap<String, dynamic>();
+  final List<Binding> _bindings = new List<Binding>();
+  final Set<FrameworkProperty> _frameworkProperties =
+      new Set<FrameworkProperty>();
+  final HashMap<String, FrameworkEvent> _bindableEvents =
+      new HashMap<String, FrameworkEvent>();
+  final HashMap<String, EventHandler> _eventHandlers =
+      new HashMap<String, EventHandler>();
   bool _firstLoad = true;
   bool isLoaded = false;
 
@@ -65,12 +73,337 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
     registerEvent('unloaded', unloaded);
   }
 
-  FrameworkObject.register() : super.register();
-  makeMe() => null;
+  FrameworkObject.register();
+  abstract makeMe();
 
-  @override void initEvents(){}
+  /// Gets a boolean value indicating whether the given object
+  /// is a container or not.
+  bool get isContainer => this is FrameworkContainer;
 
-  @override void initProperties(){
+  /**
+   * Registers an event for later lookup during template event binding.
+   * Returns immediately if reflection is enabled.
+   *
+   * This will go away once Dart supports reflection on all platforms.
+   */
+  void registerEvent(String name, FrameworkEvent event){
+    if (reflectionEnabled) return;
+    _bindableEvents[name.toLowerCase()] = event;
+  }
+
+  /**
+   * Registers an event handler to the framework.
+   *
+   * This will go away once Dart supports reflection on all platforms.
+   * Returns immediately if reflection is enabled.
+   */
+  void registerEventHandler(String name, EventHandler func){
+    if (reflectionEnabled) return;
+    _eventHandlers[name.toLowerCase()] = func;
+  }
+
+  /**
+   * Returns true if the given [eventName] is present.
+   */
+  bool hasEvent(String eventName)
+  {
+    if (!reflectionEnabled){
+      return _bindableEvents.containsKey(eventName.toLowerCase());
+    }
+
+    bool hasEventInternal(classMirror){
+      final result = classMirror
+          .variables
+          .getKeys()
+          .some((k){
+            if (k.startsWith('_')) return false;
+            //TODO: provide a better checking here (= is FrameworkEvent)
+            return '${eventName}' == k.toLowerCase();
+          });
+
+      if (result) return result;
+
+      if (classMirror.superclass.simpleName != 'BuckshotObject'){
+        return hasEventInternal(classMirror.superclass);
+      }
+
+      return false;
+    }
+
+    return hasEventInternal(buckshot.reflectMe(this).type);
+  }
+
+  /**
+   * Returns a boolean value indicting whether the object contains
+   * a [FrameworkProperty] by the given friendly [propertyName].
+   */
+  bool hasProperty(String propertyName){
+    bool hasPropertyInternal(classMirror){
+      final result = classMirror
+          .variables
+          .getKeys()
+          .some((k){
+            if (k.startsWith('_')) return false;
+            //TODO: provide a better checking here (= is FrameworkProperty)
+            return '${propertyName}property' == k.toLowerCase();
+          });
+
+      if (result) return result;
+
+      if (classMirror.superclass.simpleName != 'BuckshotObject'){
+        return hasPropertyInternal(classMirror.superclass);
+      }
+
+      return false;
+    }
+
+    if (reflectionEnabled){
+      return hasPropertyInternal(buckshot.reflectMe(this).type);
+    }else{
+      final pLower = propertyName.toLowerCase();
+      return _frameworkProperties.some((FrameworkProperty p) =>
+              p.propertyName.toLowerCase() == pLower);
+    }
+  }
+
+
+  Future<FrameworkProperty> getEventByName(String eventName){
+    if (!reflectionEnabled){
+      final c = new Completer();
+
+      if (_bindableEvents.containsKey(eventName.toLowerCase())){
+        c.complete(_bindableEvents[eventName.toLowerCase()]);
+      }else{
+        c.complete(null);
+      }
+
+      return c.future;
+    }
+
+
+    Future<FrameworkProperty> getEventNameInternal(String eventNameLowered,
+        classMirror){
+      final c = new Completer();
+
+      var eventName = '';
+
+      classMirror
+      .variables
+      .getKeys()
+      .some((k){
+        if (eventNameLowered == k.toLowerCase()){
+          eventName = k;
+          return true;
+        }
+        return false;
+      });
+
+      if (eventName == ''){
+        if (classMirror.superclass.simpleName != 'BuckshotObject')
+  //          && classMirror.superclass.simpleName != 'Object')
+        {
+          getEventNameInternal(eventNameLowered, classMirror.superclass)
+            .then((result) => c.complete(result));
+        }else{
+          c.complete(null);
+        }
+
+      }else{
+        buckshot.reflectMe(this)
+          .getField(eventName)
+          .then((im){
+            c.complete(im.reflectee);
+          });
+      }
+
+      return c.future;
+    }
+
+    return getEventNameInternal(eventName.toLowerCase(),
+        buckshot.reflectMe(this).type);
+  }
+
+  //TODO: Move a generalized version of this into Miriam
+  /**
+   *  A [Future] that returns a [FrameworkProperty] matching the given
+   * [propertyName].
+   *
+   * Case Insensitive.
+   */
+  Future<FrameworkProperty> getPropertyByName(String propertyName){
+    Future<FrameworkProperty> getPropertyNameInternal(String propertyName,
+        classMirror){
+      final c = new Completer();
+
+      if (this is DataTemplate){
+        c.complete((this as DataTemplate).getProperty(propertyName));
+        return c.future;
+      }
+
+      var name = '';
+
+      classMirror
+      .variables
+      .getKeys()
+      .some((k){
+        if ('${propertyName}property' == k.toLowerCase()){
+          name = k;
+          return true;
+        }
+        return false;
+      });
+
+
+      if (name == ''){
+        if (classMirror.superclass.simpleName != 'BuckshotObject')
+  //          && classMirror.superclass.simpleName != 'Object')
+        {
+          getPropertyNameInternal(propertyName, classMirror.superclass)
+            .then((result) => c.complete(result));
+        }else{
+          c.complete(null);
+        }
+
+      }else{
+        buckshot.reflectMe(this)
+          .getField(name)
+          .then((im){
+            c.complete(im.reflectee);
+          });
+      }
+
+      return c.future;
+    }
+
+    if (reflectionEnabled){
+      return getPropertyNameInternal(propertyName.toLowerCase(),
+          buckshot.reflectMe(this).type);
+    }else{
+      final cc = new Completer();
+      final result = _frameworkProperties.filter((FrameworkProperty p) =>
+              p.propertyName.toLowerCase() == propertyName.toLowerCase());
+
+      if (result.length == 0)
+        {
+          cc.complete(null);
+        }else{
+          cc.complete(result.iterator().next());
+        }
+
+      return cc.future;
+    }
+  }
+
+  FrameworkProperty _getPropertyByName(String propertyName){
+    throw const NotImplementedException('Convert to async .getPropertyName()'
+        ' instead.');
+  }
+
+
+  /**
+   * Returns a [Future][FrameworkProperty] from a
+   * dot-notation [propertyNameChain].
+   *
+   * Property name queries are case in-sensitive.
+   *
+   * ## Examples ##
+   * * "background" - returns the 'background' FrameworkProperty of
+   *  the root [BuckshotObject].
+   * * "content.background" - returns the 'background' FrameworkProperty of
+   * the [BuckshotObject] assigned to the 'content' property.
+   *
+   * As long as a property in the dot chain is a [BuckshotObject] then
+   * resolveProperty() will continue along until the last dot property is
+   * resolved, and then return it via a [Future].
+   */
+  Future<FrameworkProperty> resolveProperty(String propertyNameChain){
+    return FrameworkObject
+              ._resolvePropertyInternal(this,
+                  propertyNameChain.trim().split('.'));
+  }
+
+  /**
+   * Returns a [Future][FrameworkProperty] from the first property mentioned
+   * in a dot-notation [propertyNameChain].
+   *
+   * Property name queries are case in-sensitive.
+   *
+   * ## Examples ##
+   * * "background" - returns the 'background' FrameworkProperty of
+   *  the root [BuckshotObject].
+   * * "content.background" - returns the 'content' FrameworkProperty.
+   */
+  Future<FrameworkProperty> resolveFirstProperty(String propertyNameChain){
+    return FrameworkObject._resolvePropertyInternal(
+      this,
+      [propertyNameChain.trim().split('.')[0]]
+      );
+  }
+
+  static Future<FrameworkProperty> _resolvePropertyInternal(
+                                    FrameworkObject currentObject,
+                                    List<String> propertyChain){
+    final c = new Completer();
+
+    currentObject.getPropertyByName(propertyChain[0]).then((prop){
+      // couldn't resolve current property name to a property
+      if (prop == null){
+        _propertyLog.warning('>>> property resolution failed. obj:'
+            ' ${currentObject} chain: ${propertyChain}');
+        c.complete(null);
+      }else{
+        // More properties in the chain, but cannot resolve further.
+        if (prop.value is! FrameworkObject && propertyChain.length > 1){
+          _propertyLog.warning('>>> property resolution failed. obj:'
+              ' ${currentObject} value: ${prop.value} chain: ${propertyChain}');
+          c.complete(null);
+        }else{
+          // return the property if there are no further names to resolve or
+          // the property is not a BuckshotObject
+          if (prop.value is! FrameworkObject || propertyChain.length == 1){
+            c.complete(prop);
+          }else{
+            // recurse down to the next BuckshotObject and property name
+            _resolvePropertyInternal(prop.value,
+                propertyChain.getRange(1, propertyChain.length - 1))
+            .then((result) => c.complete(result));
+          }
+        }
+      }
+    });
+
+    return c.future;
+  }
+
+  String get safeName => '${toString()}${hashCode}';
+
+  /**
+   * Called by the framework during object initialization to initialize any
+   * [FrameworkEvent]s.
+   *
+   * Override this method to initalize events, but don't forget to allow
+   * any superclass initialization to occur:
+   *
+   *     void initEvents(){
+   *       super.initEvents();
+   *       // Init your events here.
+   *     }
+   */
+  void initEvents(){}
+
+  /**
+   * Called by the farmework during object initialization to initialize any
+   * [FrameworkProperty] fields for the element.
+   *
+   * Override this method to initialize [FrameworkProperty]s, but don't forget
+   * to allow any superclass initializatino to occur:
+   *
+   *     void initProperties(){
+   *       super.initProperties();
+   *       // Init your properties here.
+   *     }
+   */
+  void initProperties(){
     tag = new FrameworkProperty(this, 'tag');
 
     name = new FrameworkProperty(
@@ -193,7 +526,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
           //log('late binding $dc to $p', element:this);
           new Binding(dc, p);
         }else{
-          if (dc.value is! BuckshotObject) {
+          if (dc.value is! FrameworkObject) {
             throw new BuckshotException("Datacontext binding attempted to"
               " resolve properties '${bd.dataContextPath}'"
               " on non-BuckshotObject type.");
@@ -233,7 +566,7 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
 
             for(final dc in dataContexts){
               final dcv = dc.value;
-              if (dcv != null && dcv is BuckshotObject &&
+              if (dcv != null && dcv is FrameworkObject &&
                   dcv._eventHandlers.containsKey(handler)){
                 event.register(dcv._eventHandlers[handler]);
                 break;
@@ -356,11 +689,17 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
   /**
    *  Called by the framework to allow an element to construct it's
    *  primitive model.
+   *
+   *  Override this method to create a primitive for a visual element.
    */
   void createPrimitive(){}
 
-  /// Called by the framework to request that an element update it's
-  /// visual layout.
+  /**
+   * Called by the framework to request that an element update it's
+   * visual layout.
+   *
+   * Override this method to update the layout of a visual element.
+   */
   void updateLayout(){}
 
   /**
@@ -369,9 +708,15 @@ class FrameworkObject extends BuckshotObject implements PresenterElement
    */
   String toString(){
     if (name == null || name.value == null){
-      return super.toString();
+      return _simpleName();
     }
 
-    return '${super.toString()}[${name.value}]';
+    return '${_simpleName()}[${name.value}]';
   }
+
+  // runtimeType is not working in dart2js
+  String _simpleName() => super
+                            .toString()
+                            .replaceFirst("Instance of '", '')
+                            .replaceFirst("'", '');
 }

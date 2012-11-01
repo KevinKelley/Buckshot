@@ -70,7 +70,7 @@ class FrameworkProperty<T> extends FrameworkPropertyBase
    *  Declares a FrameworkProperty and initializes it to the framework.
    */
   FrameworkProperty(
-      BuckshotObject sourceObject,
+      FrameworkObject sourceObject,
       String propertyName,
       {
         Function propertyChangedCallback : null,

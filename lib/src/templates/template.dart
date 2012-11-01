@@ -173,37 +173,38 @@ class Template {
       type = _determineType(from);
     }
 
-    if (type == _HTML_ELEMENT) {
-      var result = document.query(from);
-      if (result == null) {
-        throw new BuckshotException('Unabled to find template'
-            ' "${from}" in HTML file.');
-      }
-
-      c.complete(result.text.trim());
-    }else if (type == _HTTP_RESOURCE){
-      //TODO cache...
-
-      var r = new HttpRequest();
-
-      void onError(e) {
-        c.complete(null);
-      }
-
-      r.on.abort.add(onError);
-      r.on.error.add(onError);
-      r.on.loadEnd.add((e) {
-        c.complete(r.responseText.trim());
-      });
-
-      try{
-        r.open('GET', from, true);
-        r.setRequestHeader('Accept', 'text/xml');
-        r.send();
-      }on Exception catch(e){
-        c.complete(null);
-      }
-    }else{
+//    if (type == _HTML_ELEMENT) {
+//      var result = document.query(from);
+//      if (result == null) {
+//        throw new BuckshotException('Unabled to find template'
+//            ' "${from}" in HTML file.');
+//      }
+//
+//      c.complete(result.text.trim());
+//    }else if (type == _HTTP_RESOURCE){
+//      //TODO cache...
+//
+//      var r = new HttpRequest();
+//
+//      void onError(e) {
+//        c.complete(null);
+//      }
+//
+//      r.on.abort.add(onError);
+//      r.on.error.add(onError);
+//      r.on.loadEnd.add((e) {
+//        c.complete(r.responseText.trim());
+//      });
+//
+//      try{
+//        r.open('GET', from, true);
+//        r.setRequestHeader('Accept', 'text/xml');
+//        r.send();
+//      }on Exception catch(e){
+//        c.complete(null);
+//      }
+//    }else
+    {
       c.complete(from);
     }
 
@@ -322,7 +323,7 @@ class Template {
     }
 
     if (!reflectionEnabled){
-      assert(objectOrMirror is BuckshotObject);
+      assert(objectOrMirror is FrameworkObject);
       processElement(objectOrMirror);
     }else{
       objectOrMirror
@@ -660,7 +661,7 @@ class Template {
     registerResource(resource);
   }
 
-  static Future _assignAttributeProperties(BuckshotObject element,
+  static Future _assignAttributeProperties(FrameworkObject element,
                                   XmlElement xmlElement){
     final c = new Completer();
 

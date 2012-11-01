@@ -18,7 +18,7 @@ part of core_buckshotui_org;
 * ### Unregistering a Binding
 * bindingReference.unregister();
 */
-class Binding extends BuckshotObject
+class Binding extends FrameworkObject
 {
   BindingMode bindingMode;
   Binding _twoWayPartner;

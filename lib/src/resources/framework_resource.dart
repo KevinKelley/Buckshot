@@ -47,6 +47,8 @@ class FrameworkResource extends FrameworkObject
   FrameworkResource.register() : super.register();
   makeMe() => null;
 
+  @override void initEvents(){}
+
   @override void initProperties(){
     super.initProperties();
     key = new FrameworkProperty(this, "key", defaultValue:"");

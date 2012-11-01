@@ -15,7 +15,7 @@ part of core_buckshotui_org;
 * ## See Also ##
 * * Select the "Collections" example on the Online Sandbox: [Try Buckshot](http://www.buckshotui.org/sandbox)
 */
-class DataTemplate extends BuckshotObject
+class DataTemplate extends FrameworkObject
 {
   final HashMap<String, FrameworkProperty> _properties;
 

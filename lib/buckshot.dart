@@ -31,7 +31,6 @@ part 'src/core/framework_object.dart';
 part 'src/core/framework_property.dart';
 part 'src/core/observable_list.dart';
 part 'src/core/framework_element.dart';
-part 'src/core/buckshot_object.dart';
 part 'src/core/framework_property_base.dart';
 part 'src/core/attached_framework_property.dart';
 part 'src/core/framework_container.dart';

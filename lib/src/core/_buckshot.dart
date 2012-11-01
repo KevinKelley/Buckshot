@@ -14,7 +14,7 @@ part of core_buckshotui_org;
 @deprecated class _buckshot extends FrameworkObject
 {
   /** Deprecated.  Use top-level registerElement() instead. */
-  @deprecated void registerElement(BuckshotObject o){
+  @deprecated void registerElement(FrameworkObject o){
     if (reflectionEnabled) return;
 
     _objectRegistry['${o.toString().toLowerCase()}'] = o.makeMe;

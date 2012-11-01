@@ -26,7 +26,7 @@ final HashMap<String, Function> _objectRegistry =
  * This function is only used when reflection is not supported. It will be
  * removed once reflection is supported on all Dart platforms.
  */
-void registerElement(BuckshotObject o){
+void registerElement(FrameworkObject o){
   hierarchicalLoggingEnabled = true;
   if (reflectionEnabled) return;
 
@@ -138,8 +138,6 @@ Future _initFramework(){
       windowHeight.value = window.innerHeight;
     }
   });
-
-
 
   return _loadTheme()
     .chain((_) => _loadResources())

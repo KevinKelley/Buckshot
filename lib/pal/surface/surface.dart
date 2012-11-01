@@ -13,6 +13,7 @@ part 'primitives/border_style.dart';
 part 'primitives/string_to_border_style.dart';
 part 'primitives/image_primitive.dart';
 part 'primitives/content_presenter_primitive.dart';
+part 'primitives/collection_primitive.dart';
 
 Surface surfacePresenter = presenter as Surface;
 

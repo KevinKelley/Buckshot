@@ -43,10 +43,12 @@ class LayoutCanvas extends Panel
   }
 
   void onLoaded(){
+    super.onLoaded();
     _ref = positionChanged + positionChanged_handler;
   }
 
   void onUnLoaded(){
+    super.onUnLoaded();
     positionChanged - _ref;
   }
 

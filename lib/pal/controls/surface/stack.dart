@@ -7,6 +7,8 @@ class Stack extends SurfaceElement implements FrameworkContainer
   FrameworkProperty<Orientation> orientation;
   FrameworkProperty<Brush> background;
 
+  ObservableList<SurfaceElement> get children => _primitive.children;
+
   StackPanel _primitive;
 
   Stack.register() : super.register();
@@ -16,8 +18,6 @@ class Stack extends SurfaceElement implements FrameworkContainer
   @override makeMe() => new Stack();
 
   get containerContent => children;
-
-  ObservableList<SurfaceElement> get children => _primitive.children;
 
   @override void createPrimitive(){
     _primitive = surfacePresenter.createPrimitive(this, new StackPanel());

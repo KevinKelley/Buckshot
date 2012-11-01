@@ -51,11 +51,10 @@ class CollectionPresenter extends FrameworkElement implements FrameworkContainer
   FrameworkProperty<Collection> collection;
 
 
-  final FrameworkEvent<ItemCreatedEventArgs> itemCreated;
+  final FrameworkEvent<ItemCreatedEventArgs> itemCreated =
+      = new FrameworkEvent<ItemCreatedEventArgs>();
 
   CollectionPresenter()
-  :
-    itemCreated = new FrameworkEvent<ItemCreatedEventArgs>()
   {
     Browser.appendClass(rawElement, "collectionpresenter");
     _initCollectionPresenterProperties();
@@ -63,8 +62,7 @@ class CollectionPresenter extends FrameworkElement implements FrameworkContainer
     registerEvent('itemcreated', itemCreated);
   }
 
-  CollectionPresenter.register() : super.register(),
-    itemCreated = new FrameworkEvent<ItemCreatedEventArgs>();
+  CollectionPresenter.register() : super.register();
   makeMe() => new CollectionPresenter();
 
   void _initCollectionPresenterProperties(){
@@ -180,7 +178,7 @@ class CollectionPresenter extends FrameworkElement implements FrameworkContainer
         });
       });
     }
-}
+  }
 
 }
 

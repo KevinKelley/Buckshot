@@ -14,6 +14,7 @@ part 'primitives/stackpanel_impl.dart';
 part 'primitives/text_impl.dart';
 part 'primitives/image_impl.dart';
 part 'primitives/content_presenter_impl.dart';
+part 'primitives/collection_presenter_impl.dart';
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
 set htmlPresenter(HtmlSurface p) {

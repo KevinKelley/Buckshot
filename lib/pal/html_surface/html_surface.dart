@@ -13,6 +13,7 @@ part 'primitives/scroller_impl.dart';
 part 'primitives/stackpanel_impl.dart';
 part 'primitives/text_impl.dart';
 part 'primitives/image_impl.dart';
+part 'primitives/content_presenter_impl.dart';
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
 set htmlPresenter(HtmlSurface p) {
@@ -81,6 +82,8 @@ class HtmlSurface extends Surface
     return c.future;
   }
 
+
+
   @override createPrimitive(SurfaceElement element,
                        SurfacePrimitive primitiveKind){
 
@@ -88,6 +91,8 @@ class HtmlSurface extends Surface
 
     HtmlPrimitive p;
 
+    // TODO Use some sort of supported type enumeration or a map instead
+    // of this?
     if (primitiveKind is Box){
       p = new BoxImpl();
     } else if (primitiveKind is Scroller){
@@ -98,6 +103,8 @@ class HtmlSurface extends Surface
       p = new TextImpl();
     } else if (primitiveKind is ImagePrimitive){
       p = new ImageImpl();
+    }else if (primitiveKind is ContentPresenterPrimitive){
+      p = new ContentPresenterImpl();
     }else{
         throw 'Invalid Surface Primitive';
     }

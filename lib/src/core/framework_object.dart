@@ -7,7 +7,9 @@ part of core_buckshotui_org;
 /**
 * Represents and element that can participate in the framework's
 * [Binding] and [FrameworkProperty] model. */
-abstract class FrameworkObject extends HashableObject implements PresenterElement
+abstract class FrameworkObject
+  extends HashableObject
+  implements PresenterElement
 {
   final HashMap<String, dynamic> stateBag = new HashMap<String, dynamic>();
   final List<Binding> _bindings = new List<Binding>();

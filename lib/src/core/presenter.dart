@@ -21,7 +21,6 @@ set presenter(Presenter newProvider){
   _presenter = newProvider;
 }
 
-
 /**
  * Base contract for PAL providers.
  */
@@ -61,4 +60,16 @@ abstract class PresenterElement
    * first time.
    */
   abstract void onFirstLoad();
+
+  abstract void onLoaded();
+
+  abstract void onUnloaded();
+
+  abstract void initProperties();
+
+  abstract void initEvents();
+
+  abstract void createPrimitive();
+
+  abstract void updateLayout();
 }

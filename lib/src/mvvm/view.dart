@@ -12,19 +12,19 @@ part of core_buckshotui_org;
 */
 class View
 {
-  FrameworkElement _rootElement;
+  FrameworkObject _rootElement;
   final Completer _c = new Completer();
 
   /**
    * Future completes when view is ready (has an element assigned to
    * rootVisual).
    */
-  Future<FrameworkElement> ready;
+  Future<FrameworkObject> ready;
 
   /// Gets the visual root of the view.
-  FrameworkElement get rootVisual => _rootElement;
-  set rootVisual(FrameworkElement element) {
-    assert(element != null && element is FrameworkElement);
+  FrameworkObject get rootVisual => _rootElement;
+  set rootVisual(FrameworkObject element) {
+    assert(element != null && element is FrameworkObject);
 
     if (_rootElement != null){
       throw const BuckshotException('View already initialized.');
@@ -69,7 +69,7 @@ class View
   }
 
   /** Constructs a view from a given [element]. */
-  View.from(FrameworkElement element)
+  View.from(FrameworkObject element)
   {
     ready = _c.future;
     rootVisual = element;

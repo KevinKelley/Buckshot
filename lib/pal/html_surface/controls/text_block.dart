@@ -1,65 +1,107 @@
+library textblock_html_buckshot;
 
-class TextImpl extends TextPrimitive implements HtmlPrimitive
+import 'dart:html';
+import 'package:buckshot/pal/html_surface/html_surface.dart';
+
+class TextBlock extends SurfaceText implements HtmlSurfaceElement
 {
   final Element rawElement = new ParagraphElement();
 
-  TextImpl(){
+  TextBlock(){
+    // This setting helps with wrapping in flexbox containers.
     rawElement.style.minWidth = '0px';
+    rawElement.style.margin = '0px';
   }
 
-  set margin(Thickness value){
-    super.margin = value;
+  TextBlock.register() : super.register();
+  makeMe() => new TextBlock();
 
-    rawElement.style.margin =
-      '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+
+  /*
+   * SurfaceText Overrides
+   */
+  @override void onFontWeightChanged(String value){
+    rawElement.style.fontWeight = '$value';
   }
 
-  set width(num value) {
-    super.width = value;
-    rawElement.style.width = '${value}px';
+  @override void onDecorationChanged(String decoration){
+    rawElement.style.textDecoration = '$decoration';
   }
 
-  set height(num value) {
-    super.height = value;
-    rawElement.style.height = '${value}px';
+  @override void onBackgroundChanged(Brush brush){
+    _setFill(brush);
   }
 
-  set foreground(Color color){
-    super.foreground = color;
+  @override void onForegroundChanged(Color color){
     rawElement.style.color = color.toColorString();
   }
 
-  set text(String value){
-    super.text = value;
-    rawElement.text = value;
+  @override void onTextChanged(String text){
+    rawElement.text = '$text';
   }
 
-  set fontFamily(String value){
-    super.fontFamily = value;
-    rawElement.style.fontFamily = '$value';
+  @override void onFontSizeChanged(num value){
+    rawElement.style.fontSize = '${value}px';
   }
 
-  set fontWeight(String weight){
-    super.fontWeight = weight;
-    rawElement.style.fontWeight = '$weight';
+  @override void onFontFamilyChanged(String family){
+    rawElement.style.fontFamily = '$family';
   }
 
-  set fontSize(num size){
-    super.fontSize = size;
-    rawElement.style.fontSize = '${size}px';
+  /*
+   * SurfaceElement Overrides
+   */
+  @override void onUserSelectChanged(bool value){}
+
+  @override void onMarginChanged(Thickness value){
+    rawElement.style.margin =
+        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
   }
 
-  set background(Brush brush){
-    super.background = brush;
-    _setBackground(brush);
+  @override void onWidthChanged(num value){
+    rawElement.style.width = '${value}px';
   }
 
-  set decoration(String value){
-    super.decoration = value;
-    rawElement.style.textDecoration = '$value';
+  @override void onHeightChanged(num value){
+    rawElement.style.height = '${value}px';
   }
 
-  void _setBackground(Brush brush){
+  @override void onMaxWidthChanged(num value){}
+
+  @override void onMaxHeightChanged(num value){}
+
+  @override void onMinWidthChanged(num value){}
+
+  @override void onMinHeightChanged(num value){}
+
+  @override void onCursorChanged(Cursors value){}
+
+  @override void onHAlignChanged(HorizontalAlignment value){
+    if (!isLoaded) return;
+    parent.updateLayout();
+  }
+
+  @override void onVAlignChanged(VerticalAlignment value){
+    if (!isLoaded) return;
+    parent.updateLayout();
+  }
+
+  @override void onZOrderChanged(num value){}
+
+  @override void onOpacityChanged(num value){}
+
+  @override void onVisibilityChanged(num value){}
+
+  @override void onStyleChanged(StyleTemplate value){}
+
+  @override void onDraggableChanged(bool draggable){}
+
+
+  /*
+   * Private methods.
+   */
+
+  void _setFill(Brush brush){
     if (brush is SolidColorBrush){
       rawElement.style.background =
           '${brush.color.value.toColorString()}';

@@ -62,7 +62,7 @@ void dumpTheme(){
  * Debug function that pretty prints an element tree to stdout.
  */
 void printTree(startWith, [int indent = 0]){
-  if (startWith == null || startWith is! FrameworkElement) return;
+  if (startWith == null || startWith is! FrameworkObject) return;
 
   String space(int n){
     var s = new StringBuffer();

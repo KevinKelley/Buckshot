@@ -77,7 +77,7 @@ class Template {
    *
    * Case sensitive.
    */
-  static FrameworkElement findParentByType(FrameworkElement element,
+  static FrameworkObject findParentByType(FrameworkObject element,
                                            String type){
     if (element.parent == null) return null;
 
@@ -102,8 +102,8 @@ class Template {
    * ## For most cases, consider using: ##
    *     namedElements[elementName];
    */
-  static FrameworkElement findByName(String name,
-                                     FrameworkElement startingWith){
+  static FrameworkObject findByName(String name,
+                                    FrameworkObject startingWith){
 
     if (startingWith.name.value != null && startingWith.name.value == name){
       return startingWith;
@@ -121,7 +121,7 @@ class Template {
       }
     }else if (cc is FrameworkProperty){
       final obj = cc.value;
-      if (obj == null || !(obj is FrameworkElement)) return null;
+      if (obj == null || obj is! FrameworkObject) return null;
       return findByName(name, obj);
     }else{
       return null;
@@ -572,10 +572,10 @@ class Template {
           throw const TemplateException('{template} binding malformed.');
         }
         //log('setting template binding: ${words[1]}', element: p.sourceObject);
-        (p.sourceObject as FrameworkElement)._templateBindings[p] = words[1];
+        (p.sourceObject as FrameworkObject)._templateBindings[p] = words[1];
         break;
       case "data":
-        if (p.sourceObject is! FrameworkElement){
+        if (p.sourceObject is! FrameworkObject){
           throw const TemplateException('{data...} binding only'
             ' supported on types that derive from FrameworkElement.');
         }

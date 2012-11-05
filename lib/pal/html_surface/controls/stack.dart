@@ -1,71 +1,48 @@
+library stack_html_buckshot;
 
-class StackPanelImpl extends StackPanel implements HtmlPrimitive
+import 'dart:html';
+import 'package:buckshot/pal/html_surface/html_surface.dart';
+
+class Stack extends SurfaceStack implements HtmlSurfaceElement
 {
   final Element rawElement = new DivElement();
 
-  StackPanelImpl(){
+  Stack.register() : super.register();
+  Stack(){
     rawElement.style.overflow = 'hidden';
     rawElement.style.display = '-webkit-flex';
     children.listChanged + onListChanged;
   }
 
-  set orientation(Orientation value){
-    if (super.orientation == value) return;
-    super.orientation = value;
-
-    rawElement.style.flexFlow =
-      (value == Orientation.vertical) ? 'column' : 'row';
-
-    updateChildAlignments();
-  }
+  @override makeMe() => new Stack();
 
   void onListChanged(_, ListChangedEventArgs args){
     args.oldItems.forEach((child){
-      htmlPresenter.primitive[child].rawElement.remove();
+      rawElement.remove();
+      child.parent = null;
     });
 
     args.newItems.forEach((child){
-      rawElement.elements.add(htmlPresenter.primitive[child].rawElement);
-      _setChildCrossAxisAlignment(htmlPresenter.primitive[child]);
+      rawElement.elements.add(child.rawElement);
+      child.parent = this;
+      _setChildCrossAxisAlignment(child);
     });
-  }
-
-  set margin(Thickness value){
-    super.margin = value;
-
-    rawElement.style.margin =
-      '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
-  }
-
-  set width(num value) {
-    super.width = value;
-    rawElement.style.width = '${value}px';
-  }
-
-  set height(num value) {
-    super.height = value;
-    rawElement.style.height = '${value}px';
-  }
-
-  set fill(Brush brush){
-    super.fill = brush;
-    _setFill(brush);
   }
 
   /**
    * Updates the cross-axis alignments for all children. */
-  void updateChildAlignments(){
+  void _updateChildAlignments(){
     children.forEach((child){
-      _setChildCrossAxisAlignment(htmlPresenter.primitive[child]);
+      _setChildCrossAxisAlignment(child);
     });
   }
 
-  void _setChildCrossAxisAlignment(HtmlPrimitive child){
+  void _setChildCrossAxisAlignment(HtmlSurfaceElement child){
     final rawChild = child.rawElement as Element;
 
-    if (orientation == Orientation.horizontal){
-      if (child.vAlign == null) return;
-      switch(child.vAlign){
+    if (orientation.value == Orientation.horizontal){
+      if (child.vAlign.value == null) return;
+      switch(child.vAlign.value){
         case VerticalAlignment.top:
           rawChild.style.setProperty('-webkit-align-self', 'flex-start');
           break;
@@ -80,8 +57,8 @@ class StackPanelImpl extends StackPanel implements HtmlPrimitive
           break;
       }
     }else{
-      if (child.hAlign == null) return;
-      switch(child.hAlign){
+      if (child.hAlign.value == null) return;
+      switch(child.hAlign.value){
         case HorizontalAlignment.left:
           rawChild.style.setProperty('-webkit-align-self', 'flex-start');
           break;
@@ -97,6 +74,74 @@ class StackPanelImpl extends StackPanel implements HtmlPrimitive
       }
     }
   }
+
+  /*
+   * SurfaceStack Overrides
+   */
+
+  @override void onOrientationChanged(Orientation value){
+    rawElement.style.flexFlow =
+      (value == Orientation.vertical) ? 'column' : 'row';
+
+    _updateChildAlignments();
+  }
+
+  @override void onBackgroundChanged(Brush brush){
+    _setFill(brush);
+  }
+
+  /*
+   * SurfaceElement Overrides
+   */
+  @override void onUserSelectChanged(bool value){}
+
+  @override void onMarginChanged(Thickness value){
+    rawElement.style.margin =
+        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  }
+
+  @override void onWidthChanged(num value){
+    rawElement.style.width = '${value}px';
+  }
+
+  @override void onHeightChanged(num value){
+    rawElement.style.height = '${value}px';
+  }
+
+  @override void onMaxWidthChanged(num value){}
+
+  @override void onMaxHeightChanged(num value){}
+
+  @override void onMinWidthChanged(num value){}
+
+  @override void onMinHeightChanged(num value){}
+
+  @override void onCursorChanged(Cursors value){}
+
+  @override void onHAlignChanged(HorizontalAlignment value){
+    if (!isLoaded) return;
+    parent.updateLayout();
+  }
+
+  @override void onVAlignChanged(VerticalAlignment value){
+    if (!isLoaded) return;
+    parent.updateLayout();
+  }
+
+  @override void onZOrderChanged(num value){}
+
+  @override void onOpacityChanged(num value){}
+
+  @override void onVisibilityChanged(num value){}
+
+  @override void onStyleChanged(StyleTemplate value){}
+
+  @override void onDraggableChanged(bool draggable){}
+
+
+  /*
+   * Private methods.
+   */
 
   void _setFill(Brush brush){
     if (brush is SolidColorBrush){

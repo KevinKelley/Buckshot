@@ -3,17 +3,16 @@ import 'package:buckshot/buckshot.dart';
 export 'package:buckshot/buckshot.dart';
 part 'measurement_changed_event_args.dart';
 part 'surface_element.dart';
-part 'primitives/surface_primitive.dart';
-part 'primitives/box.dart';
-part 'primitives/scroller.dart';
-part 'primitives/scroll_setting.dart';
-part 'primitives/stackpanel.dart';
-part 'primitives/text_primitive.dart';
-part 'primitives/border_style.dart';
-part 'primitives/string_to_border_style.dart';
-part 'primitives/image_primitive.dart';
-part 'primitives/content_presenter_primitive.dart';
-part 'primitives/collection_primitive.dart';
+part 'elements/scroll_setting.dart';
+part 'elements/border_style.dart';
+part 'elements/string_to_border_style.dart';
+part 'elements/surface_border.dart';
+part 'elements/surface_text.dart';
+part 'elements/surface_stack.dart';
+part 'elements/surface_scroll_viewer.dart';
+part 'elements/surface_image.dart';
+part 'elements/surface_content_presenter.dart';
+part 'elements/surface_collection_presenter.dart';
 
 Surface surfacePresenter = presenter as Surface;
 
@@ -24,12 +23,8 @@ abstract class Surface extends Presenter
 {
   abstract Future<RectMeasurement> measure(SurfaceElement element);
 
-  abstract createPrimitive(SurfaceElement element,
-                                SurfacePrimitive primitiveKind);
-
   /** Initializes the given [element] to the [Presenter]. */
-  void initElement(PresenterElement element){
-  }
+  void initElement(PresenterElement element){}
 
   /** Renders to the surface beginning from the given [rootElement]. */
   abstract void render(SurfaceElement rootElement);

@@ -27,7 +27,7 @@ class AttachedFrameworkProperty extends FrameworkPropertyBase
       }
 
       _attachedProperties[this] =
-          new HashMap<FrameworkElement, dynamic>();
+          new HashMap<FrameworkObject, dynamic>();
     }
 
   /**
@@ -72,7 +72,7 @@ class AttachedFrameworkProperty extends FrameworkPropertyBase
    * Sets the value of a given [AttachedFrameworkProperty] for a given
    * Element.
    */
-  static void setValue(FrameworkElement element,
+  static void setValue(FrameworkObject element,
                                AttachedFrameworkProperty property,
                                value)
   {
@@ -98,7 +98,7 @@ class AttachedFrameworkProperty extends FrameworkPropertyBase
    * Gets the value of a given [AttachedFrameworkProperty] for a given
    * Element.
    */
-  static getValue(FrameworkElement element,
+  static getValue(FrameworkObject element,
                                   AttachedFrameworkProperty property){
     if (property == null) return null;
 

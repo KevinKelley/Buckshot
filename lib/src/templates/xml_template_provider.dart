@@ -11,7 +11,7 @@ class XmlTemplateProvider implements IPresentationFormatProvider
 {
   bool isFormat(String template) => template.startsWith('<');
 
-  String serialize(FrameworkElement elementRoot){
+  String serialize(FrameworkObject elementRoot){
     throw const NotImplementedException();
   }
 

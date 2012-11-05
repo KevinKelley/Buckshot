@@ -11,6 +11,9 @@ abstract class FrameworkObject
   extends HashableObject
   implements PresenterElement
 {
+  final HashMap<FrameworkProperty, String> _templateBindings =
+      new HashMap<FrameworkProperty, String>();
+
   final HashMap<String, dynamic> stateBag = new HashMap<String, dynamic>();
   final List<Binding> _bindings = new List<Binding>();
   final Set<FrameworkProperty> _frameworkProperties =
@@ -461,12 +464,12 @@ abstract class FrameworkObject
 
     if (containerContent is Collection){
       containerContent
-        .forEach((FrameworkElement child)
+        .forEach((FrameworkObject child)
           {
             child.parent = this;
             child.onAddedToDOM();
           });
-    }else if (containerContent is FrameworkElement){
+    }else if (containerContent is FrameworkObject){
       containerContent.onAddedToDOM();
     }
   }
@@ -507,25 +510,27 @@ abstract class FrameworkObject
 
     if (dcs.isEmpty) return;
 
-    //log('data contexts: ${dcs}', element: this);
-
+    log('data contexts: ${dcs}', element: this);
+    printTree(this);
     _wireEventBindings(dcs);
 
     final dc = dcs[0];
+
+    log('>>> $lateBindings', element: this);
 
     if (lateBindings.isEmpty) return;
     _wireLateBindings(dc);
   }
 
   void _wireLateBindings(dc){
-    //log('wiring late bindings', element: this);
+    log('wiring late bindings', element: this);
     //binding each property in the lateBindings collection
     //to the data context
     lateBindings
       .forEach((FrameworkProperty p, BindingData bd){
-        //log('working on ${p.propertyName}', element: this);
+        log('working on ${p.propertyName}', element: this);
         if (bd.dataContextPath == ""){
-          //log('late binding $dc to $p', element:this);
+          log('late binding $dc to $p', element:this);
           new Binding(dc, p);
         }else{
           if (dc.value is! FrameworkObject) {
@@ -645,8 +650,8 @@ abstract class FrameworkObject
     final cc = this as FrameworkContainer;
 
     if (cc.containerContent is List){
-      cc.containerContent.forEach((FrameworkElement child) => child._onRemoveFromDOM());
-    }else if (cc.containerContent is FrameworkElement){
+      cc.containerContent.forEach((FrameworkObject child) => child._onRemoveFromDOM());
+    }else if (cc.containerContent is FrameworkObject){
       cc.containerContent._onRemoveFromDOM();
     }
   }

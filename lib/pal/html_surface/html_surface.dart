@@ -6,15 +6,8 @@ library html_surface_buckshot;
 
 import 'dart:html';
 import 'package:buckshot/pal/surface/surface.dart';
-export 'package:buckshot/buckshot.dart';
-part 'primitives/html_primitive.dart';
-part 'primitives/box_impl.dart';
-part 'primitives/scroller_impl.dart';
-part 'primitives/stackpanel_impl.dart';
-part 'primitives/text_impl.dart';
-part 'primitives/image_impl.dart';
-part 'primitives/content_presenter_impl.dart';
-part 'primitives/collection_presenter_impl.dart';
+export 'package:buckshot/pal/surface/surface.dart';
+part 'html_surface_element.dart';
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
 set htmlPresenter(HtmlSurface p) {
@@ -27,8 +20,7 @@ set htmlPresenter(HtmlSurface p) {
  */
 class HtmlSurface extends Surface
 {
-  final Expando<HtmlPrimitive> primitive = new Expando<HtmlPrimitive>();
-  final Expando<SurfaceElement> surfaceElement = new Expando<SurfaceElement>();
+  final Expando<HtmlSurfaceElement> surfaceElement = new Expando<HtmlSurfaceElement>();
   Element _rootDiv;
 
   HtmlSurface(){
@@ -44,11 +36,10 @@ class HtmlSurface extends Surface
   String get namespace => 'http://surface.buckshotui.org/html';
 
   @override void render(SurfaceElement rootElement){
-    assert(primitive[rootElement] != null);
-
+    assert(rootElement is HtmlSurfaceElement);
     _rootDiv.elements.clear();
 
-    _rootDiv.elements.add(primitive[rootElement].rawElement);
+    _rootDiv.elements.add(rootElement.rawElement);
   }
 
   void clearSurface(){
@@ -58,6 +49,10 @@ class HtmlSurface extends Surface
   /** Initializes the given [element] to the [Presenter]. */
   @override void initElement(PresenterElement element){
     super.initElement(element);
+
+    if (element is HtmlSurfaceElement){
+      surfaceElement[element.rawElement] = element;
+    }
   }
 
 
@@ -69,12 +64,13 @@ class HtmlSurface extends Surface
    * contention with animations.
    */
   @override Future<RectMeasurement> measure(SurfaceElement element){
-    assert(primitive[element] != null);
+    assert(element is HtmlSurfaceElement);
+    assert(element.rawElement != null);
 
     final c = new Completer();
 
     window.requestLayoutFrame((){
-      final bounding = primitive[element].rawElement.getBoundingClientRect();
+      final bounding = element.rawElement.getBoundingClientRect();
       c.complete(
           new RectMeasurement(
               bounding.left, bounding.top, bounding.width, bounding.height));
@@ -84,37 +80,33 @@ class HtmlSurface extends Surface
   }
 
 
-
-  @override createPrimitive(SurfaceElement element,
-                       SurfacePrimitive primitiveKind){
-
-    assert(primitive[element] == null);
-
-    HtmlPrimitive p;
-
-    // TODO Use some sort of supported type enumeration or a map instead
-    // of this?
-    if (primitiveKind is Box){
-      p = new BoxImpl();
-    } else if (primitiveKind is Scroller){
-      p = new ScrollerImpl();
-    } else if (primitiveKind is StackPanel){
-      p = new StackPanelImpl();
-    } else if (primitiveKind is TextPrimitive){
-      p = new TextImpl();
-    } else if (primitiveKind is ImagePrimitive){
-      p = new ImageImpl();
-    }else if (primitiveKind is ContentPresenterPrimitive){
-      p = new ContentPresenterImpl();
-    }else{
-        throw 'Invalid Surface Primitive';
-    }
-
-    primitive[element] = p;
-
-    surfaceElement[p.rawElement] = element;
-    return p;
-  }
+//    assert(primitive[element] == null);
+//
+//    HtmlPrimitive p;
+//
+//    // TODO Use some sort of supported type enumeration or a map instead
+//    // of this?
+//    if (primitiveKind is Box){
+//      p = new BoxImpl();
+//    } else if (primitiveKind is Scroller){
+//      p = new ScrollerImpl();
+//    } else if (primitiveKind is StackPanel){
+//      p = new StackPanelImpl();
+//    } else if (primitiveKind is TextPrimitive){
+//      p = new TextImpl();
+//    } else if (primitiveKind is ImagePrimitive){
+//      p = new ImageImpl();
+//    }else if (primitiveKind is ContentPresenterPrimitive){
+//      p = new ContentPresenterImpl();
+//    }else{
+//        throw 'Invalid Surface Primitive';
+//    }
+//
+//    primitive[element] = p;
+//
+//    surfaceElement[p.rawElement] = element;
+//    return p;
+//  }
 
   void _setMutationObserver(Element element){
     new MutationObserver(_mutationHandler)

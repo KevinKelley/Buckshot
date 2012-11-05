@@ -12,7 +12,7 @@ abstract class IPresentationFormatProvider
   /**
   * Takes an object tree starting at [elementRoot] and attempts to convert it to a serialized string
   * in the format of the implementing class. */
-  abstract String serialize(FrameworkElement elementRoot);
+  abstract String serialize(FrameworkObject elementRoot);
 
   /**
   * Returns true if the given template is detected to be of a compatible format.

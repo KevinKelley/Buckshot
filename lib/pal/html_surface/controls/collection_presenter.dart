@@ -27,9 +27,9 @@ class CollectionPresenter
 
   CollectionPresenter.register() : super.register();
   CollectionPresenter(){
-    //rawElement.style.display = '-webkit-flex';
-    //rawElement.style.boxSizing = 'border-box';
-    //assert(rawElement.style.display == '-webkit-flex');
+    rawElement.style.display = '-webkit-flex';
+    rawElement.style.boxSizing = 'border-box';
+    assert(rawElement.style.display == '-webkit-flex');
 
     registerElement(new Stack.register());
     registerElement(new TextBlock.register());
@@ -171,7 +171,7 @@ class CollectionPresenter
         .then((SurfaceElement it){
           objectReference[it] = iterationObject;
           it.dataContext.value = iterationObject;
-          templateReference[iterationObject] = it;
+          //templateReference[iterationObject] = it;
           // itemCreated.invokeAsync(this, new ItemCreatedEventArgs(it));
           presentationPanel.value.containerContent.add(it);
         });

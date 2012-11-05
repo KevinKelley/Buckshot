@@ -169,7 +169,11 @@ class HtmlSurface extends Surface
 
     if (container.containerContent is Collection){
       container.containerContent.forEach((content){
-        assert(content is SurfaceElement);
+        if(content is! SurfaceElement) {
+          // likely a text node of a textblock.
+          assert(content is String);
+          return;
+        }
         content.onLoaded();
 
         if (content is FrameworkContainer){

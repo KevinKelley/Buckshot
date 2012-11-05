@@ -10,6 +10,4 @@ would be:
 
 ## Surface Primitives ##
 The Surface library provides a set of primitive abstracts that can be used by
-implementing libraries.  A surface primitive is basically a model, which can
-hold properties of the primitive.  Implementations can then use these properties
-to emit rendering instructions.
+implementing libraries.

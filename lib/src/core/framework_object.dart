@@ -510,27 +510,27 @@ abstract class FrameworkObject
 
     if (dcs.isEmpty) return;
 
-    log('data contexts: ${dcs}', element: this);
-    printTree(this);
+    //log('data contexts: ${dcs}', element: this);
+
     _wireEventBindings(dcs);
 
     final dc = dcs[0];
 
-    log('>>> $lateBindings', element: this);
+    //log('>>> $lateBindings', element: this);
 
     if (lateBindings.isEmpty) return;
     _wireLateBindings(dc);
   }
 
   void _wireLateBindings(dc){
-    log('wiring late bindings', element: this);
+    //log('wiring late bindings', element: this);
     //binding each property in the lateBindings collection
     //to the data context
     lateBindings
       .forEach((FrameworkProperty p, BindingData bd){
-        log('working on ${p.propertyName}', element: this);
+        //log('working on ${p.propertyName}', element: this);
         if (bd.dataContextPath == ""){
-          log('late binding $dc to $p', element:this);
+          //log('late binding $dc to $p', element:this);
           new Binding(dc, p);
         }else{
           if (dc.value is! FrameworkObject) {

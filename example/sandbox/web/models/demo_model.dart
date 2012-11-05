@@ -35,7 +35,7 @@ class DemoModel {
 
 
 // a demo Buckshot object to demonstrate the dot notation resolver for properties
-class SomeColors extends BuckshotObject
+class SomeColors extends FrameworkObject
 {
   FrameworkProperty redProperty, orangeProperty, blueProperty;
 

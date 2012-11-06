@@ -106,23 +106,19 @@ abstract class Control
     //returning if we have already done this, or if no template was actually used for this control
     if (_templateBindingsApplied || !_templateApplied) return;
     _templateBindingsApplied = true;
-
     _bindTemplateBindings();
-
     super.onLoaded();
   }
 
   @override void onUnloaded(){
     //returning if we have already done this, or if no template was actually used for this control
     if (!_templateApplied) return;
-
     template.isLoaded = false;
     super.onUnloaded();
   }
 
   void _bindTemplateBindings(){
     var tb = new HashMap<FrameworkProperty, String>();
-
     _getAllTemplateBindings(tb, template);
 
 //    log('*** template bindings: $tb', element:this);
@@ -138,15 +134,12 @@ abstract class Control
   }
 
   void _getAllTemplateBindings(bindingMap, element){
-
     element
       .templateBindings
       .forEach((k, v){
         bindingMap[k] = v;
       });
-
     if (element is! FrameworkContainer) return;
-
     if (element.containerContent is List){
       element
         .containerContent

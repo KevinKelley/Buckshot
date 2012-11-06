@@ -1,4 +1,7 @@
-part of core_buckshotui_org;
+library checkbox_html_buckshot;
+
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot

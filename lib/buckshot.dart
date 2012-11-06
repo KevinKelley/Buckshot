@@ -30,7 +30,6 @@ part 'src/core/system.dart';
 part 'src/core/framework_object.dart';
 part 'src/core/framework_property.dart';
 part 'src/core/observable_list.dart';
-//part 'src/core/framework_element.dart';
 part 'src/core/framework_property_base.dart';
 part 'src/core/attached_framework_property.dart';
 part 'src/core/framework_container.dart';
@@ -52,27 +51,16 @@ part 'src/binding/binding.dart';
 part 'src/binding/binding_mode.dart';
 part 'src/binding/binding_data.dart';
 
-//part 'src/elements/grid/grid.dart';
-//part 'src/elements/grid/row_definition.dart';
-//part 'src/elements/grid/column_definition.dart';
-//part 'src/elements/grid/_grid_cell.dart';
-//part 'src/elements/grid/grid_layout_definition.dart';
-//part 'src/elements/grid/grid_length.dart';
-//part 'src/elements/collection_presenter.dart';
-//part 'src/elements/content_presenter.dart';
-
 part 'src/elements/actions/action_base.dart';
 part 'src/elements/actions/play_animation.dart';
 part 'src/elements/actions/set_property.dart';
 part 'src/elements/actions/toggle_property.dart';
 
-part 'extensions/presenters/html/controls\radio_button_group.dart';
-
 part 'src/converters/string_to_numeric.dart';
 part 'src/converters/string_to_thickness.dart';
 part 'src/converters/string_to_boolean.dart';
-part 'src/converters/string_to_gridlength.dart';
-part 'src/converters/string_to_gridunittype.dart';
+//part 'src/converters/string_to_gridlength.dart';
+//part 'src/converters/string_to_gridunittype.dart';
 part 'src/converters/string_to_horizontalalignment.dart';
 part 'src/converters/string_to_orientation.dart';
 part 'src/converters/string_to_verticalalignment.dart';
@@ -80,7 +68,6 @@ part 'src/converters/string_to_color.dart';
 part 'src/converters/string_to_color_string.dart';
 part 'src/converters/string_to_solidcolorbrush.dart';
 part 'src/converters/string_to_radialgradientdrawmode.dart';
-part 'src/converters/string_to_frameworkelement.dart';
 part 'src/converters/string_to_visibility.dart';
 part 'src/converters/string_to_inputtypes.dart';
 part 'src/converters/string_to_location.dart';
@@ -128,7 +115,6 @@ part 'src/primitives/tuple.dart';
 part 'src/events/buckshot_exception.dart';
 part 'src/events/animation_exception.dart';
 part 'src/events/framework_property_resolution_exception.dart';
-
 
 //Use this to generate clean dart docs of just the buckshot library
 main(){}

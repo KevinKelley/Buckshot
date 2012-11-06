@@ -1,4 +1,8 @@
-part of core_buckshotui_org;
+library radio_button_html_buckshot;
+
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+part 'radio_button_group.dart';
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot

@@ -1,4 +1,7 @@
-part of core_buckshotui_org;
+library drop_down_list_html_buckshot;
+
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -108,21 +111,17 @@ class DropDownList extends Control
 }
 
 
-class DropDownItem extends TemplateObject
+class DropDownItem extends FrameworkObject
 {
-  FrameworkProperty<String> name;
   FrameworkProperty<dynamic> item;
 
-  DropDownItem(){
-    _initDropDownListItemProperties();
-  }
-
+  DropDownItem();
   DropDownItem.register() : super.register();
   makeMe() => new DropDownItem();
 
-  void _initDropDownListItemProperties(){
-    name = new FrameworkProperty(this, "name", (String v){}, '');
+  @override void initProperties(){
+    super.initProperties();
 
-    item = new FrameworkProperty(this, "value", (dynamic v){}, null);
+    item = new FrameworkProperty(this, 'value');
   }
 }

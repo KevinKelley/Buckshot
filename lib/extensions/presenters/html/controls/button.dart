@@ -2,7 +2,7 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library slider_html_buckshot;
+library button_html_buckshot;
 
 import 'dart:html';
 import 'package:buckshot/extensions/presenters/html/html_surface.dart';

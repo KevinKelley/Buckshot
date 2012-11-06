@@ -20,6 +20,12 @@ import 'package:buckshot/extensions/presenters/html/controls/collection_presente
 import 'package:buckshot/extensions/presenters/html/controls/slider.dart';
 import 'package:buckshot/extensions/presenters/html/controls/button.dart';
 import 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
+import 'package:buckshot/extensions/presenters/html/controls/check_box.dart';
+import 'package:buckshot/extensions/presenters/html/controls/radio_button.dart';
+import 'package:buckshot/extensions/presenters/html/controls/text_box.dart';
+import 'package:buckshot/extensions/presenters/html/controls/text_area.dart';
+import 'package:buckshot/extensions/presenters/html/controls/hyperlink.dart';
+import 'package:buckshot/extensions/presenters/html/controls/drop_down_list.dart';
 export 'package:buckshot/extensions/presenters/html/controls/border.dart';
 export 'package:buckshot/extensions/presenters/html/controls/text_block.dart';
 export 'package:buckshot/extensions/presenters/html/controls/stack.dart';
@@ -30,6 +36,12 @@ export 'package:buckshot/extensions/presenters/html/controls/collection_presente
 export 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
 export 'package:buckshot/extensions/presenters/html/controls/slider.dart';
 export 'package:buckshot/extensions/presenters/html/controls/button.dart';
+export 'package:buckshot/extensions/presenters/html/controls/check_box.dart';
+export 'package:buckshot/extensions/presenters/html/controls/radio_button.dart';
+export 'package:buckshot/extensions/presenters/html/controls/text_box.dart';
+export 'package:buckshot/extensions/presenters/html/controls/text_area.dart';
+export 'package:buckshot/extensions/presenters/html/controls/hyperlink.dart';
+export 'package:buckshot/extensions/presenters/html/controls/drop_down_list.dart';
 
 part 'html_surface_element.dart';
 
@@ -51,6 +63,12 @@ void initPresenter(){
   registerElement(new ControlTemplate.register());
   registerElement(new Slider.register());
   registerElement(new Button.register());
+  registerElement(new RadioButton.register());
+  registerElement(new CheckBox.register());
+  registerElement(new TextBox.register());
+  registerElement(new TextArea.register());
+  registerElement(new Hyperlink.register());
+  registerElement(new DropDownList.register());
 }
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;

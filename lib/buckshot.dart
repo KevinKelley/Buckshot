@@ -66,7 +66,6 @@ part 'src/elements/actions/play_animation.dart';
 part 'src/elements/actions/set_property.dart';
 part 'src/elements/actions/toggle_property.dart';
 
-part 'src/controls/control/control_template.dart';
 part 'src/controls/radio_button_group.dart';
 
 part 'src/converters/string_to_numeric.dart';

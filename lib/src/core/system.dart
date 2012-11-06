@@ -83,7 +83,6 @@ void _registerCoreElements(){
   registerElement(new Setter.register());
   registerElement(new StyleTemplate.register());
   registerElement(new Var.register());
-  registerElement(new ControlTemplate.register());
 //  registerElement(new AnimationResource.register());
 //  registerElement(new AnimationKeyFrame.register());
 //  registerElement(new AnimationState.register());

@@ -1,9 +1,7 @@
 library collectionpresenter_html_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/html_surface/html_surface.dart';
-import 'package:buckshot/pal/html_surface/controls/stack.dart';
-import 'package:buckshot/pal/html_surface/controls/text_block.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 class CollectionPresenter
   extends SurfaceCollectionPresenter implements HtmlSurfaceElement
@@ -31,8 +29,6 @@ class CollectionPresenter
     rawElement.style.boxSizing = 'border-box';
     assert(rawElement.style.display == '-webkit-flex');
 
-    registerElement(new Stack.register());
-    registerElement(new TextBlock.register());
     presentationPanel.value = new Stack();
   }
 

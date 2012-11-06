@@ -1,51 +1,93 @@
-library textblock_html_buckshot;
+library stack_html_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/html_surface/html_surface.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
-class TextBlock extends SurfaceText implements HtmlSurfaceElement
+class Stack extends SurfaceStack implements HtmlSurfaceElement
 {
-  final Element rawElement = new ParagraphElement();
+  final Element rawElement = new DivElement();
 
-  TextBlock(){
-    // This setting helps with wrapping in flexbox containers.
-    rawElement.style.minWidth = '0px';
-    rawElement.style.margin = '0px';
+  Stack.register() : super.register();
+  Stack(){
+    rawElement.style.overflow = 'hidden';
+    rawElement.style.display = '-webkit-flex';
+    children.listChanged + onListChanged;
   }
 
-  TextBlock.register() : super.register();
-  makeMe() => new TextBlock();
+  @override makeMe() => new Stack();
 
+  void onListChanged(_, ListChangedEventArgs args){
+    args.oldItems.forEach((child){
+      rawElement.remove();
+      child.parent = null;
+    });
+
+    args.newItems.forEach((child){
+      rawElement.elements.add(child.rawElement);
+      child.parent = this;
+      _setChildCrossAxisAlignment(child);
+    });
+  }
+
+  /**
+   * Updates the cross-axis alignments for all children. */
+  void _updateChildAlignments(){
+    children.forEach((child){
+      _setChildCrossAxisAlignment(child);
+    });
+  }
+
+  void _setChildCrossAxisAlignment(HtmlSurfaceElement child){
+    final rawChild = child.rawElement as Element;
+
+    if (orientation.value == Orientation.horizontal){
+      if (child.vAlign.value == null) return;
+      switch(child.vAlign.value){
+        case VerticalAlignment.top:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
+          break;
+        case VerticalAlignment.bottom:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
+          break;
+        case VerticalAlignment.center:
+          rawChild.style.setProperty('-webkit-align-self', 'center');
+          break;
+        case VerticalAlignment.stretch:
+          rawChild.style.setProperty('-webkit-align-self', 'stretch');
+          break;
+      }
+    }else{
+      if (child.hAlign.value == null) return;
+      switch(child.hAlign.value){
+        case HorizontalAlignment.left:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
+          break;
+        case HorizontalAlignment.right:
+          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
+          break;
+        case HorizontalAlignment.center:
+          rawChild.style.setProperty('-webkit-align-self', 'center');
+          break;
+        case HorizontalAlignment.stretch:
+          rawChild.style.setProperty('-webkit-align-self', 'stretch');
+          break;
+      }
+    }
+  }
 
   /*
-   * SurfaceText Overrides
+   * SurfaceStack Overrides
    */
-  @override void onFontWeightChanged(String value){
-    rawElement.style.fontWeight = '$value';
-  }
 
-  @override void onDecorationChanged(String decoration){
-    rawElement.style.textDecoration = '$decoration';
+  @override void onOrientationChanged(Orientation value){
+    rawElement.style.flexFlow =
+      (value == Orientation.vertical) ? 'column' : 'row';
+
+    _updateChildAlignments();
   }
 
   @override void onBackgroundChanged(Brush brush){
     _setFill(brush);
-  }
-
-  @override void onForegroundChanged(Color color){
-    rawElement.style.color = color.toColorString();
-  }
-
-  @override void onTextChanged(String text){
-    rawElement.text = '$text';
-  }
-
-  @override void onFontSizeChanged(num value){
-    rawElement.style.fontSize = '${value}px';
-  }
-
-  @override void onFontFamilyChanged(String family){
-    rawElement.style.fontFamily = '$family';
   }
 
   /*

@@ -1,4 +1,10 @@
-part of core_buckshotui_org;
+library control_html_buckshot;
+
+import 'dart:html';
+import 'package:xml/xml.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+
+part 'control_template.dart';
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -6,11 +12,13 @@ part of core_buckshotui_org;
 
 /**
 * A base class for control-type elements (buttons, etc). */
-abstract class Control extends FrameworkElement
+abstract class Control extends FrameworkObject implements HtmlSurfaceElement
 {
+  Element rawElement;
+
   FrameworkProperty<bool> isEnabled;
 
-  FrameworkElement template;
+  HtmlSurfaceElement template;
 
   /**
    * Required getter for all controls.  Can return one of three values:
@@ -25,16 +33,13 @@ abstract class Control extends FrameworkElement
   bool _templateApplied = false;          // flags if a template was used during applyVisualTemplate();
   bool _templateBindingsApplied = false;  // flags if template bindings have been applied
 
-  Control()
-  {
-    Browser.appendClass(rawElement, "control");
-    _initControlProperties();
-  }
-
+  Control();
   Control.register() : super.register();
-  makeMe() => null;
+  @override makeMe() => null;
 
-  void _initControlProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     isEnabled = new FrameworkProperty(this, "isEnabled",
       propertyChangedCallback: (bool value){
         if (value){
@@ -57,14 +62,14 @@ abstract class Control extends FrameworkElement
     if (defaultControlTemplate is ControlTemplate){
       final tName = XML.parse(defaultControlTemplate.rawData).attributes['controlType'];
       assert(tName != null);
-      assert(!tName.isEmpty());
+      assert(!tName.isEmpty);
       Template
         .deserialize(defaultControlTemplate.rawData)
         .then((_) => _finishApplyVisualTemplate(tName));
     } else if (defaultControlTemplate is String && !defaultControlTemplate.isEmpty()){
       final tName = XML.parse(defaultControlTemplate).attributes['controlType'];
       assert(tName != null);
-      assert(!tName.isEmpty());
+      assert(!tName.isEmpty);
       Template
         .deserialize(defaultControlTemplate)
         .then((_) => _finishApplyVisualTemplate(tName));
@@ -108,7 +113,7 @@ abstract class Control extends FrameworkElement
 
   finishOnLoaded(){
     //log('adding to DOM: $template', element: this);
-    template.onAddedToDOM();
+    //template.onAddedToDOM();
   }
 
   onUnLoaded(){
@@ -148,13 +153,13 @@ abstract class Control extends FrameworkElement
     if (element.containerContent is List){
       element
         .containerContent
-        .forEach((FrameworkElement child) =>
+        .forEach((FrameworkObject child) =>
             _getAllTemplateBindings(bindingMap, child));
-    }else if (element.containerContent is FrameworkElement){
+    }else if (element.containerContent is FrameworkObject){
       _getAllTemplateBindings(bindingMap, element.containerContent);
     }
   }
 
   /// Gets a standardized name for assignment to the [ControlTemplate] 'controlType' property.
-  String get templateName => 'template_${hashCode()}';
+  String get templateName => 'template_${hashCode}';
 }

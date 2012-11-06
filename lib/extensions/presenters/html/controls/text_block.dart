@@ -1,121 +1,56 @@
-library border_html_buckshot;
+library textblock_html_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/html_surface/html_surface.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
-class Border extends SurfaceBorder implements HtmlSurfaceElement
+class TextBlock extends SurfaceText implements HtmlSurfaceElement
 {
-  final Element rawElement = new DivElement();
-  Border.register() : super.register();
-  Border(){
-    rawElement.style.overflow = 'hidden';
-    rawElement.style.display = '-webkit-flex';
-    rawElement.style.boxSizing = 'border-box';
+  final Element rawElement = new ParagraphElement();
+
+  TextBlock(){
+    // This setting helps with wrapping in flexbox containers.
+    rawElement.style.minWidth = '0px';
+    rawElement.style.margin = '0px';
   }
 
-  @override makeMe() => new Border();
+  TextBlock.register() : super.register();
+  makeMe() => new TextBlock();
 
-  get containerContent => content.value;
 
-  @override void updateLayout(){
-    if (content.value == null) return;
-    if (!isLoaded) return;
-
-    _updateChildLayout();
+  /*
+   * SurfaceText Overrides
+   */
+  @override void onFontWeightChanged(String value){
+    rawElement.style.fontWeight = '$value';
   }
 
-  void _updateChildLayout(){
-    assert(containerContent != null);
-
-    final rawChild = containerContent.rawElement;
-
-    if (containerContent.hAlign.value != null){
-      switch(containerContent.hAlign.value){
-        case HorizontalAlignment.left:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.right:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-end');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.center:
-          rawElement.style.setProperty('-webkit-justify-content', 'center');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.stretch:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.minWidth = '0px';
-          rawChild.style.setProperty('-webkit-flex', '1 1 auto');
-          // this setting prevents the flex box from overflowing if it's child
-          // content is bigger than it's parent.
-          // Flexbox spec 7.2
-          break;
-      }
-    }
-
-    if (containerContent.vAlign.value == null) return;
-    switch(containerContent.vAlign.value){
-      case VerticalAlignment.top:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-start');
-        break;
-      case VerticalAlignment.bottom:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-end');
-        break;
-      case VerticalAlignment.center:
-        rawElement.style.setProperty('-webkit-align-items', 'center');
-        break;
-      case VerticalAlignment.stretch:
-        rawElement.style.setProperty('-webkit-align-items', 'stretch');
-        break;
-    }
+  @override void onDecorationChanged(String decoration){
+    rawElement.style.textDecoration = '$decoration';
   }
 
   @override void onBackgroundChanged(Brush brush){
     _setFill(brush);
   }
 
-  @override void onCornerRadiusChanged(Thickness value){
-    rawElement.style.borderRadius =
-        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  @override void onForegroundChanged(Color color){
+    rawElement.style.color = color.toColorString();
   }
 
-  @override void onPaddingChanged(Thickness value){
-    rawElement.style.padding =
-        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  @override void onTextChanged(String text){
+    rawElement.text = '$text';
   }
 
-  @override void onBorderStyleChanged(BorderStyle style){
-    rawElement.style.borderStyle = '$style';
+  @override void onFontSizeChanged(num value){
+    rawElement.style.fontSize = '${value}px';
   }
 
-  @override void onContentChanged(dynamic newChild){
-    assert(newChild is HtmlSurfaceElement);
-
-    if (newChild == null){
-      rawElement.elements.clear();
-      return;
-    }
-    if (newChild.isLoaded){
-      throw 'Child already child of another element.';
-    }
-    rawElement.elements.clear();
-    rawElement.elements.add(newChild.rawElement);
-    newChild.parent = this;
+  @override void onFontFamilyChanged(String family){
+    rawElement.style.fontFamily = '$family';
   }
 
-  @override void onBorderThicknessChanged(Thickness value){
-    rawElement.style.borderWidth =
-        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
-  }
-
-  @override void onBorderColorChanged(Color color){
-    rawElement.style.borderColor = color.toColorString();
-  }
-
+  /*
+   * SurfaceElement Overrides
+   */
   @override void onUserSelectChanged(bool value){}
 
   @override void onMarginChanged(Thickness value){
@@ -158,6 +93,11 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
   @override void onVisibilityChanged(num value){}
 
   @override void onDraggableChanged(bool draggable){}
+
+
+  /*
+   * Private methods.
+   */
 
   void _setFill(Brush brush){
     if (brush is SolidColorBrush){
@@ -230,4 +170,3 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
     }
   }
 }
-

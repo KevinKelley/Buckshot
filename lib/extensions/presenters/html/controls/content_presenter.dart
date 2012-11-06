@@ -1,7 +1,7 @@
 library contentpresenter_html_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/html_surface/html_surface.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 
 class ContentPresenter

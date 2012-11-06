@@ -1,98 +1,121 @@
-library stack_html_buckshot;
+library border_html_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/html_surface/html_surface.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
-class Stack extends SurfaceStack implements HtmlSurfaceElement
+class Border extends SurfaceBorder implements HtmlSurfaceElement
 {
   final Element rawElement = new DivElement();
-
-  Stack.register() : super.register();
-  Stack(){
+  Border.register() : super.register();
+  Border(){
     rawElement.style.overflow = 'hidden';
     rawElement.style.display = '-webkit-flex';
-    children.listChanged + onListChanged;
+    rawElement.style.boxSizing = 'border-box';
   }
 
-  @override makeMe() => new Stack();
+  @override makeMe() => new Border();
 
-  void onListChanged(_, ListChangedEventArgs args){
-    args.oldItems.forEach((child){
-      rawElement.remove();
-      child.parent = null;
-    });
+  get containerContent => content.value;
 
-    args.newItems.forEach((child){
-      rawElement.elements.add(child.rawElement);
-      child.parent = this;
-      _setChildCrossAxisAlignment(child);
-    });
+  @override void updateLayout(){
+    if (content.value == null) return;
+    if (!isLoaded) return;
+
+    _updateChildLayout();
   }
 
-  /**
-   * Updates the cross-axis alignments for all children. */
-  void _updateChildAlignments(){
-    children.forEach((child){
-      _setChildCrossAxisAlignment(child);
-    });
-  }
+  void _updateChildLayout(){
+    assert(containerContent != null);
 
-  void _setChildCrossAxisAlignment(HtmlSurfaceElement child){
-    final rawChild = child.rawElement as Element;
+    final rawChild = containerContent.rawElement;
 
-    if (orientation.value == Orientation.horizontal){
-      if (child.vAlign.value == null) return;
-      switch(child.vAlign.value){
-        case VerticalAlignment.top:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
-          break;
-        case VerticalAlignment.bottom:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
-          break;
-        case VerticalAlignment.center:
-          rawChild.style.setProperty('-webkit-align-self', 'center');
-          break;
-        case VerticalAlignment.stretch:
-          rawChild.style.setProperty('-webkit-align-self', 'stretch');
-          break;
-      }
-    }else{
-      if (child.hAlign.value == null) return;
-      switch(child.hAlign.value){
+    if (containerContent.hAlign.value != null){
+      switch(containerContent.hAlign.value){
         case HorizontalAlignment.left:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-start');
+          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
+          rawChild.style.setProperty('-webkit-flex', 'none');
+          rawChild.style.minWidth = '';
           break;
         case HorizontalAlignment.right:
-          rawChild.style.setProperty('-webkit-align-self', 'flex-end');
+          rawElement.style.setProperty('-webkit-justify-content', 'flex-end');
+          rawChild.style.setProperty('-webkit-flex', 'none');
+          rawChild.style.minWidth = '';
           break;
         case HorizontalAlignment.center:
-          rawChild.style.setProperty('-webkit-align-self', 'center');
+          rawElement.style.setProperty('-webkit-justify-content', 'center');
+          rawChild.style.setProperty('-webkit-flex', 'none');
+          rawChild.style.minWidth = '';
           break;
         case HorizontalAlignment.stretch:
-          rawChild.style.setProperty('-webkit-align-self', 'stretch');
+          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
+          rawChild.style.minWidth = '0px';
+          rawChild.style.setProperty('-webkit-flex', '1 1 auto');
+          // this setting prevents the flex box from overflowing if it's child
+          // content is bigger than it's parent.
+          // Flexbox spec 7.2
           break;
       }
     }
-  }
 
-  /*
-   * SurfaceStack Overrides
-   */
-
-  @override void onOrientationChanged(Orientation value){
-    rawElement.style.flexFlow =
-      (value == Orientation.vertical) ? 'column' : 'row';
-
-    _updateChildAlignments();
+    if (containerContent.vAlign.value == null) return;
+    switch(containerContent.vAlign.value){
+      case VerticalAlignment.top:
+        rawElement.style.setProperty('-webkit-align-items', 'flex-start');
+        break;
+      case VerticalAlignment.bottom:
+        rawElement.style.setProperty('-webkit-align-items', 'flex-end');
+        break;
+      case VerticalAlignment.center:
+        rawElement.style.setProperty('-webkit-align-items', 'center');
+        break;
+      case VerticalAlignment.stretch:
+        rawElement.style.setProperty('-webkit-align-items', 'stretch');
+        break;
+    }
   }
 
   @override void onBackgroundChanged(Brush brush){
     _setFill(brush);
   }
 
-  /*
-   * SurfaceElement Overrides
-   */
+  @override void onCornerRadiusChanged(Thickness value){
+    rawElement.style.borderRadius =
+        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  }
+
+  @override void onPaddingChanged(Thickness value){
+    rawElement.style.padding =
+        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  }
+
+  @override void onBorderStyleChanged(BorderStyle style){
+    rawElement.style.borderStyle = '$style';
+  }
+
+  @override void onContentChanged(dynamic newChild){
+    assert(newChild is HtmlSurfaceElement);
+
+    if (newChild == null){
+      rawElement.elements.clear();
+      return;
+    }
+    if (newChild.isLoaded){
+      throw 'Child already child of another element.';
+    }
+    rawElement.elements.clear();
+    rawElement.elements.add(newChild.rawElement);
+    newChild.parent = this;
+  }
+
+  @override void onBorderThicknessChanged(Thickness value){
+    rawElement.style.borderWidth =
+        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  }
+
+  @override void onBorderColorChanged(Color color){
+    rawElement.style.borderColor = color.toColorString();
+  }
+
   @override void onUserSelectChanged(bool value){}
 
   @override void onMarginChanged(Thickness value){
@@ -135,11 +158,6 @@ class Stack extends SurfaceStack implements HtmlSurfaceElement
   @override void onVisibilityChanged(num value){}
 
   @override void onDraggableChanged(bool draggable){}
-
-
-  /*
-   * Private methods.
-   */
 
   void _setFill(Brush brush){
     if (brush is SolidColorBrush){
@@ -212,3 +230,4 @@ class Stack extends SurfaceStack implements HtmlSurfaceElement
     }
   }
 }
+

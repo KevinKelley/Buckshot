@@ -1,4 +1,4 @@
-part of surface_buckshot;
+part of box_model_surface_buckshot;
 
 abstract class SurfaceText extends SurfaceElement
 {

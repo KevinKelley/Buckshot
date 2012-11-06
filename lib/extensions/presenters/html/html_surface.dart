@@ -5,9 +5,47 @@
 library html_surface_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/pal/surface/surface.dart';
-export 'package:buckshot/pal/surface/surface.dart';
+import 'package:xml/xml.dart';
+import 'package:buckshot/pal/box_model_surface/box_model_surface.dart';
+export 'package:buckshot/pal/box_model_surface/box_model_surface.dart';
+
+//html included controls
+import 'package:buckshot/extensions/presenters/html/controls/border.dart';
+import 'package:buckshot/extensions/presenters/html/controls/text_block.dart';
+import 'package:buckshot/extensions/presenters/html/controls/stack.dart';
+import 'package:buckshot/extensions/presenters/html/controls/scroll_viewer.dart';
+import 'package:buckshot/extensions/presenters/html/controls/image.dart';
+import 'package:buckshot/extensions/presenters/html/controls/content_presenter.dart';
+import 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
+import 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
+export 'package:buckshot/extensions/presenters/html/controls/border.dart';
+export 'package:buckshot/extensions/presenters/html/controls/text_block.dart';
+export 'package:buckshot/extensions/presenters/html/controls/stack.dart';
+export 'package:buckshot/extensions/presenters/html/controls/scroll_viewer.dart';
+export 'package:buckshot/extensions/presenters/html/controls/image.dart';
+export 'package:buckshot/extensions/presenters/html/controls/content_presenter.dart';
+export 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
+export 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
+
 part 'html_surface_element.dart';
+
+/**
+ * Initializes the Buckshot framework to use the [HtmlSurface] presenter.
+ *
+ * IMPORTANT:  This should be called first before making any other calls
+ * to the Buckshot API.
+ */
+void initPresenter(){
+  htmlPresenter = new HtmlSurface();
+  registerElement(new Border.register());
+  registerElement(new TextBlock.register());
+  registerElement(new Stack.register());
+  registerElement(new ScrollViewer.register());
+  registerElement(new Image.register());
+  registerElement(new ContentPresenter.register());
+  registerElement(new CollectionPresenter.register());
+  registerElement(new ControlTemplate.register());
+}
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
 set htmlPresenter(HtmlSurface p) {

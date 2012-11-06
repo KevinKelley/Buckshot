@@ -1,4 +1,4 @@
-part of core_buckshotui_org;
+part of control_html_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -11,16 +11,14 @@ part of core_buckshotui_org;
 class ControlTemplate extends FrameworkResource implements FrameworkContainer
 {
   FrameworkProperty<String> controlType;
-  FrameworkProperty<FrameworkElement> template;
+  FrameworkProperty<FrameworkObject> template;
 
   ControlTemplate(){
     _initializeControlTemplateProperties();
 
     //redirect the resource finder to the template property
     //otherwise the ControlTemplate itself would be retrieved as the resource
-    //this.stateBag[FrameworkResource.RESOURCE_PROPERTY] = templateProperty;
     this.stateBag[FrameworkObject.CONTAINER_CONTEXT] = template;
-
   }
 
   ControlTemplate.register() : super.register();

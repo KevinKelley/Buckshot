@@ -2,7 +2,7 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-part of surface_buckshot;
+part of box_model_surface_buckshot;
 
 /**
  * Conversion class for [String] --> [BorderStyle].

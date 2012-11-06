@@ -17,6 +17,7 @@ import 'package:buckshot/extensions/presenters/html/controls/scroll_viewer.dart'
 import 'package:buckshot/extensions/presenters/html/controls/image.dart';
 import 'package:buckshot/extensions/presenters/html/controls/content_presenter.dart';
 import 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
+import 'package:buckshot/extensions/presenters/html/controls/slider.dart';
 import 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
 export 'package:buckshot/extensions/presenters/html/controls/border.dart';
 export 'package:buckshot/extensions/presenters/html/controls/text_block.dart';
@@ -26,6 +27,7 @@ export 'package:buckshot/extensions/presenters/html/controls/image.dart';
 export 'package:buckshot/extensions/presenters/html/controls/content_presenter.dart';
 export 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
 export 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
+export 'package:buckshot/extensions/presenters/html/controls/slider.dart';
 
 part 'html_surface_element.dart';
 
@@ -45,6 +47,7 @@ void initPresenter(){
   registerElement(new ContentPresenter.register());
   registerElement(new CollectionPresenter.register());
   registerElement(new ControlTemplate.register());
+  registerElement(new Slider.register());
 }
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;

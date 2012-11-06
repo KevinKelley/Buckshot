@@ -36,7 +36,7 @@ class TextBlock extends SurfaceText implements HtmlSurfaceElement
     rawElement.style.color = color.toColorString();
   }
 
-  @override void onTextChanged(String text){
+  @override void onTextChanged(text){
     rawElement.text = '$text';
   }
 

@@ -76,8 +76,8 @@ abstract class FrameworkObject
 
   FrameworkObject() {
     //TODO visual template needs to apply before this?
-    presenter.initElement(this);
     applyVisualTemplate();
+    presenter.initElement(this);
     initProperties();
     initEvents();
     assert(dataContext != null);
@@ -427,19 +427,17 @@ abstract class FrameworkObject
       "name",
       propertyChangedCallback:(String value){
 
-//        if (name.previousValue != null){
-//          throw new BuckshotException('Attempted to assign name "${value}"'
-//          ' to element that already has a name "${name.previousValue}"'
-//          ' assigned.');
-//        }
-//
-//        if (value != null){
-//          namedElements[value] = this;
-//          if (rawElement != null) rawElement.attributes["ID"] = value;
-//        }
+        if (name.previousValue != null){
+          throw new BuckshotException('Attempted to assign name "${value}"'
+          ' to element that already has a name "${name.previousValue}"'
+          ' assigned.');
+        }
 
+        if (value != null){
+          namedElements[value] = this;
+          //if (rawElement != null) rawElement.attributes["ID"] = value;
+        }
       });
-
 
     dataContext = new FrameworkProperty(this, "dataContext");
 

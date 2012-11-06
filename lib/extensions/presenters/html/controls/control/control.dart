@@ -12,7 +12,7 @@ part 'control_template.dart';
 
 /**
 * A base class for control-type elements (buttons, etc). */
-abstract class Control extends FrameworkObject implements HtmlSurfaceElement
+abstract class Control extends SurfaceElement implements HtmlSurfaceElement
 {
   Element rawElement;
 
@@ -66,7 +66,7 @@ abstract class Control extends FrameworkObject implements HtmlSurfaceElement
       Template
         .deserialize(defaultControlTemplate.rawData)
         .then((_) => _finishApplyVisualTemplate(tName));
-    } else if (defaultControlTemplate is String && !defaultControlTemplate.isEmpty()){
+    } else if (defaultControlTemplate is String && !defaultControlTemplate.isEmpty){
       final tName = XML.parse(defaultControlTemplate).attributes['controlType'];
       assert(tName != null);
       assert(!tName.isEmpty);
@@ -101,26 +101,22 @@ abstract class Control extends FrameworkObject implements HtmlSurfaceElement
     template.parent = this;
   }
 
-  onLoaded(){
+  @override void onLoaded(){
     //returning if we have already done this, or if no template was actually used for this control
     if (_templateBindingsApplied || !_templateApplied) return;
     _templateBindingsApplied = true;
 
     _bindTemplateBindings();
 
-    finishOnLoaded();
+    super.onLoaded();
   }
 
-  finishOnLoaded(){
-    //log('adding to DOM: $template', element: this);
-    //template.onAddedToDOM();
-  }
-
-  onUnLoaded(){
+  @override void onUnloaded(){
     //returning if we have already done this, or if no template was actually used for this control
     if (!_templateApplied) return;
 
     template.isLoaded = false;
+    super.onUnloaded();
   }
 
   void _bindTemplateBindings(){
@@ -162,4 +158,50 @@ abstract class Control extends FrameworkObject implements HtmlSurfaceElement
 
   /// Gets a standardized name for assignment to the [ControlTemplate] 'controlType' property.
   String get templateName => 'template_${hashCode}';
+
+  /*
+   * SurfaceElement Overrides
+   */
+  @override void onUserSelectChanged(bool value){}
+
+  @override void onMarginChanged(Thickness value){
+    rawElement.style.margin =
+        '${value.top}px ${value.right}px ${value.bottom}px ${value.left}px';
+  }
+
+  @override void onWidthChanged(num value){
+    rawElement.style.width = '${value}px';
+  }
+
+  @override void onHeightChanged(num value){
+    rawElement.style.height = '${value}px';
+  }
+
+  @override void onMaxWidthChanged(num value){}
+
+  @override void onMaxHeightChanged(num value){}
+
+  @override void onMinWidthChanged(num value){}
+
+  @override void onMinHeightChanged(num value){}
+
+  @override void onCursorChanged(Cursors value){}
+
+  @override void onHAlignChanged(HorizontalAlignment value){
+    if (!isLoaded) return;
+    parent.updateLayout();
+  }
+
+  @override void onVAlignChanged(VerticalAlignment value){
+    if (!isLoaded) return;
+    parent.updateLayout();
+  }
+
+  @override void onZOrderChanged(num value){}
+
+  @override void onOpacityChanged(num value){}
+
+  @override void onVisibilityChanged(num value){}
+
+  @override void onDraggableChanged(bool draggable){}
 }

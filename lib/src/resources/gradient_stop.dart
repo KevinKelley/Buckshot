@@ -11,7 +11,7 @@ part of core_buckshotui_org;
 * * [LinearGradientBrush]
 * * [RadialGradientBrush]
 */
-class GradientStop extends TemplateObject
+class GradientStop extends FrameworkObject
 {
   /// Represents the [Color] value of the GradientStop.
   FrameworkProperty<Color> color;

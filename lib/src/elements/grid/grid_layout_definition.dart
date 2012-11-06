@@ -10,7 +10,7 @@ part of core_buckshotui_org;
 * * [ColumnDefinition]
 * * [RowDefinition]
 */
-class GridLayoutDefinition extends TemplateObject
+class GridLayoutDefinition extends BuckshotObject
 {
 
   num _adjustedLengthInternal = 0;

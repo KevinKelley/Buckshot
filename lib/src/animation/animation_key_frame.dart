@@ -4,7 +4,7 @@ part of core_buckshotui_org;
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-class AnimationKeyFrame extends TemplateObject
+class AnimationKeyFrame extends FrameworkObject
 {
   FrameworkProperty<num> time;
   FrameworkProperty<List<AnimationState>> states;

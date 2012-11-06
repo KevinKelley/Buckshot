@@ -84,6 +84,9 @@ abstract class FrameworkObject
     registerEvent('attachedpropertychanged', attachedPropertyChanged);
     registerEvent('loaded', loaded);
     registerEvent('unloaded', unloaded);
+
+    if (this is FrameworkResource) return;
+    _style = new StyleTemplate();
   }
 
   FrameworkObject.register();
@@ -442,11 +445,12 @@ abstract class FrameworkObject
 
     if (this is FrameworkResource)
     {
-      // Prevent stack overflow since resources don't need style property
+      // Prevents stack overflow since resources don't need style property
       // anyway.
       style = new FrameworkProperty(this, 'style');
       return;
     }
+
     style = new FrameworkProperty(
         this,
         "style",

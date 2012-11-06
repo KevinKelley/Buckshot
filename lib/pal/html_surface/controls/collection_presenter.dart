@@ -176,4 +176,62 @@ class CollectionPresenter
       });
     }
   }
+
+  @override void updateLayout(){
+    super.updateLayout();
+    if (!isLoaded) return;
+    if (presentationPanel.value == null) return;
+
+    _updateChildLayout();
+  }
+
+  void _updateChildLayout(){
+    assert(containerContent != null);
+
+    final rawChild = presentationPanel.value.rawElement;
+
+    if (presentationPanel.value.hAlign.value != null){
+      switch(presentationPanel.value.hAlign.value){
+        case HorizontalAlignment.left:
+          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
+          rawChild.style.setProperty('-webkit-flex', 'none');
+          rawChild.style.minWidth = '';
+          break;
+        case HorizontalAlignment.right:
+          rawElement.style.setProperty('-webkit-justify-content', 'flex-end');
+          rawChild.style.setProperty('-webkit-flex', 'none');
+          rawChild.style.minWidth = '';
+          break;
+        case HorizontalAlignment.center:
+          rawElement.style.setProperty('-webkit-justify-content', 'center');
+          rawChild.style.setProperty('-webkit-flex', 'none');
+          rawChild.style.minWidth = '';
+          break;
+        case HorizontalAlignment.stretch:
+          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
+          rawChild.style.minWidth = '0px';
+          rawChild.style.setProperty('-webkit-flex', '1 1 auto');
+          // this setting prevents the flex box from overflowing if it's child
+          // content is bigger than it's parent.
+          // Flexbox spec 7.2
+          break;
+      }
+    }
+
+    if (presentationPanel.value.vAlign.value == null) return;
+    switch(presentationPanel.value.vAlign.value){
+      case VerticalAlignment.top:
+        rawElement.style.setProperty('-webkit-align-items', 'flex-start');
+        break;
+      case VerticalAlignment.bottom:
+        rawElement.style.setProperty('-webkit-align-items', 'flex-end');
+        break;
+      case VerticalAlignment.center:
+        rawElement.style.setProperty('-webkit-align-items', 'center');
+        break;
+      case VerticalAlignment.stretch:
+        rawElement.style.setProperty('-webkit-align-items', 'stretch');
+        break;
+    }
+  }
 }

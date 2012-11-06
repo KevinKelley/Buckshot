@@ -657,7 +657,6 @@ class Template {
         " a key identifier.");
     }
 
-    print('$resource');
     //add/replace resource at given key
     registerResource(resource);
   }

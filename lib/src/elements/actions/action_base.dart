@@ -8,7 +8,7 @@ part of core_buckshotui_org;
 /**
 * Base class for event-driven [FrameworkElement] actions.
 */
-abstract class ActionBase extends TemplateObject
+abstract class ActionBase extends FrameworkObject
 {
 
   FrameworkProperty<String> event;
@@ -16,11 +16,11 @@ abstract class ActionBase extends TemplateObject
   /// A [String] representing the name of the target element to be operated
   /// on by the action.
   FrameworkProperty<String> targetName;
-  FrameworkProperty<FrameworkElement> _source;
+  FrameworkProperty<FrameworkObject> _source;
 
-  FrameworkElement _target;
-  FrameworkElement get source => _source.value;
-  FrameworkElement get targetElement => _target;
+  FrameworkObject _target;
+  FrameworkObject get source => _source.value;
+  FrameworkObject get targetElement => _target;
 
   final HashMap <String, EventHandlerReference> _ref;
 
@@ -68,7 +68,7 @@ abstract class ActionBase extends TemplateObject
 
     var _source = _source.value;
 
-    if (_source == null && _source is! FrameworkElement){
+    if (_source == null && _source is! FrameworkObject){
       throw const BuckshotException('action source is null or'
           ' is not a FrameworkElement');
     }

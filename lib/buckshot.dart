@@ -53,11 +53,11 @@ part 'src/binding/binding_mode.dart';
 part 'src/binding/binding_data.dart';
 
 //part 'src/elements/grid/grid.dart';
-part 'src/elements/grid/row_definition.dart';
-part 'src/elements/grid/column_definition.dart';
+//part 'src/elements/grid/row_definition.dart';
+//part 'src/elements/grid/column_definition.dart';
 //part 'src/elements/grid/_grid_cell.dart';
-part 'src/elements/grid/grid_layout_definition.dart';
-part 'src/elements/grid/grid_length.dart';
+//part 'src/elements/grid/grid_layout_definition.dart';
+//part 'src/elements/grid/grid_length.dart';
 //part 'src/elements/collection_presenter.dart';
 //part 'src/elements/content_presenter.dart';
 
@@ -120,7 +120,6 @@ part 'src/resources/gradient_stop.dart';
 part 'src/templates/presentation_format_provider.dart';
 part 'src/templates/xml_template_provider.dart';
 part 'src/templates/template.dart';
-part 'src/templates/template_object.dart';
 part 'src/templates/template_exception.dart';
 
 part 'src/converters/value_converter.dart';

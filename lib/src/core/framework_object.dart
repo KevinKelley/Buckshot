@@ -79,7 +79,7 @@ abstract class FrameworkObject
   }
 
   FrameworkObject.register();
-  abstract makeMe();
+  makeMe();
 
   /// Gets a boolean value indicating whether the given object
   /// is a container or not.

@@ -1,3 +1,4 @@
+part of surface_buckshot;
 
 /**
  * Enumerates supported scroll setting values.
@@ -21,7 +22,7 @@ class StringToScrollSettingConverter implements ValueConverter
 
   const StringToScrollSettingConverter();
 
-  @override dynamic convert(dynamic value, [dynamic parameter]){
+  @override dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
 
     switch(value){

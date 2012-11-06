@@ -7,10 +7,10 @@ part of core_buckshotui_org;
 class StringToRadialGradientDrawModeConverter implements ValueConverter {
 
   const StringToRadialGradientDrawModeConverter();
-  
-  dynamic convert(dynamic value, [dynamic parameter]){
+
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (!(value is String)) return value;
-    
+
     switch(value){
       case "cover":
         return RadialGradientDrawMode.cover;

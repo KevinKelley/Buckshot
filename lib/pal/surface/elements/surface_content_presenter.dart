@@ -19,7 +19,7 @@ abstract class SurfaceContentPresenter
 
   get containerContent => content.value;
 
-  abstract void onContentChanged(dynamic newContent);
+  void onContentChanged(dynamic newContent);
 
   @override initProperties(){
     super.initProperties();

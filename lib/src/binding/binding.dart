@@ -176,5 +176,5 @@ class Binding extends FrameworkObject
 class _DefaultConverter implements ValueConverter{
   const _DefaultConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]) => value;
+  convert(dynamic value, {dynamic parameter}) => value;
 }

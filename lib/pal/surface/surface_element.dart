@@ -48,22 +48,22 @@ abstract class SurfaceElement extends FrameworkObject
   SurfaceElement.register() : super.register();
   makeMe() => null;
 
-  abstract void onUserSelectChanged(bool value);
-  abstract void onMarginChanged(Thickness margin);
-  abstract void onWidthChanged(num value);
-  abstract void onHeightChanged(num value);
-  abstract void onMaxWidthChanged(num value);
-  abstract void onMaxHeightChanged(num value);
-  abstract void onMinWidthChanged(num value);
-  abstract void onMinHeightChanged(num value);
-  abstract void onCursorChanged(Cursors value);
-  abstract void onHAlignChanged(HorizontalAlignment value);
-  abstract void onVAlignChanged(VerticalAlignment value);
-  abstract void onZOrderChanged(num value);
-  abstract void onOpacityChanged(num value);
-  abstract void onVisibilityChanged(num value);
-  abstract void onStyleChanged(StyleTemplate value);
-  abstract void onDraggableChanged(bool draggable);
+  void onUserSelectChanged(bool value);
+  void onMarginChanged(Thickness margin);
+  void onWidthChanged(num value);
+  void onHeightChanged(num value);
+  void onMaxWidthChanged(num value);
+  void onMaxHeightChanged(num value);
+  void onMinWidthChanged(num value);
+  void onMinHeightChanged(num value);
+  void onCursorChanged(Cursors value);
+  void onHAlignChanged(HorizontalAlignment value);
+  void onVAlignChanged(VerticalAlignment value);
+  void onZOrderChanged(num value);
+  void onOpacityChanged(num value);
+  void onVisibilityChanged(num value);
+  void onStyleChanged(StyleTemplate value);
+  void onDraggableChanged(bool draggable);
 
 
   @override void initProperties(){

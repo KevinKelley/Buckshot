@@ -47,7 +47,7 @@ class InputTypes{
 class StringToInputTypesConverter implements ValueConverter{
   const StringToInputTypesConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
 
     switch(value){

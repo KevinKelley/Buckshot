@@ -15,8 +15,8 @@ abstract class SurfaceStack extends SurfaceElement implements FrameworkContainer
 
   get containerContent => children;
 
-  abstract void onOrientationChanged(Orientation value);
-  abstract void onBackgroundChanged(Brush brush);
+  void onOrientationChanged(Orientation value);
+  void onBackgroundChanged(Brush brush);
 
   @override void initProperties(){
     super.initProperties();

@@ -21,13 +21,13 @@ Surface surfacePresenter = presenter as Surface;
  */
 abstract class Surface extends Presenter
 {
-  abstract Future<RectMeasurement> measure(SurfaceElement element);
+  Future<RectMeasurement> measure(SurfaceElement element);
 
   /** Initializes the given [element] to the [Presenter]. */
   void initElement(PresenterElement element){}
 
   /** Renders to the surface beginning from the given [rootElement]. */
-  abstract void render(SurfaceElement rootElement);
+  void render(SurfaceElement rootElement);
 }
 
 /**

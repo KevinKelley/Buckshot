@@ -55,11 +55,11 @@ abstract class SurfaceBorder extends SurfaceElement implements FrameworkContaine
         converter: const StringToSolidColorBrushConverter());
   }
 
-  abstract onBackgroundChanged(Brush brush);
-  abstract onCornerRadiusChanged(Thickness value);
-  abstract onPaddingChanged(Thickness value);
-  abstract onBorderStyleChanged(BorderStyle style);
-  abstract onContentChanged(dynamic content);
-  abstract onBorderThicknessChanged(Thickness value);
-  abstract onBorderColorChanged(Color color);
+  onBackgroundChanged(Brush brush);
+  onCornerRadiusChanged(Thickness value);
+  onPaddingChanged(Thickness value);
+  onBorderStyleChanged(BorderStyle style);
+  onContentChanged(dynamic content);
+  onBorderThicknessChanged(Thickness value);
+  onBorderColorChanged(Color color);
 }

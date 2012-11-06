@@ -12,15 +12,15 @@ abstract class IPresentationFormatProvider
   /**
   * Takes an object tree starting at [elementRoot] and attempts to convert it to a serialized string
   * in the format of the implementing class. */
-  abstract String serialize(FrameworkObject elementRoot);
+  String serialize(FrameworkObject elementRoot);
 
   /**
   * Returns true if the given template is detected to be of a compatible format.
   */
-  abstract bool isFormat(String template);
+  bool isFormat(String template);
 
   /**
    * Returns a normalized Xml Tree from the given template.
    */
-  abstract XmlElement toXmlTree(String template);
+  XmlElement toXmlTree(String template);
 }

@@ -11,7 +11,7 @@ class StringToBooleanConverter implements ValueConverter
 {
   const StringToBooleanConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
     if (value.toLowerCase() == "false")
     {

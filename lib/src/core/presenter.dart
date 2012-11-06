@@ -29,7 +29,7 @@ abstract class Presenter
   String get namespace;
 
   /** Initializes the given [element] to the [Presenter]. */
-  abstract void initElement(PresenterElement element);
+  void initElement(PresenterElement element);
 }
 
 /**
@@ -59,17 +59,17 @@ abstract class PresenterElement
    * Called when the object is loaded into the presentation layer for the
    * first time.
    */
-  abstract void onFirstLoad();
+  void onFirstLoad();
 
-  abstract void onLoaded();
+  void onLoaded();
 
-  abstract void onUnloaded();
+  void onUnloaded();
 
-  abstract void initProperties();
+  void initProperties();
 
-  abstract void initEvents();
+  void initEvents();
 
-  abstract void createPrimitive();
+  void createPrimitive();
 
-  abstract void updateLayout();
+  void updateLayout();
 }

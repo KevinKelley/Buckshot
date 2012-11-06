@@ -8,12 +8,12 @@ part of core_buckshotui_org;
 * Converts from [String] to [Visibility] enumerator.
 */
 class StringToVisibilityConverter implements ValueConverter{
-  
+
   const StringToVisibilityConverter();
-  
-  dynamic convert(dynamic value, [dynamic parameter]){
+
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
-    
+
     switch(value){
       case "visible":
         return Visibility.visible;

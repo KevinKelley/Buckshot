@@ -19,13 +19,13 @@ abstract class SurfaceText extends SurfaceElement
 
   SurfaceText.register() : super.register();
 
-  abstract onFontWeightChanged(String value);
-  abstract onDecorationChanged(String decoration);
-  abstract onBackgroundChanged(Brush brush);
-  abstract onForegroundChanged(Color color);
-  abstract onTextChanged(String text);
-  abstract onFontSizeChanged(num value);
-  abstract onFontFamilyChanged(String family);
+  onFontWeightChanged(String value);
+  onDecorationChanged(String decoration);
+  onBackgroundChanged(Brush brush);
+  onForegroundChanged(Color color);
+  onTextChanged(String text);
+  onFontSizeChanged(num value);
+  onFontFamilyChanged(String family);
 
   @override void initProperties(){
     super.initProperties();

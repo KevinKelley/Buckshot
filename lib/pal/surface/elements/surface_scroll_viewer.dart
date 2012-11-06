@@ -14,9 +14,9 @@ abstract class SurfaceScrollViewer
 
   get containerContent => content.value;
 
-  abstract void onContentChanged(dynamic content);
-  abstract void onHScrollChanged(ScrollSetting value);
-  abstract void onVScrollChanged(ScrollSetting value);
+  void onContentChanged(dynamic content);
+  void onHScrollChanged(ScrollSetting value);
+  void onVScrollChanged(ScrollSetting value);
 
   @override initProperties(){
     super.initProperties();

@@ -11,7 +11,7 @@ class StringToOrientationConverter implements ValueConverter{
 
   const StringToOrientationConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
 
     switch(value){

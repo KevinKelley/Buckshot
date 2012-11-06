@@ -2,6 +2,8 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
+part of surface_buckshot;
+
 /**
  * Conversion class for [String] --> [BorderStyle].
  */
@@ -9,7 +11,7 @@ class StringToBorderStyleConverter implements ValueConverter
 {
   const StringToBorderStyleConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
 
     switch(value){

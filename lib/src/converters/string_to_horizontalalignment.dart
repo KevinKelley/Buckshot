@@ -8,12 +8,12 @@ part of core_buckshotui_org;
 * Provides a conversion between [String] and [HorizontalAlignment].
 */
 class StringToHorizontalAlignmentConverter implements ValueConverter{
-  
+
   const StringToHorizontalAlignmentConverter();
-  
-  dynamic convert(dynamic value, [dynamic parameter]){
+
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (!(value is String)) return value;
-    
+
     switch(value){
       case "center":
         return HorizontalAlignment.center;

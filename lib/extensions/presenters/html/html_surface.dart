@@ -18,6 +18,7 @@ import 'package:buckshot/extensions/presenters/html/controls/image.dart';
 import 'package:buckshot/extensions/presenters/html/controls/content_presenter.dart';
 import 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
 import 'package:buckshot/extensions/presenters/html/controls/slider.dart';
+import 'package:buckshot/extensions/presenters/html/controls/button.dart';
 import 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
 export 'package:buckshot/extensions/presenters/html/controls/border.dart';
 export 'package:buckshot/extensions/presenters/html/controls/text_block.dart';
@@ -28,6 +29,7 @@ export 'package:buckshot/extensions/presenters/html/controls/content_presenter.d
 export 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
 export 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
 export 'package:buckshot/extensions/presenters/html/controls/slider.dart';
+export 'package:buckshot/extensions/presenters/html/controls/button.dart';
 
 part 'html_surface_element.dart';
 
@@ -48,6 +50,7 @@ void initPresenter(){
   registerElement(new CollectionPresenter.register());
   registerElement(new ControlTemplate.register());
   registerElement(new Slider.register());
+  registerElement(new Button.register());
 }
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;
@@ -202,7 +205,8 @@ class HtmlSurface extends Surface
         _unloadChildren(container.containerContent);
       }
     }else{
-      throw "Invalid container type found.";
+      log('Invalid container type found: $container'
+          ' ${container.containerContent}');
     }
   }
 
@@ -229,7 +233,8 @@ class HtmlSurface extends Surface
         _loadChildren(container.containerContent);
       }
     }else{
-      log('Invalid container type found.');
+      log('Invalid container type found: $container'
+          ' ${container.containerContent}');
     }
   }
 }

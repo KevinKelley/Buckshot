@@ -8,7 +8,7 @@ part of box_model_surface_buckshot;
  * templates.
  */
 abstract class SurfaceContentPresenter
-  extends SurfaceElement implements FrameworkContainer
+  extends BoxModelSurfaceElement implements FrameworkContainer
 {
   FrameworkProperty<SurfaceElement> content;
 

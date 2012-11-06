@@ -1,7 +1,7 @@
 part of box_model_surface_buckshot;
 
 abstract class SurfaceCollectionPresenter
-  extends SurfaceElement implements FrameworkContainer
+  extends BoxModelSurfaceElement implements FrameworkContainer
 {
   FrameworkProperty<SurfaceElement> presentationPanel;
   FrameworkProperty<String> itemsTemplate;

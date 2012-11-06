@@ -13,7 +13,7 @@ abstract class FrameworkObject
 {
   StyleTemplate _style;
 
-  final HashMap<FrameworkProperty, String> _templateBindings =
+  final HashMap<FrameworkProperty, String> templateBindings =
       new HashMap<FrameworkProperty, String>();
 
   final HashMap<String, dynamic> stateBag = new HashMap<String, dynamic>();
@@ -47,6 +47,11 @@ abstract class FrameworkObject
    * FrameworkObject.
    */
   FrameworkProperty<StyleTemplate> style;
+
+  /**
+   * Represents a collection of [ActionBase] actions applied to this object.
+   */
+  FrameworkProperty<ObservableList<ActionBase>> actions;
 
   /// Represents a map of [Binding]s that will be bound just before
   /// the element renders to the DOM.
@@ -440,6 +445,27 @@ abstract class FrameworkObject
       });
 
     dataContext = new FrameworkProperty(this, "dataContext");
+
+    actions = new FrameworkProperty(this, 'actions',
+      propertyChangedCallback: (ObservableList<ActionBase> aList){
+        if (actions != null){
+          throw const BuckshotException('FrameworkElement.actionsProperty'
+              ' collection can only be assigned once.');
+        }
+
+        aList.listChanged + (_, ListChangedEventArgs args){
+          if (args.oldItems.length > 0) {
+            throw const BuckshotException('Actions cannot be removed once'
+                ' added to the collection.');
+          }
+
+          //assign this element as the source to any new actions
+          args.newItems.forEach((ActionBase action){
+            action._source.value = this;
+          });
+        };
+      },
+    defaultValue: new ObservableList<ActionBase>());
 
     if (this is FrameworkResource)
     {

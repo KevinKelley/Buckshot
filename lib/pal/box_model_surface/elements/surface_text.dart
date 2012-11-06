@@ -1,6 +1,6 @@
 part of box_model_surface_buckshot;
 
-abstract class SurfaceText extends SurfaceElement
+abstract class SurfaceText extends BoxModelSurfaceElement
 {
   FrameworkProperty<Brush> background;
   FrameworkProperty<Color> foreground;

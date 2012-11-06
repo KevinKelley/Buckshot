@@ -93,7 +93,9 @@ class Stack extends SurfaceStack implements HtmlSurfaceElement
   /*
    * SurfaceElement Overrides
    */
-  @override void onUserSelectChanged(bool value){}
+  @override void onUserSelectChanged(bool value){
+      rawElement.style.userSelect = value ? 'all' : 'none';
+  }
 
   @override void onMarginChanged(Thickness value){
     rawElement.style.margin =
@@ -108,15 +110,25 @@ class Stack extends SurfaceStack implements HtmlSurfaceElement
     rawElement.style.height = '${value}px';
   }
 
-  @override void onMaxWidthChanged(num value){}
+  @override void onMaxWidthChanged(num value){
+    rawElement.style.maxWidth = '${value}px';
+  }
 
-  @override void onMaxHeightChanged(num value){}
+  @override void onMaxHeightChanged(num value){
+    rawElement.style.maxHeight = '${value}px';
+  }
 
-  @override void onMinWidthChanged(num value){}
+  @override void onMinWidthChanged(num value){
+    rawElement.style.minWidth = '${value}px';
+  }
 
-  @override void onMinHeightChanged(num value){}
+  @override void onMinHeightChanged(num value){
+    rawElement.style.minHeight = '${value}px';
+  }
 
-  @override void onCursorChanged(Cursors value){}
+  @override void onCursorChanged(Cursors value){
+    rawElement.style.cursor = '$value';
+  }
 
   @override void onHAlignChanged(HorizontalAlignment value){
     if (!isLoaded) return;
@@ -128,14 +140,31 @@ class Stack extends SurfaceStack implements HtmlSurfaceElement
     parent.updateLayout();
   }
 
-  @override void onZOrderChanged(num value){}
+  @override void onZOrderChanged(num value){
+    rawElement.style.zIndex = '$value';
+  }
 
-  @override void onOpacityChanged(num value){}
+  @override void onOpacityChanged(num value){
+    rawElement.style.opacity = '$value';
+  }
 
-  @override void onVisibilityChanged(num value){}
+  @override void onVisibilityChanged(Visibility value){
+    if (value == Visibility.visible){
+      rawElement.style.visibility = '$value';
+      rawElement.style.display =
+          stateBag["display"] == null ? "inherit" : stateBag["display"];
+    }else{
+      //preserve in case some element is using "inline"
+      //or some other fancy display value
+      stateBag["display"] = rawElement.style.display;
+      rawElement.style.visibility = '$value';
+      rawElement.style.display = "none";
+    }
+  }
 
-  @override void onDraggableChanged(bool draggable){}
-
+  @override void onDraggableChanged(bool draggable){
+    throw new NotImplementedException('todo...');
+  }
 
   /*
    * Private methods.

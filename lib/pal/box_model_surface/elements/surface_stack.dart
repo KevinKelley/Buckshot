@@ -1,6 +1,7 @@
 part of box_model_surface_buckshot;
 
-abstract class SurfaceStack extends SurfaceElement implements FrameworkContainer
+abstract class SurfaceStack
+  extends BoxModelSurfaceElement implements FrameworkContainer
 {
   FrameworkProperty<Orientation> orientation;
   FrameworkProperty<Brush> background;

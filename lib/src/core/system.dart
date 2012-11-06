@@ -50,30 +50,7 @@ void registerAttachedProperty(String property, setterFunction){
 }
 
 void _registerCoreElements(){
-//  registerElement(new Ellipse.register());
-//  registerElement(new Rectangle.register());
-//  registerElement(new Stack.register());
-//  registerElement(new LayoutCanvas.register());
-//  registerElement(new Grid.register());
-//  registerElement(new Border.register());
-//  registerElement(new ContentPresenter.register());
-//  registerElement(new TextArea.register());
-//  registerElement(new TextBlock.register());
-//  registerElement(new CheckBox.register());
-//  registerElement(new RadioButton.register());
-//  registerElement(new Hyperlink.register());
-//  registerElement(new Image.register());
-//  registerElement(new RawHtml.register());
-//  registerElement(new ColumnDefinition.register());
-//  registerElement(new RowDefinition.register());
-//  registerElement(new DropDownItem.register());
-//  registerElement(new CollectionPresenter.register());
-//  registerElement(new TextBox.register());
-//  registerElement(new Slider.register());
-//  registerElement(new Button.register());
-//  registerElement(new DropDownList.register());
-//
-//  //resources
+//resources
   registerElement(new ResourceCollection.register());
   registerElement(new Color.register());
   registerElement(new LinearGradientBrush.register());
@@ -111,7 +88,16 @@ Future _initFramework(){
     _registerCoreElements();
   }
 
-  return new Future.immediate(false);
+  return _loadTheme()
+ //     .chain((_) => _loadResources())
+      .chain((_){
+//        if (!FrameworkAnimation._started){
+//          FrameworkAnimation._startAnimatonLoop();
+//        }
+
+        _log.info('Framework initialized.');
+        return new Future.immediate(true);
+      });
 
   // Initializes the system object name.
   buckshot.name.value = '__sys__';
@@ -141,7 +127,7 @@ Future _initFramework(){
   });
 
   return _loadTheme()
-    .chain((_) => _loadResources())
+//    .chain((_) => _loadResources())
     .chain((_){
       if (!FrameworkAnimation._started){
         FrameworkAnimation._startAnimatonLoop();
@@ -158,29 +144,29 @@ Future _loadTheme(){
   if (_themeLoaded) return new Future.immediate(false);
   _themeLoaded = true;
 
-  if (document.body.attributes.containsKey('data-buckshot-theme')){
-    _log.info('loading custom theme (${document.body.attributes['data-buckshot-theme']})');
-    return Template.deserialize(document.body.attributes['data-buckshot-theme']);
-  }else{
+//  if (document.body.attributes.containsKey('data-buckshot-theme')){
+//    _log.info('loading custom theme (${document.body.attributes['data-buckshot-theme']})');
+//    return Template.deserialize(document.body.attributes['data-buckshot-theme']);
+//  }else{
     _log.info('loading default theme');
     return Template.deserialize(defaultTheme);
-  }
+//  }
 }
 
 bool _resourcesLoaded = false;
 Future _loadResources(){
-  if (_resourcesLoaded) return new Future.immediate(false);
-  _resourcesLoaded = true;
-
-  if (!document.body.attributes.containsKey('data-buckshot-resources')){
-    return new Future.immediate(false);
-  }
-
-  _log.info('loading app resources'
-      ' (${document.body.attributes['data-buckshot-resources']})');
-
-  return Template
-      .deserialize(document.body.attributes['data-buckshot-resources']);
+//  if (_resourcesLoaded) return new Future.immediate(false);
+//  _resourcesLoaded = true;
+//
+//  if (!document.body.attributes.containsKey('data-buckshot-resources')){
+//    return new Future.immediate(false);
+//  }
+//
+//  _log.info('loading app resources'
+//      ' (${document.body.attributes['data-buckshot-resources']})');
+//
+//  return Template
+//      .deserialize(document.body.attributes['data-buckshot-resources']);
 }
 
 StyleElement _buckshotCSS;
@@ -341,7 +327,7 @@ Future<FrameworkElement> setView(View view, [String elementID = 'BuckshotHost'])
 Binding bind(FrameworkProperty from, FrameworkProperty to,
              {BindingMode bindingMode : BindingMode.OneWay,
               ValueConverter converter :const _DefaultConverter()}){
-  return new Binding(from, to, bindingMode, converter);
+  return new Binding(from, to, bindingMode:bindingMode, converter:converter);
 }
 
 

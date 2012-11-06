@@ -1,7 +1,7 @@
 part of box_model_surface_buckshot;
 
 abstract class SurfaceScrollViewer
-  extends SurfaceElement implements FrameworkContainer
+  extends BoxModelSurfaceElement implements FrameworkContainer
 {
   FrameworkProperty<ScrollSetting> hScroll;
   FrameworkProperty<ScrollSetting> vScroll;

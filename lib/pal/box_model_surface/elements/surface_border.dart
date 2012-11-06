@@ -1,6 +1,7 @@
 part of box_model_surface_buckshot;
 
-abstract class SurfaceBorder extends SurfaceElement implements FrameworkContainer
+abstract class SurfaceBorder
+  extends BoxModelSurfaceElement implements FrameworkContainer
 {
   FrameworkProperty<Brush> background;
   FrameworkProperty<SurfaceElement> content;

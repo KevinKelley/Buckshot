@@ -1,8 +1,11 @@
-part of core_buckshotui_org;
-
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
+
+library slider_html_buckshot;
+
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 /**
 * A button control element.
@@ -14,14 +17,12 @@ class Button extends Control implements FrameworkContainer
 
   Button()
   {
-    Browser.appendClass(rawElement, "button");
-
-    _initButtonProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = content;
   }
 
-  void _initButtonProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     // Initialize FrameworkProperty declarations.
     content = new FrameworkProperty(this, 'content');
 

@@ -572,7 +572,7 @@ class Template {
           throw const TemplateException('{template} binding malformed.');
         }
         //log('setting template binding: ${words[1]}', element: p.sourceObject);
-        (p.sourceObject as FrameworkObject)._templateBindings[p] = words[1];
+        (p.sourceObject as FrameworkObject).templateBindings[p] = words[1];
         break;
       case "data":
         if (p.sourceObject is! FrameworkObject){

@@ -9,5 +9,5 @@ would be:
 * Native client viewport
 
 ## Surface Primitives ##
-The Surface library provides a set of primitive abstracts that can be used by
+The Surface library provides a set of element abstracts that can be used by
 implementing libraries.

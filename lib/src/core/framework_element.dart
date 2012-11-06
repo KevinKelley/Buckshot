@@ -14,8 +14,6 @@ class FrameworkElement extends FrameworkObject
   MeasurementRect _previousMeasurement;
   MeasurementRect _previousPosition;
 
-  StyleTemplate _style;
-
   final HashMap<FrameworkProperty, String> _templateBindings =
     new HashMap<FrameworkProperty, String>();
 
@@ -58,8 +56,6 @@ class FrameworkElement extends FrameworkObject
   AnimatingFrameworkProperty<num> opacity;
   /// Represents the [Visibility] property of the FrameworkElement.
   AnimatingFrameworkProperty<Visibility> visibility;
-  /// Represents the [StyleTemplate] value that is currently applied to the FrameworkElement.
-  FrameworkProperty<StyleTemplate> style;
   /// Represents whether an element is draggable
   FrameworkProperty<bool> draggable;
 
@@ -474,23 +470,7 @@ class FrameworkElement extends FrameworkObject
       },
       VerticalAlignment.top, converter:const StringToVerticalAlignmentConverter());
 
-    style = new FrameworkProperty(
-      this,
-      "style",
-      (StyleTemplate value){
-        if (value == null){
-          //setting non-null style to null
-          _style._unregisterElement(this);
-          style.previousValue = _style;
-          _style = new StyleTemplate();
-          style.value = _style;
-        }else{
-          //replacing style with style
-          if (_style != null) _style._unregisterElement(this);
-          value._registerElement(this);
-          _style = value;
-        }
-      }, new StyleTemplate());
+
 
     draggable = new FrameworkProperty(
       this,

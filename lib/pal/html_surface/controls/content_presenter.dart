@@ -91,8 +91,6 @@ class ContentPresenter
 
   @override void onVisibilityChanged(num value){}
 
-  @override void onStyleChanged(StyleTemplate value){}
-
   @override void onDraggableChanged(bool draggable){}
 
   /*

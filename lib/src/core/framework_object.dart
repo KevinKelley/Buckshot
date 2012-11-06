@@ -11,6 +11,8 @@ abstract class FrameworkObject
   extends HashableObject
   implements PresenterElement
 {
+  StyleTemplate _style;
+
   final HashMap<FrameworkProperty, String> _templateBindings =
       new HashMap<FrameworkProperty, String>();
 
@@ -39,6 +41,12 @@ abstract class FrameworkObject
   /// Represents the data context assigned to the FrameworkElement.
   /// Declarative xml binding can be used to bind to data context.
   FrameworkProperty<dynamic> dataContext;
+
+  /**
+   * Represents the [StyleTemplate] value that is currently applied to the
+   * FrameworkObject.
+   */
+  FrameworkProperty<StyleTemplate> style;
 
   /// Represents a map of [Binding]s that will be bound just before
   /// the element renders to the DOM.
@@ -429,7 +437,34 @@ abstract class FrameworkObject
 
       });
 
+
     dataContext = new FrameworkProperty(this, "dataContext");
+
+    if (this is FrameworkResource)
+    {
+      // Prevent stack overflow since resources don't need style property
+      // anyway.
+      style = new FrameworkProperty(this, 'style');
+      return;
+    }
+    style = new FrameworkProperty(
+        this,
+        "style",
+        propertyChangedCallback: (StyleTemplate value){
+          if (value == null){
+            //setting non-null style to null
+            _style._unregisterElement(this);
+            style.previousValue = _style;
+            _style = new StyleTemplate();
+            style.value = _style;
+          }else{
+            //replacing style with style
+            if (_style != null) _style._unregisterElement(this);
+            value._registerElement(this);
+            _style = value;
+          }
+        },
+        defaultValue: new StyleTemplate());
   }
 
   @deprecated void addToLayoutTree(FrameworkObject parentElement){
@@ -488,7 +523,7 @@ abstract class FrameworkObject
 
     loaded.invoke(this, new EventArgs());
 
-    print('loaded $this');
+    _log.fine('loaded $this');
   }
 
   /** Called when the object is unloaded from a [presenter] view. */

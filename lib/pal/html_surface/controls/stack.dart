@@ -134,8 +134,6 @@ class Stack extends SurfaceStack implements HtmlSurfaceElement
 
   @override void onVisibilityChanged(num value){}
 
-  @override void onStyleChanged(StyleTemplate value){}
-
   @override void onDraggableChanged(bool draggable){}
 
 

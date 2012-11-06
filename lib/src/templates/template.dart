@@ -652,11 +652,12 @@ class Template {
     //TODO: maybe support merged resource collections in the future...
     if (resource is ResourceCollection) return;
 
-    if (resource.key.value.isEmpty()) {
+    if (resource.key.value.isEmpty) {
       throw const TemplateException("Resource is missing"
         " a key identifier.");
     }
 
+    print('$resource');
     //add/replace resource at given key
     registerResource(resource);
   }

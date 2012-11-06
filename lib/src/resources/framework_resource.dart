@@ -50,8 +50,14 @@ class FrameworkResource extends FrameworkObject
   @override void initEvents(){}
 
   @override void initProperties(){
-    super.initProperties();
     key = new FrameworkProperty(this, "key", defaultValue:"");
+
+    // init the FrameworkProperty properties here instead of calling the
+    // super because doing so would cause a S/O with the style property
+    // initializer.
+    dataContext = new FrameworkProperty(this, 'dataContext');
+    tag = new FrameworkProperty(this, 'tag');
+    name = new FrameworkProperty(this, 'name');
   }
 
   String rawData;

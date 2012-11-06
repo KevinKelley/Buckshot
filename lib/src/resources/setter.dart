@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Represents a setter/value pair for a [FrameworkProperty].
 */
-class Setter extends TemplateObject
+class Setter extends FrameworkObject
 {
   FrameworkProperty<dynamic> value;
   FrameworkProperty<String> property;

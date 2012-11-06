@@ -75,7 +75,6 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
   }
 
   @override void onBackgroundChanged(Brush brush){
-    print('background changed');
     _setFill(brush);
   }
 
@@ -157,8 +156,6 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
   @override void onOpacityChanged(num value){}
 
   @override void onVisibilityChanged(num value){}
-
-  @override void onStyleChanged(StyleTemplate value){}
 
   @override void onDraggableChanged(bool draggable){}
 

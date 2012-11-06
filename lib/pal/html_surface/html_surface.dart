@@ -20,7 +20,8 @@ set htmlPresenter(HtmlSurface p) {
  */
 class HtmlSurface extends Surface
 {
-  final Expando<HtmlSurfaceElement> surfaceElement = new Expando<HtmlSurfaceElement>();
+  final Expando<HtmlSurfaceElement> surfaceElement =
+      new Expando<HtmlSurfaceElement>();
   Element _rootDiv;
 
   HtmlSurface(){

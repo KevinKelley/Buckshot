@@ -74,23 +74,23 @@ void _registerCoreElements(){
 //  registerElement(new DropDownList.register());
 //
 //  //resources
-//  registerElement(new ResourceCollection.register());
-//  registerElement(new Color.register());
-//  registerElement(new LinearGradientBrush.register());
-//  registerElement(new GradientStop.register());
-//  registerElement(new SolidColorBrush.register());
-//  registerElement(new RadialGradientBrush.register());
-//  registerElement(new Setter.register());
-//  registerElement(new StyleTemplate.register());
-//  registerElement(new Var.register());
-//  registerElement(new ControlTemplate.register());
+  registerElement(new ResourceCollection.register());
+  registerElement(new Color.register());
+  registerElement(new LinearGradientBrush.register());
+  registerElement(new GradientStop.register());
+  registerElement(new SolidColorBrush.register());
+  registerElement(new RadialGradientBrush.register());
+  registerElement(new Setter.register());
+  registerElement(new StyleTemplate.register());
+  registerElement(new Var.register());
+  registerElement(new ControlTemplate.register());
 //  registerElement(new AnimationResource.register());
 //  registerElement(new AnimationKeyFrame.register());
 //  registerElement(new AnimationState.register());
 //
 //  //actions
-//  registerElement(new SetProperty.register());
-//  registerElement(new ToggleProperty.register());
+  registerElement(new SetProperty.register());
+  registerElement(new ToggleProperty.register());
 }
 
 bool _frameworkInitialized = false;
@@ -108,6 +108,10 @@ Future _initFramework(){
     print(event);
   });
 
+  if (!reflectionEnabled){
+    _registerCoreElements();
+  }
+
   return new Future.immediate(false);
 
   // Initializes the system object name.
@@ -124,9 +128,7 @@ Future _initFramework(){
 
 //  _initCSS();
 
-//  if (!reflectionEnabled){
-//    _registerCoreElements();
-//  }
+
 
   //any elements bound to these properties will also get updated...
   window.on.resize.add((e){

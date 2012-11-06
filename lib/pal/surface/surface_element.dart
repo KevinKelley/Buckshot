@@ -33,8 +33,6 @@ abstract class SurfaceElement extends FrameworkObject
   FrameworkProperty<num> opacity;
   /// Represents the [Visibility] property of the FrameworkElement.
   FrameworkProperty<Visibility> visibility;
-  /// Represents the [StyleTemplate] value that is currently applied to the FrameworkElement.
-  FrameworkProperty<StyleTemplate> style;
   /// Represents whether an element is draggable
   FrameworkProperty<bool> draggable;
 
@@ -62,7 +60,6 @@ abstract class SurfaceElement extends FrameworkObject
   void onZOrderChanged(num value);
   void onOpacityChanged(num value);
   void onVisibilityChanged(num value);
-  void onStyleChanged(StyleTemplate value);
   void onDraggableChanged(bool draggable);
 
 
@@ -72,9 +69,6 @@ abstract class SurfaceElement extends FrameworkObject
     draggable = new FrameworkProperty(this, 'draggable',
         propertyChangedCallback: onDraggableChanged,
         converter: const StringToBooleanConverter());
-
-    style = new FrameworkProperty(this, 'style',
-        propertyChangedCallback: onStyleChanged);
 
     visibility = new FrameworkProperty(this, 'visibility',
         propertyChangedCallback: onVisibilityChanged,

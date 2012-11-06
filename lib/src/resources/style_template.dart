@@ -15,8 +15,6 @@ class StyleTemplate extends FrameworkResource
 
   StyleTemplate()
     {
-      _initStyleTemplateProperties();
-
       setters.value.listChanged + _onSettersCollectionChanging;
     }
 
@@ -88,7 +86,9 @@ class StyleTemplate extends FrameworkResource
       });
   }
 
-  void _initStyleTemplateProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     setters = new FrameworkProperty(this, "setters",
         defaultValue:new ObservableList<Setter>());
   }

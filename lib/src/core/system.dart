@@ -115,24 +115,20 @@ Future _initFramework(){
 
 
 
-  //any elements bound to these properties will also get updated...
-  window.on.resize.add((e){
-    if (window.innerWidth != windowWidth){
-      windowWidth.value = window.innerWidth;
-    }
-
-    if (window.innerHeight != windowHeight){
-      windowHeight.value = window.innerHeight;
-    }
-  });
+//  //any elements bound to these properties will also get updated...
+//  window.on.resize.add((e){
+//    if (window.innerWidth != windowWidth){
+//      windowWidth.value = window.innerWidth;
+//    }
+//
+//    if (window.innerHeight != windowHeight){
+//      windowHeight.value = window.innerHeight;
+//    }
+//  });
 
   return _loadTheme()
 //    .chain((_) => _loadResources())
     .chain((_){
-      if (!FrameworkAnimation._started){
-        FrameworkAnimation._startAnimatonLoop();
-      }
-
       _log.info('Framework initialized.');
       return new Future.immediate(true);
     });
@@ -169,18 +165,18 @@ Future _loadResources(){
 //      .deserialize(document.body.attributes['data-buckshot-resources']);
 }
 
-StyleElement _buckshotCSS;
-void _initCSS(){
-  document.head.elements.add(
-      new Element.html('<style id="__BuckshotCSS__"></style>'));
-
-  _buckshotCSS = document.head.query('#__BuckshotCSS__');
-
-  assert(_buckshotCSS != null);
-
-  if (_buckshotCSS == null){
-    _log.warning('Unable to initialize Buckshot StyleSheet.');
-  }
+//StyleElement _buckshotCSS;
+@deprecated void _initCSS(){
+//  document.head.elements.add(
+//      new Element.html('<style id="__BuckshotCSS__"></style>'));
+//
+//  _buckshotCSS = document.head.query('#__BuckshotCSS__');
+//
+//  assert(_buckshotCSS != null);
+//
+//  if (_buckshotCSS == null){
+//    _log.warning('Unable to initialize Buckshot StyleSheet.');
+//  }
 }
 
 
@@ -235,9 +231,9 @@ getObjectByName(String name){
  *
  * Currently only supports desktop browsers.
  */
-void bindToWindowDimensions(FrameworkElement element){
-  bind(windowHeight, element.height);
-  bind(windowWidth, element.width);
+@deprecated void bindToWindowDimensions(FrameworkObject element){
+//  bind(windowHeight, element.height);
+//  bind(windowWidth, element.width);
 }
 
 /**
@@ -246,8 +242,8 @@ void bindToWindowDimensions(FrameworkElement element){
  * Typically you will not need to bind to this directly.  Use the
  * bindToWindowDimensions() function instead.
  */
-FrameworkProperty windowWidth = new FrameworkProperty(
-    buckshot, "windowWidth", defaultValue:window.innerWidth);
+@deprecated FrameworkProperty windowWidth = new FrameworkProperty(
+    buckshot, "windowWidth");//, defaultValue:window.innerWidth);
 
 /**
  * Bindable window height property.
@@ -255,8 +251,8 @@ FrameworkProperty windowWidth = new FrameworkProperty(
  * Typically you will not need to bind to this directly.  Use the
  * bindToWindowDimensions() function instead.
  */
-FrameworkProperty windowHeight = new FrameworkProperty(
-    buckshot, "windowHeight", defaultValue:window.innerHeight);
+@deprecated FrameworkProperty windowHeight = new FrameworkProperty(
+    buckshot, "windowHeight");//, defaultValue:window.innerHeight);
 
 
 /**
@@ -289,7 +285,7 @@ void registerGlobalEventHandler(String handlerName, EventHandler handler){
  * values for the root container, but you can also set other typical [Border]
  * properties like borderWidth, borderThickness, etc.
  */
-Future<FrameworkElement> setView(View view, [String elementID = 'BuckshotHost'])
+Future<FrameworkObject> setView(View view, [String elementID = 'BuckshotHost'])
 {
   throw const NotImplementedException();
 //  final el = query('#${elementID}');
@@ -393,7 +389,7 @@ Future _functionToFuture(Function f){
   void doIt(foo) => c.complete(f());
 
   try{
-    window.requestAnimationFrame(doIt);
+    new Timer(0, doIt);
   }on Exception catch (e){
     c.completeException(e);
   }

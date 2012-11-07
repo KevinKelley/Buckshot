@@ -51,10 +51,10 @@ part 'src/binding/binding.dart';
 part 'src/binding/binding_mode.dart';
 part 'src/binding/binding_data.dart';
 
-part 'src/elements/actions/action_base.dart';
-part 'src/elements/actions/play_animation.dart';
-part 'src/elements/actions/set_property.dart';
-part 'src/elements/actions/toggle_property.dart';
+part 'src/actions/action_base.dart';
+part 'src/actions/play_animation.dart';
+part 'src/actions/set_property.dart';
+part 'src/actions/toggle_property.dart';
 
 part 'src/converters/string_to_numeric.dart';
 part 'src/converters/string_to_thickness.dart';

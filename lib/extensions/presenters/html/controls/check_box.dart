@@ -25,30 +25,38 @@ class CheckBox extends Control
 
   CheckBox()
   {
-    Browser.appendClass(rawElement, 'checkbox');
-    _initProperties();
-    _initEvents();
-
     registerEvent('selectionchanged', selectionChanged);
   }
 
   CheckBox.register() : super.register();
   makeMe() => new CheckBox();
 
-  void _initProperties(){
-    value = new FrameworkProperty(this, 'value', (String v){
-      rawElement.attributes['value'] = v;
-    });
+  @override void initProperties(){
+    super.initProperties();
 
-    groupName = new FrameworkProperty(this, 'groupName', (String v){
-      rawElement.attributes['name'] = v;
-    }, 'default');
+    value = new FrameworkProperty(this, 'value',
+      propertyChangedCallback: (String v){
+        rawElement.attributes['value'] = v;
+      });
+
+    groupName = new FrameworkProperty(this, 'groupName',
+      propertyChangedCallback: (String v){
+        rawElement.attributes['name'] = v;
+      },
+      defaultValue: 'default');
   }
 
-  void _initEvents(){
-    click + (_, __){
-      selectionChanged.invoke(this, new EventArgs());
-    };
+  @override void initEvents(){
+    super.initEvents();
+
+//    click + (_, __){
+//      selectionChanged.invoke(this, new EventArgs());
+//    };
+  }
+
+  @override void createPrimitive(){
+    rawElement = new InputElement();
+    rawElement.attributes['type'] = 'checkbox';
   }
 
   /// Gets whether the check box is checked.
@@ -56,11 +64,6 @@ class CheckBox extends Control
     InputElement inputElement = rawElement as InputElement;
 
     return inputElement.checked;
-  }
-
-  void createElement(){
-    rawElement = new InputElement();
-    rawElement.attributes['type'] = 'checkbox';
   }
 
   /// Manually sets this checkbox as the selected one of a group.

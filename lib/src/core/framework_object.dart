@@ -566,14 +566,14 @@ abstract class FrameworkObject
     if (_dataContextUpdated) return;
     _dataContextUpdated = true;
 
-    //log('updating data context', element: this, logLevel: Level.WARNING);
+    //log('updating data context $this', element: this, logLevel: Level.WARNING);
     //TODO: Support multiple datacontext updates
 
     final dcs = _resolveAllDataContexts();
 
-    if (dcs.isEmpty) return;
-
     //log('data contexts: ${dcs}', element: this);
+
+    if (dcs.isEmpty) return;
 
     _wireEventBindings(dcs);
 

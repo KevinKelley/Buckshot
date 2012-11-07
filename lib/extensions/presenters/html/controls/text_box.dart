@@ -61,7 +61,7 @@ class TextBox extends Control
     inputType = new FrameworkProperty(this, "inputType",
       propertyChangedCallback:
         (InputTypes value){
-          if (InputTypes._isValidInputType(value)){
+          if (InputTypes.isValidInputType(value)){
             rawElement.attributes["type"] = value.toString();
           }else{
             throw new BuckshotException("Invalid input '${value}' type passed to"
@@ -224,7 +224,7 @@ class TextChangedEventArgs extends EventArgs {
   TextChangedEventArgs.with(this.oldText, this.newText);
 }
 
-interface IValidatable
+abstract class IValidatable
 {
   bool isValid;
 

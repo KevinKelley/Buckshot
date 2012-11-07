@@ -21,51 +21,48 @@ class DropDownList extends Control
   FrameworkEvent<SelectedItemChangedEventArgs<DropDownItem>> selectionChanged =
       new FrameworkEvent<SelectedItemChangedEventArgs<DropDownItem>>();
 
-  DropDownList()
-  {
-    Browser.appendClass(rawElement, "dropdownlist");
-    _initDropDownListProperties();
-
-    registerEvent('selectionchanged', selectionChanged);
+  DropDownList(){
+    registerElement(new DropDownItem.register());
   }
-
   DropDownList.register() : super.register();
   makeMe() => new DropDownList();
 
-  void _initDropDownListProperties(){
+  @override void initEvents(){
+    super.initEvents();
+
+    registerEvent('selectionchanged', selectionChanged);
+
+    rawElement.on.change.add((e) => doNotify());
+  }
+
+  @override void initProperties(){
+    super.initProperties();
+
     items = new FrameworkProperty(this, "items",
         defaultValue:new ObservableList<DropDownItem>());
 
     itemsSource = new FrameworkProperty(this, "itemsSource",
+      propertyChangedCallback:
         (List<String> v){
-          _updateDDL();
+          _invalidate();
         });
 
     selectedItem = new FrameworkProperty(this, "selectedItem",
         defaultValue:new DropDownItem());
-
-    items.value.listChanged + (_, __) {
-      if (!isLoaded) return;
-      _updateDDL();
-    };
-
-
-
-    rawElement.on.change.add((e) => doNotify());
   }
 
   void doNotify(){
     DropDownItem selected;
     final el = rawElement as SelectElement;
 
-    if (itemsSource.value != null && !itemsSource.value.isEmpty()) {
-      selectedItem.value.name.value = itemsSource.value[el.selectedIndex];
+    if (itemsSource.value != null && !itemsSource.value.isEmpty) {
       selectedItem.value.item.value = itemsSource.value[el.selectedIndex];
-      selected = selectedItem.value.item.value;
-    }else if (!items.value.isEmpty()){
+      selectedItem.value.value.value = itemsSource.value[el.selectedIndex];
+      selected = selectedItem.value;
+    }else if (!items.value.isEmpty){
       selected = items.value[el.selectedIndex];
-      selectedItem.value.name.value = selected.name.value;
       selectedItem.value.item.value = selected.item.value;
+      selectedItem.value.value.value = selected.value.value;
     }
 
     if (selected != null){
@@ -75,12 +72,22 @@ class DropDownList extends Control
     }
   }
 
-  void onLoaded(){
-    _updateDDL();
+  @override void onFirstLoad(){
+    super.onFirstLoad();
+
+    items.value.listChanged + (_, __) {
+      _invalidate();
+    };
+  }
+
+  @override void onLoaded(){
+    super.onLoaded();
+
+    _invalidate();
     doNotify();
   }
 
-  void _updateDDL(){
+  void _invalidate(){
     rawElement.elements.clear();
 
     if (itemsSource.value != null){
@@ -94,16 +101,16 @@ class DropDownList extends Control
     }else{
       items.value.forEach((DropDownItem i){
         var option = new OptionElement();
-        option.attributes['value'] = i.item.value;
-        option.text = i.name.value;
-
+        option.attributes['value'] = i.value.value;
+        option.text = '${i.item.value}';
         rawElement.elements.add(option);
       });
     }
   }
 
-  /// Overridden [FrameworkObject] method for generating the html representation of the DDL.
-  void createElement(){
+  /// Overridden [FrameworkObject] method for generating the html
+  /// representation of the DDL.
+  @override void createPrimitive(){
     rawElement = new Element.tag('select');
   }
 
@@ -113,7 +120,8 @@ class DropDownList extends Control
 
 class DropDownItem extends FrameworkObject
 {
-  FrameworkProperty<dynamic> item;
+  FrameworkProperty<dynamic> value;
+  FrameworkProperty<String> item;
 
   DropDownItem();
   DropDownItem.register() : super.register();
@@ -122,6 +130,7 @@ class DropDownItem extends FrameworkObject
   @override void initProperties(){
     super.initProperties();
 
-    item = new FrameworkProperty(this, 'value');
+    item = new FrameworkProperty(this, 'item');
+    value = new FrameworkProperty(this, 'value');
   }
 }

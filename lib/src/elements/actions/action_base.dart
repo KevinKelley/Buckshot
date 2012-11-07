@@ -84,7 +84,7 @@ abstract class ActionBase extends FrameworkObject
     }
   }
 
-  abstract void onEventTrigger();
+  void onEventTrigger();
 
   /// Helper method used to set the target for the given action.
   /// Should

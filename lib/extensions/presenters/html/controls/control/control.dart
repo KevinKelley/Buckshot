@@ -28,7 +28,7 @@ abstract class Control
    * * String: Expects the string to be a control template.
    * * ControlTemplate: A concrete control template.
    */
-  abstract get defaultControlTemplate;
+  get defaultControlTemplate;
 
   bool _visualTemplateApplied = false;    // flags if visual template applied
   bool _templateApplied = false;          // flags if a template was used during applyVisualTemplate();
@@ -75,9 +75,8 @@ abstract class Control
         .deserialize(defaultControlTemplate)
         .then((_) => _finishApplyVisualTemplate(tName));
     }else{
-      final tName = templateName;
-      assert(tName != null);
-      assert(!tName.isEmpty);
+      assert(templateName != null);
+      assert(!templateName.isEmpty);
       _finishApplyVisualTemplate('');
     }
   }
@@ -103,11 +102,11 @@ abstract class Control
   }
 
   @override void onLoaded(){
+    super.onLoaded();
     //returning if we have already done this, or if no template was actually used for this control
     if (_templateBindingsApplied || !_templateApplied) return;
     _templateBindingsApplied = true;
     _bindTemplateBindings();
-    super.onLoaded();
   }
 
   @override void onUnloaded(){

@@ -5,7 +5,8 @@ part of core_buckshotui_org;
 // See LICENSE file for Apache 2.0 licensing information.
 
 /** Enumerates Input types. */
-class InputTypes{
+class InputTypes
+{
   final String _str;
   const InputTypes(this._str);
 
@@ -35,9 +36,8 @@ class InputTypes{
                          url,
                          week];
 
-  static bool _isValidInputType(InputTypes candidate){
-    return validInputTypes.indexOf(candidate, 0) > -1;
-  }
+  static bool isValidInputType(InputTypes candidate) =>
+    validInputTypes.indexOf(candidate, 0) > -1;
 
   String toString() => _str;
 }

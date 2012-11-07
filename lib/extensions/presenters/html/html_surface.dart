@@ -7,6 +7,7 @@ library html_surface_buckshot;
 import 'dart:html';
 import 'package:xml/xml.dart';
 import 'package:buckshot/pal/box_model_surface/box_model_surface.dart';
+import 'package:buckshot/web/web.dart';
 export 'package:buckshot/pal/box_model_surface/box_model_surface.dart';
 
 //html included controls
@@ -116,6 +117,7 @@ class HtmlSurface extends Surface
 
     if (element is HtmlSurfaceElement){
       surfaceElement[element.rawElement] = element;
+      Browser.appendClass(element.rawElement, '$element');
     }
   }
 

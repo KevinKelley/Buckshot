@@ -22,30 +22,32 @@ class RadioButton extends Control
 
   RadioButton()
   {
-    Browser.appendClass(rawElement, 'radiobutton');
-    _initProperties();
-    _initEvents();
-
     registerEvent('selectionchanged', selectionChanged);
   }
 
   RadioButton.register() : super.register();
   makeMe() => new RadioButton();
 
-  void _initProperties(){
-    value = new FrameworkProperty(this, 'value', (String v){
-      rawElement.attributes['value'] = v;
-    });
+  @override void initProperties(){
+    super.initProperties();
 
-    groupName = new FrameworkProperty(this, 'groupName', (String v){
-      rawElement.attributes['name'] =  v;
-    }, 'default');
+    value = new FrameworkProperty(this, 'value',
+      propertyChangedCallback: (String v){
+        rawElement.attributes['value'] = v;
+      });
+
+    groupName = new FrameworkProperty(this, 'groupName',
+      propertyChangedCallback: (String v){
+        rawElement.attributes['name'] =  v;
+      },
+      defaultValue: 'default');
   }
 
-  void _initEvents(){
-    click + (_, __){
-      selectionChanged.invoke(this, new EventArgs());
-    };
+  @override void initEvents(){
+    super.initEvents();
+//    click + (_, __){
+//      selectionChanged.invoke(this, new EventArgs());
+//    };
   }
 
   /// Gets whether the check box is checked.
@@ -55,7 +57,7 @@ class RadioButton extends Control
     return inputElement.checked;
   }
 
-  void createElement(){
+  @override void createPrimitive(){
     rawElement = new InputElement();
     rawElement.attributes['type'] = 'radio';
   }

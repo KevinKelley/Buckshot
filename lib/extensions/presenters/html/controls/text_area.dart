@@ -8,8 +8,9 @@ import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 // See LICENSE file for Apache 2.0 licensing information.
 
 /**
-* A multi-line text box element.
-* See:
+* A multi-line text box input element.
+*
+* ## See Also ##
 * * [TextBox]
 * * [TextBlock]
 */
@@ -32,50 +33,42 @@ class TextArea extends Control
   FrameworkProperty<String> fontFamily;
 
   TextArea(){
-    Browser.appendClass(rawElement, "textarea");
-
-    _initProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = text;
-
-    _initEvents();
-
-    registerEvent('textchanged', textChanged);
-
     userSelect.value = true;
   }
 
   TextArea.register() : super.register();
   makeMe() => new TextArea();
 
-  void _initProperties(){
+  @override initProperties(){
+    super.initProperties();
 
     placeholder = new FrameworkProperty(
       this,
       "placeholder",
-      (String value){
-        (rawElement as TextAreaElement).attributes["placeholder"] = value;
+      propertyChangedCallback: (String value){
+        (rawElement as TextAreaElement).attributes["placeholder"] = '$value';
       });
 
 
-    text = new FrameworkProperty(this, "text", (String value){
-      (rawElement as TextAreaElement).value = value;
-    },"");
+    text = new FrameworkProperty(this, "text",
+      propertyChangedCallback: (String value){
+        (rawElement as TextAreaElement).value = value;
+      },
+      defaultValue: "");
 
-    spellcheck= new FrameworkProperty(this, "spellcheck", (bool value){
-      (rawElement as TextAreaElement).attributes["spellcheck"] = value.toString();
-    }, converter:const StringToBooleanConverter());
+    spellcheck= new FrameworkProperty(this, "spellcheck",
+      propertyChangedCallback: (bool value){
+        (rawElement as TextAreaElement).attributes["spellcheck"] = '$value';
+      },
+      converter:const StringToBooleanConverter());
 
     background = new AnimatingFrameworkProperty(
         this,
         "background",
         'background',
         propertyChangedCallback:(Brush value){
-          if (value == null){
-            rawElement.style.background = "None";
-            return;
-          }
-          value.renderBrush(rawElement);
+          _setFill(value);
         },
         defaultValue: getResource('theme_textarea_background'),
         converter:const StringToSolidColorBrushConverter());
@@ -86,7 +79,7 @@ class TextArea extends Control
         },
         defaultValue:
           getResource('theme_textarea_border_style',
-                      const StringToBorderStyleConverter()),
+                      converter: const StringToBorderStyleConverter()),
         converter: const StringToBorderStyleConverter());
 
     cornerRadius = new AnimatingFrameworkProperty(
@@ -121,7 +114,7 @@ class TextArea extends Control
     borderThickness = new FrameworkProperty(
       this,
       "borderThickness",
-      (value){
+      propertyChangedCallback: (value){
 
         String color = borderColor != null
             ? rawElement.style.borderColor
@@ -140,7 +133,7 @@ class TextArea extends Control
     padding = new FrameworkProperty(
         this,
         "padding",
-        (Thickness value){
+        propertyChangedCallback: (Thickness value){
           rawElement.style.padding = '${value.top}px ${value.right}px'
             ' ${value.bottom}px ${value.left}px';
           updateLayout();
@@ -152,7 +145,7 @@ class TextArea extends Control
     foreground = new FrameworkProperty(
         this,
         "foreground",
-        (Color c){
+        propertyChangedCallback: (Color c){
           rawElement.style.color = c.toColorString();
         },
         defaultValue: getResource('theme_textarea_foreground'),
@@ -161,20 +154,24 @@ class TextArea extends Control
     fontSize = new FrameworkProperty(
       this,
       "fontSize",
-      (value){
+      propertyChangedCallback: (value){
         rawElement.style.fontSize = '${value}px';
       });
 
     fontFamily = new FrameworkProperty(
       this,
       "fontFamily",
-      (value){
+      propertyChangedCallback: (value){
         rawElement.style.fontFamily = '$value';
-      }, defaultValue:getResource('theme_textarea_font_family'));
+      },
+      defaultValue:getResource('theme_textarea_font_family'));
   }
 
 
-  void _initEvents(){
+  @override void initEvents(){
+    super.initEvents();
+
+    registerEvent('textchanged', textChanged);
 
     (rawElement as TextAreaElement).on.keyUp.add((e){
       if (text == (rawElement as TextAreaElement).value) return; //no change from previous keystroke
@@ -202,9 +199,80 @@ class TextArea extends Control
 
   }
 
-  void createElement(){
+  @override void createPrimitive(){
     rawElement = new TextAreaElement();
   }
 
   get defaultControlTemplate => '';
+
+  void _setFill(Brush brush){
+    if (brush is SolidColorBrush){
+      rawElement.style.background =
+          '${brush.color.value.toColorString()}';
+    }else if (brush is LinearGradientBrush){
+      rawElement.style.background =
+          brush.fallbackColor.value.toColorString();
+
+      final colorString = new StringBuffer();
+
+      //create the string of stop colors
+      brush.stops.value.forEach((GradientStop stop){
+        colorString.add(stop.color.value.toColorString());
+
+        if (stop.percent.value != -1) {
+          colorString.add(" ${stop.percent.value}%");
+        }
+
+        if (stop != brush.stops.value.last) {
+          colorString.add(", ");
+        }
+      });
+
+      //set the background for all browser types
+      rawElement.style.background =
+          "-webkit-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "-moz-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "-ms-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "-o-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "linear-gradient(${brush.direction.value}, ${colorString})";
+    }else if (brush is RadialGradientBrush){
+      //set the fallback
+      rawElement.style.background = brush.fallbackColor.value.toColorString();
+
+      final colorString = new StringBuffer();
+
+      //create the string of stop colors
+      brush.stops.value.forEach((GradientStop stop){
+        colorString.add(stop.color.value.toColorString());
+
+        if (stop.percent.value != -1) {
+          colorString.add(" ${stop.percent.value}%");
+        }
+
+        if (stop != brush.stops.value.last) {
+          colorString.add(", ");
+        }
+      });
+
+      //set the background for all browser types
+      rawElement.style.background =
+        "-webkit-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "-moz-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "-ms-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "-o-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+    }else{
+      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
+      rawElement.style.background =
+          new SolidColorBrush.fromPredefined(Colors.White);
+    }
+  }
 }

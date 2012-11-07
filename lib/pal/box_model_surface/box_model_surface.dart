@@ -15,7 +15,4 @@ part 'src/elements/surface_image.dart';
 part 'src/elements/surface_content_presenter.dart';
 part 'src/elements/surface_collection_presenter.dart';
 
-abstract class BoxModelSurface extends Surface
-{
-
-}
+abstract class BoxModelSurface extends Surface {}

@@ -7,8 +7,7 @@ library webglcanvas_canvas_controls_buckshot;
 import 'dart:html';
 import 'package:buckshot/buckshot.dart';
 import 'package:dartnet_event_model/events.dart';
-import 'package:buckshot/web/web.dart';
-import 'package:buckshot/extensions/controls/canvas/canvas_base.dart';
+import 'package:buckshot/extensions/controls/html/canvas/canvas_base.dart';
 
 /**
  * A 3D canvas to draw to.
@@ -17,26 +16,20 @@ class WebGLCanvas extends CanvasBase
 {
   WebGLRenderingContext _context;
 
-  WebGLCanvas(){
-    Browser.appendClass(rawElement, 'webglcanvas');
-  }
-
   WebGLRenderingContext get context => _context;
 
+  WebGLCanvas();
   WebGLCanvas.register() : super.register();
   makeMe() => new WebGLCanvas();
 
-  void onLoaded() {
+  @override void onLoaded() {
     super.onLoaded();
-
     CanvasElement canvas = rawElement as CanvasElement;
-
     _context = canvas.getContext('experimental-webgl');
   }
 
-  void onUnloaded() {
+  @override void onUnloaded() {
     super.onUnloaded();
-
     _context = null;
   }
 }

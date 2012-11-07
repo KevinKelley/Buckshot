@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // Apache-style license that can be found in the LICENSE file.
 
-library webglcanvas_canvas_controls_buckshot;
+library canvas_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/buckshot.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 /**
  * Event for when a frame changes.
@@ -21,7 +21,7 @@ class FrameEventArgs extends EventArgs
 /**
  * Base class for canvas drawing.
  */
-class CanvasBase extends FrameworkElement
+class CanvasBase extends Control
 {
   /// Next canvas identifier to hand out
   static int _nextCanvasId = 0;
@@ -43,44 +43,48 @@ class CanvasBase extends FrameworkElement
 
   CanvasBase() {
     _canvasId = _nextCanvasId++;
-
-    _initCanvasProperties();
-    _initCanvasEvents();
-
-    registerEvent('frame', frame);
   }
+  CanvasBase.register() : super.register();
 
-  void createElement() {
+  @override void createPrimitive() {
     rawElement = new CanvasElement();
   }
-
-  CanvasBase.register() : super.register();
 
   void onLoaded() {
     super.onLoaded();
 
-    FrameworkAnimation.workers[_name] = _frameHandler;
+    htmlPresenter.workers[_name] = _frameHandler;
   }
 
   void onUnloaded() {
     super.onUnloaded();
 
-    FrameworkAnimation.workers.remove(_name);
+    htmlPresenter.workers.remove(_name);
   }
 
-  String get _name => "canvas_${_canvasId}";
+  String get _name => '__canvas_${_canvasId}__';
 
-  void _initCanvasProperties() {
-    surfaceWidth = new FrameworkProperty(this, "surfaceWidth", (num v){
-      rawElement.attributes["width"] = '$v';
-    }, 640, converter:const StringToNumericConverter());
+  @override void initProperties() {
+    super.initProperties();
 
-    surfaceHeight = new FrameworkProperty(this, "surfaceHeight", (num v){
-      rawElement.attributes["height"] = '$v';
-    }, 480, converter:const StringToNumericConverter());
+    surfaceWidth = new FrameworkProperty(this, 'surfaceWidth',
+      propertyChangedCallback: (num v){
+        rawElement.attributes['width'] = '$v';
+      },
+      defaultValue: 640,
+      converter:const StringToNumericConverter());
+
+    surfaceHeight = new FrameworkProperty(this, 'surfaceHeight',
+      propertyChangedCallback: (num v){
+        rawElement.attributes['height'] = '$v';
+      },
+      defaultValue: 480,
+      converter:const StringToNumericConverter());
   }
 
-  void _initCanvasEvents() {
+  @override void initEvents() {
+    super.initEvents();
+    registerEvent('frame', frame);
     frame = new FrameworkEvent<FrameEventArgs>();
   }
 

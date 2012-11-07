@@ -96,6 +96,7 @@ class HtmlSurface extends Surface
     }
 
     _setMutationObserver(_rootDiv);
+    _startEventLoop();
   }
 
   String get namespace => 'http://surface.buckshotui.org/html';
@@ -120,7 +121,6 @@ class HtmlSurface extends Surface
       Browser.appendClass(element.rawElement, '$element');
     }
   }
-
 
   /**
    * Returns a [Future] containing the bounding position and dimensions of the
@@ -173,6 +173,16 @@ class HtmlSurface extends Surface
 //    surfaceElement[p.rawElement] = element;
 //    return p;
 //  }
+
+  void _startEventLoop(){
+    workers = new HashMap<String, EventLoopCallback>();
+    window.requestAnimationFrame(_doEventLoopWork);
+  }
+
+  void _doEventLoopWork(int time){
+    workers.forEach((_, work) => work(time));
+    window.requestAnimationFrame(_doEventLoopWork);
+  }
 
   void _setMutationObserver(Element element){
     new MutationObserver(_mutationHandler)

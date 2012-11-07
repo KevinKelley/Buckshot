@@ -22,14 +22,23 @@ set presenter(Presenter newProvider){
 }
 
 /**
+ * A generic callback type definition for presenter event loops.
+ */
+typedef void EventLoopCallback(num time);
+
+/**
  * Base contract for PAL providers.
  */
 abstract class Presenter
 {
+  HashMap<String, EventLoopCallback> workers;
+
   String get namespace;
 
   /** Initializes the given [element] to the [Presenter]. */
   void initElement(PresenterElement element);
+
+  Presenter();
 }
 
 /**

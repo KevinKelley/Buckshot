@@ -2,35 +2,32 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library plusone_social_controls_buckshot;
+library plusone_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/buckshot.dart';
-import 'package:buckshot/web/web.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 /**
-* Implements a Google+ +1 button element.
+* Implements a Google+ +1 button element for [HtmlSurface].
 */
-class PlusOne extends FrameworkElement
+class PlusOne extends Control
 {
   final String _plusOneJS =
 '''
 (function() {
-  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+  var po = document.createElement('script'); 
+  po.type = 'text/javascript'; 
+  po.async = true;
   po.src = 'https://apis.google.com/js/plusone.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(po, s);
 })();
 ''';
 
   FrameworkProperty<PlusOneAnnotationTypes> annotation;
   FrameworkProperty<PlusOneButtonSizes> size;
 
-  PlusOne(){
-    Browser.appendClass(rawElement, "buckshot_plusone");
-
-    _initializePlusOneProperties();
-  }
-
+  PlusOne();
   PlusOne.register() : super.register();
   makeMe() => new PlusOne();
 
@@ -38,15 +35,18 @@ class PlusOne extends FrameworkElement
     _inject(_plusOneJS);
   }
 
-  void _initializePlusOneProperties(){
-    annotation = new FrameworkProperty(this, "annotation", (PlusOneAnnotationTypes value){
+  @override void initProperties(){
+    super.initProperties();
+
+    annotation = new FrameworkProperty(this, "annotation",
+    propertyChangedCallback: (PlusOneAnnotationTypes value){
       rawElement.attributes["annotation"] = value.toString();
     },
     defaultValue:PlusOneAnnotationTypes.none,
     converter:const StringToPlusOneAnnotationTypeConverter());
 
     size = new FrameworkProperty(this, "size",
-    (PlusOneButtonSizes value){
+    propertyChangedCallback: (PlusOneButtonSizes value){
       rawElement.attributes["size"] = value.toString();
     },
     defaultValue:PlusOneButtonSizes.standard,
@@ -67,12 +67,13 @@ class PlusOne extends FrameworkElement
     }
   }
 
-
-  void createElement(){
+  @override void createPrimitive(){
     rawElement = new Element.tag("g:plusone");
     rawElement.attributes["annotation"] = "none";
     rawElement.attributes["size"] = "standard";
   }
+
+  get defaultControlTemplate => '';
 }
 
 class PlusOneButtonSizes{
@@ -99,44 +100,44 @@ class PlusOneAnnotationTypes{
 }
 
 
-class StringToPlusOneButtonSizeConverter implements IValueConverter{
+class StringToPlusOneButtonSizeConverter implements ValueConverter
+{
   const StringToPlusOneButtonSizeConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
-      if (!(value is String)) return value;
+  @override dynamic convert(dynamic value, {dynamic parameter}){
+    if (!(value is String)) return value;
 
-      switch(value){
-        case "small":
-          return PlusOneButtonSizes.small;
-        case "medium":
-          return PlusOneButtonSizes.medium;
-        case "large":
-          return PlusOneButtonSizes.large;
-        case "standard":
-          return PlusOneButtonSizes.standard;
-        default:
-          return PlusOneButtonSizes.standard;
-      }
-
+    switch(value){
+      case "small":
+        return PlusOneButtonSizes.small;
+      case "medium":
+        return PlusOneButtonSizes.medium;
+      case "large":
+        return PlusOneButtonSizes.large;
+      case "standard":
+        return PlusOneButtonSizes.standard;
+      default:
+        return PlusOneButtonSizes.standard;
+    }
   }
 }
 
-class StringToPlusOneAnnotationTypeConverter implements IValueConverter{
+class StringToPlusOneAnnotationTypeConverter implements ValueConverter
+{
   const StringToPlusOneAnnotationTypeConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
-      if (!(value is String)) return value;
+  @override dynamic convert(dynamic value, {dynamic parameter}){
+    if (!(value is String)) return value;
 
-      switch(value){
-        case "inline":
-          return PlusOneAnnotationTypes.inline;
-        case "bubble":
-          return PlusOneAnnotationTypes.bubble;
-        case "none":
-          return PlusOneAnnotationTypes.none;
-        default:
-          return PlusOneAnnotationTypes.none;
-      }
-
+    switch(value){
+      case "inline":
+        return PlusOneAnnotationTypes.inline;
+      case "bubble":
+        return PlusOneAnnotationTypes.bubble;
+      case "none":
+        return PlusOneAnnotationTypes.none;
+      default:
+        return PlusOneAnnotationTypes.none;
+    }
   }
 }

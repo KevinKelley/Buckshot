@@ -1,8 +1,9 @@
 library surface_buckshot;
 import 'package:buckshot/buckshot.dart';
 export 'package:buckshot/buckshot.dart';
-part 'measurement_changed_event_args.dart';
-part 'surface_element.dart';
+part 'src/measurement_changed_event_args.dart';
+part 'src/surface_element.dart';
+part 'src/surface_point.dart';
 
 
 Surface surfacePresenter = presenter as Surface;

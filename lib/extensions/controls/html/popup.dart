@@ -1,8 +1,8 @@
-library popup_controls_buckshot;
+library popup_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/buckshot.dart';
-import 'package:dartnet_event_model/events.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+//import 'package:dartnet_event_model/events.dart';
 
 /**
  * A popup control that hovers over a given element.
@@ -63,24 +63,19 @@ class Popup extends Control
   FrameworkProperty<Thickness> cornerRadius;
   FrameworkProperty<dynamic> content;
 
-  FrameworkElement _target;
+  HtmlSurfaceElement _target;
   EventHandlerReference _ref;
-  SafePoint _currentPos;
+  SurfacePoint _currentPos;
   static Popup _currentPopup;
 
-  Popup(){
-    _initPopupProperties();
-  }
-
-  Popup.with(FrameworkElement popupContent){
-    _initPopupProperties();
+  Popup();
+  Popup.with(HtmlSurfaceElement popupContent){
     content.value = popupContent;
   }
-
   Popup.register() : super.register();
-  makeMe() => new Popup();
+  @override makeMe() => new Popup();
 
-  Future show([FrameworkElement target = null]){
+  Future show([HtmlSurfaceElement target = null]){
     if (_currentPopup != null) _currentPopup.hide();
 
     if (target == null || !target.isLoaded){
@@ -96,11 +91,11 @@ class Popup extends Control
       _currentPopup = this;
       return new Future.immediate(true);
     }else{
-      return target
-        .updateMeasurementAsync
-        .chain((ElementRect r){
-          rawElement.style.left = '${offsetX.value + r.bounding.left}px';
-          rawElement.style.top = '${offsetY.value + r.bounding.top}px';
+      return htmlPresenter
+        .measure(target)
+        .chain((RectMeasurement r){
+          rawElement.style.left = '${offsetX.value + r.left}px';
+          rawElement.style.top = '${offsetY.value + r.top}px';
           document.body.elements.add(rawElement);
 
           // manually trigger loaded state since we aren't adding this
@@ -119,13 +114,16 @@ class Popup extends Control
     _currentPopup = null;
   }
 
-  void _initPopupProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     background = new FrameworkProperty(this, 'background',
         defaultValue: getResource('theme_popup_background_brush'),
         converter: const StringToSolidColorBrushConverter());
 
     borderColor = new FrameworkProperty(this, 'borderColor',
-        defaultValue: getResource('theme_popup_border_color'),
+        defaultValue: getResource('theme_popup_border_color',
+                                  converter: const StringToColorConverter()),
         converter: const StringToColorConverter());
 
     borderThickness = new FrameworkProperty(this, 'borderThickness',

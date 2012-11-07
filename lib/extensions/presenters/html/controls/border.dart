@@ -116,8 +116,6 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
     rawElement.style.borderColor = color.toColorString();
   }
 
-
-
   @override void onUserSelectChanged(bool value){
       rawElement.style.userSelect = value ? 'all' : 'none';
   }

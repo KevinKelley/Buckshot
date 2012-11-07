@@ -3,17 +3,17 @@ library box_model_surface_buckshot;
 import 'package:buckshot/pal/surface/surface.dart';
 export 'package:buckshot/pal/surface/surface.dart';
 
-part 'box_model_surface_element.dart';
-part 'elements/scroll_setting.dart';
-part 'elements/border_style.dart';
-part 'elements/string_to_border_style.dart';
-part 'elements/surface_border.dart';
-part 'elements/surface_text.dart';
-part 'elements/surface_stack.dart';
-part 'elements/surface_scroll_viewer.dart';
-part 'elements/surface_image.dart';
-part 'elements/surface_content_presenter.dart';
-part 'elements/surface_collection_presenter.dart';
+part 'src/box_model_surface_element.dart';
+part 'src/elements/scroll_setting.dart';
+part 'src/elements/border_style.dart';
+part 'src/elements/string_to_border_style.dart';
+part 'src/elements/surface_border.dart';
+part 'src/elements/surface_text.dart';
+part 'src/elements/surface_stack.dart';
+part 'src/elements/surface_scroll_viewer.dart';
+part 'src/elements/surface_image.dart';
+part 'src/elements/surface_content_presenter.dart';
+part 'src/elements/surface_collection_presenter.dart';
 
 abstract class BoxModelSurface extends Surface
 {

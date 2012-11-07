@@ -2,10 +2,10 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library  modaldialog_controls_buckshotui_org;
+library modaldialog_control_extensions_buckshot;
 
-import 'package:buckshot/buckshot.dart';
-import 'package:logging/logging.dart';
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 /**
 * Displays a general purpose modal dialog and returns results.

@@ -61,13 +61,6 @@ class Color extends FrameworkResource
   }
 
   /// Returns the string representation of the color.
-  String toColorString() => value.value;
+  String toColorString() => '${value.value}';
 
-  /**
-   * This is a convenience method that gracefully handles accidental
-   * assignments to properties that are actually of type Brush.
-   */
-  void renderBrush(element){
-    element.style.background = "${value.value}";
-  }
 }

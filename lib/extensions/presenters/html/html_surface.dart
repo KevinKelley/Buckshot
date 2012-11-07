@@ -20,7 +20,7 @@ import 'package:buckshot/extensions/presenters/html/controls/content_presenter.d
 import 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
 import 'package:buckshot/extensions/presenters/html/controls/slider.dart';
 import 'package:buckshot/extensions/presenters/html/controls/button.dart';
-import 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
+import 'package:buckshot/extensions/presenters/html/controls/control.dart';
 import 'package:buckshot/extensions/presenters/html/controls/check_box.dart';
 import 'package:buckshot/extensions/presenters/html/controls/radio_button.dart';
 import 'package:buckshot/extensions/presenters/html/controls/text_box.dart';
@@ -35,7 +35,7 @@ export 'package:buckshot/extensions/presenters/html/controls/scroll_viewer.dart'
 export 'package:buckshot/extensions/presenters/html/controls/image.dart';
 export 'package:buckshot/extensions/presenters/html/controls/content_presenter.dart';
 export 'package:buckshot/extensions/presenters/html/controls/collection_presenter.dart';
-export 'package:buckshot/extensions/presenters/html/controls/control/control.dart';
+export 'package:buckshot/extensions/presenters/html/controls/control.dart';
 export 'package:buckshot/extensions/presenters/html/controls/slider.dart';
 export 'package:buckshot/extensions/presenters/html/controls/button.dart';
 export 'package:buckshot/extensions/presenters/html/controls/check_box.dart';
@@ -45,7 +45,7 @@ export 'package:buckshot/extensions/presenters/html/controls/text_area.dart';
 export 'package:buckshot/extensions/presenters/html/controls/hyperlink.dart';
 export 'package:buckshot/extensions/presenters/html/controls/drop_down_list.dart';
 
-part 'html_surface_element.dart';
+part 'src/html_surface_element.dart';
 
 /**
  * Initializes the Buckshot framework to use the [HtmlSurface] presenter.

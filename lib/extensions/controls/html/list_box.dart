@@ -64,17 +64,17 @@ class ListBox extends Control implements FrameworkContainer
     return
     '''<controltemplate controlType="${this.templateName}">
           <template>
-            <border bordercolor="{resource theme_border_color}"
+            <border bordercolor='{resource theme_border_color}'
                     background='{resource theme_light_brush}'
-                    borderthickness="{resource theme_border_thickness}" 
+                    borderthickness='{resource theme_border_thickness}' 
                     name="__buckshot_listbox_border__"
                     cursor="Arrow">
-                <scrollviewer hscroll="{template hScroll}" 
-                              vscroll="{template vScroll}"
-                              halign='stretch'
-                              valign='stretch'>
-                  <collectionPresenter name="__buckshot_listbox_presenter__" />
-                </scrollviewer>
+              <scrollviewer hscroll='{template hScroll}' 
+                            vscroll='{template vScroll}'
+                            halign='stretch'
+                            valign='stretch'>
+                <collectionPresenter name='__buckshot_listbox_presenter__' />
+              </scrollviewer>
             </border>
           </template>
         </controltemplate>

@@ -11,7 +11,7 @@ class ScrollSetting
 
   static const visible = const ScrollSetting('scroll');
   static const hidden = const ScrollSetting('hidden');
-  static const auto = const ScrollSetting('auto');
+  static const auto = const ScrollSetting('scroll');
 
   String toString() => _str;
 }

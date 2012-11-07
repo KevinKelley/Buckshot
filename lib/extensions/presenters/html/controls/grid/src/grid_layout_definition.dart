@@ -1,4 +1,4 @@
-part of core_buckshotui_org;
+part of grid_html_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -10,7 +10,7 @@ part of core_buckshotui_org;
 * * [ColumnDefinition]
 * * [RowDefinition]
 */
-class GridLayoutDefinition extends BuckshotObject
+class GridLayoutDefinition extends FrameworkObject
 {
 
   num _adjustedLengthInternal = 0;

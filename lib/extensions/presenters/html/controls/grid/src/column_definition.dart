@@ -1,4 +1,4 @@
-part of core_buckshotui_org;
+part of grid_html_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -45,12 +45,15 @@ class ColumnDefinition extends GridLayoutDefinition{
   }
 
   void _initColumnDefinitionProperties(){
-    width = new FrameworkProperty(this, "width", (GridLength v){
-      if (v.length.value < minLength) v.length.value = minLength;
-      if (v.length.value > maxLength) v.length.value = maxLength;
+    width = new FrameworkProperty(this, "width",
+      propertyChangedCallback: (GridLength v){
+        if (v.length.value < minLength) v.length.value = minLength;
+        if (v.length.value > maxLength) v.length.value = maxLength;
 
-      _gridLength = v;
-      _columnDefinitionChanged.invoke(this, new EventArgs());
-    }, new GridLength(), converter:const StringToGridLengthConverter());
+        _gridLength = v;
+        _columnDefinitionChanged.invoke(this, new EventArgs());
+      },
+      defaultValue: new GridLength(),
+      converter: const StringToGridLengthConverter());
   }
 }

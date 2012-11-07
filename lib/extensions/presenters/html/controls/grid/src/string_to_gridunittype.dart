@@ -1,4 +1,4 @@
-part of core_buckshotui_org;
+part of grid_html_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -19,7 +19,7 @@ class StringToGridUnitTypeConverter implements ValueConverter{
     case "auto":
       return GridUnitType.auto;
     default:
-      throw const BuckshotException("Invalid GridUntiType value.");
+      throw const BuckshotException("Invalid GridUnitType value.");
     }
   }
 }

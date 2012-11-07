@@ -3,19 +3,19 @@ part of box_model_surface_buckshot;
 abstract class BoxModelSurfaceElement extends SurfaceElement
 {
   /// Represents the margin [Thickness] area outside the FrameworkElement boundary.
-  FrameworkProperty<Thickness> margin = null;
+  FrameworkProperty<Thickness> margin;
   /// Represents the maximum width property of the FrameworkElement.
-  FrameworkProperty<num> maxWidth = null;
+  FrameworkProperty<num> maxWidth;
   /// Represents the minimum height property of the FrameworkElement.
-  FrameworkProperty<num> minWidth = null;
+  FrameworkProperty<num> minWidth;
   /// Represents the maximum height property of the FrameworkElement.
-  FrameworkProperty<num> maxHeight = null;
+  FrameworkProperty<num> maxHeight;
   /// Represents the minimum height property of the FrameworkElement.
-  FrameworkProperty<num> minHeight = null;
+  FrameworkProperty<num> minHeight;
   /// Represents the horizontal alignment of this FrameworkElement inside another element.
-  FrameworkProperty<HorizontalAlignment> hAlign = null;
+  FrameworkProperty<HorizontalAlignment> hAlign;
   /// Represents the [VerticalAlignment] of this FrameworkElement inside another element.
-  FrameworkProperty<VerticalAlignment> vAlign = null;
+  FrameworkProperty<VerticalAlignment> vAlign;
 
   BoxModelSurfaceElement();
   BoxModelSurfaceElement.register() : super.register();
@@ -31,7 +31,6 @@ abstract class BoxModelSurfaceElement extends SurfaceElement
 
   @override void initProperties(){
     super.initProperties();
-
     vAlign = new FrameworkProperty(this, 'vAlign',
         propertyChangedCallback: onVAlignChanged,
         converter: const StringToVerticalAlignmentConverter(),
@@ -44,7 +43,8 @@ abstract class BoxModelSurfaceElement extends SurfaceElement
 
     margin = new FrameworkProperty(this, 'margin',
         propertyChangedCallback: onMarginChanged,
-        converter: const StringToThicknessConverter());
+        converter: const StringToThicknessConverter(),
+        defaultValue: new Thickness(0));
 
     minWidth = new FrameworkProperty(this, 'minWidth',
         propertyChangedCallback: onMinWidthChanged,

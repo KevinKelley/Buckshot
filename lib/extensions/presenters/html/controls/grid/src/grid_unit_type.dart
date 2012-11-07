@@ -1,4 +1,4 @@
-part of core_buckshotui_org;
+part of grid_html_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -7,17 +7,17 @@ part of core_buckshotui_org;
 /**
 * Enumerates [Grid] column/row [GridLength] measurements.
 *
-* * star = a weighted value of available space, relative to other star'd peers. 
-* * pixel = a fixed value 
-* * auto = auto sizes to the largest element in the column/row 
+* * star = a weighted value of available space, relative to other star'd peers.
+* * pixel = a fixed value
+* * auto = auto sizes to the largest element in the column/row
 */
 class GridUnitType{
   const GridUnitType(this._val);
   final int _val;
- 
+
   static const star = const GridUnitType(1);
   static const pixel = const GridUnitType(2);
-  static const auto = const GridUnitType(3);  
+  static const auto = const GridUnitType(3);
 
   String toString() {
     switch(_val){

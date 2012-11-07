@@ -27,6 +27,7 @@ import 'package:buckshot/extensions/presenters/html/controls/text_box.dart';
 import 'package:buckshot/extensions/presenters/html/controls/text_area.dart';
 import 'package:buckshot/extensions/presenters/html/controls/hyperlink.dart';
 import 'package:buckshot/extensions/presenters/html/controls/drop_down_list.dart';
+import 'package:buckshot/extensions/presenters/html/controls/grid/grid.dart';
 
 export 'package:buckshot/extensions/presenters/html/controls/border.dart';
 export 'package:buckshot/extensions/presenters/html/controls/text_block.dart';
@@ -44,6 +45,7 @@ export 'package:buckshot/extensions/presenters/html/controls/text_box.dart';
 export 'package:buckshot/extensions/presenters/html/controls/text_area.dart';
 export 'package:buckshot/extensions/presenters/html/controls/hyperlink.dart';
 export 'package:buckshot/extensions/presenters/html/controls/drop_down_list.dart';
+export 'package:buckshot/extensions/presenters/html/controls/grid/grid.dart';
 
 part 'src/html_surface_element.dart';
 
@@ -71,6 +73,9 @@ void initPresenter(){
   registerElement(new TextArea.register());
   registerElement(new Hyperlink.register());
   registerElement(new DropDownList.register());
+  registerElement(new Grid.register());
+  registerElement(new ColumnDefinition.register());
+  registerElement(new RowDefinition.register());
 }
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;

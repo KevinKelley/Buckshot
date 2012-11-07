@@ -113,8 +113,6 @@ class DropDownList extends Control
   @override void createPrimitive(){
     rawElement = new Element.tag('select');
   }
-
-  get defaultControlTemplate => '';
 }
 
 

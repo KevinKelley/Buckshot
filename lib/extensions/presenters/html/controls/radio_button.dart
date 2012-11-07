@@ -68,8 +68,6 @@ class RadioButton extends Control
     inputElement.checked = true;
     selectionChanged.invoke(this, new EventArgs());
   }
-
-  get defaultControlTemplate => '';
 }
 
 

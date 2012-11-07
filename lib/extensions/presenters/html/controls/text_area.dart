@@ -203,8 +203,6 @@ class TextArea extends Control
     rawElement = new TextAreaElement();
   }
 
-  get defaultControlTemplate => '';
-
   void _setFill(Brush brush){
     if (brush is SolidColorBrush){
       rawElement.style.background =

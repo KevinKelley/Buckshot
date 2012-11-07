@@ -118,6 +118,4 @@ class Hyperlink extends Control implements FrameworkContainer
     //TODO find correct constructor for 'a'.
     rawElement = new Element.tag('a');
   }
-
-  get defaultControlTemplate => '';
 }

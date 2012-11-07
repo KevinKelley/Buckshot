@@ -72,8 +72,6 @@ class PlusOne extends Control
     rawElement.attributes["annotation"] = "none";
     rawElement.attributes["size"] = "standard";
   }
-
-  get defaultControlTemplate => '';
 }
 
 class PlusOneButtonSizes{

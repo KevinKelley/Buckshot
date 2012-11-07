@@ -4,6 +4,7 @@ export 'package:buckshot/buckshot.dart';
 part 'src/measurement_changed_event_args.dart';
 part 'src/surface_element.dart';
 part 'src/surface_point.dart';
+part 'src/rect_measurement.dart';
 
 
 Surface surfacePresenter = presenter as Surface;
@@ -20,17 +21,4 @@ abstract class Surface extends Presenter
 
   /** Renders to the surface beginning from the given [rootElement]. */
   void render(SurfaceElement rootElement);
-}
-
-/**
- * A standard rectangle measurement class for surface boxes.
- */
-class RectMeasurement
-{
-  final num left;
-  final num top;
-  final num width;
-  final num height;
-
-  RectMeasurement(this.left, this.top, this.width, this.height);
 }

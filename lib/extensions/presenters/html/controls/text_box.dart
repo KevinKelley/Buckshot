@@ -207,8 +207,6 @@ class TextBox extends Control
     rawElement.attributes["type"] = "text";
   }
 
-  get defaultControlTemplate => '';
-
   void _setFill(Brush brush){
     if (brush is SolidColorBrush){
       rawElement.style.background =

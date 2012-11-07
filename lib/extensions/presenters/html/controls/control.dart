@@ -26,7 +26,7 @@ abstract class Control
    * * String: Expects the string to be a control template.
    * * ControlTemplate: A concrete control template.
    */
-  get defaultControlTemplate;
+  get defaultControlTemplate => '';
 
   bool _visualTemplateApplied = false;    // flags if visual template applied
   bool _templateApplied = false;          // flags if a template was used during applyVisualTemplate();

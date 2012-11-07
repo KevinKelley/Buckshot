@@ -2,32 +2,31 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library youtube_media_controls_buckshot;
+library youtube_control_extensions_buckshot;
+
 import 'dart:html';
-import 'package:buckshot/buckshot.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 import 'package:buckshot/web/web.dart';
 
-class YouTube extends FrameworkElement
+class YouTube extends Control
 {
   FrameworkProperty<String> videoID;
 
-  YouTube(){
-    Browser.appendClass(rawElement, "youtube");
-
-    _initializeYouTubeProperties();
-  }
-
+  YouTube();
   YouTube.register() : super.register();
   makeMe() => new YouTube();
 
+  @override void initProperties(){
+    super.initProperties();
 
-  void _initializeYouTubeProperties(){
-    videoID = new FrameworkProperty(this, "videoID", (String value){
-      rawElement.attributes["src"] = 'http://www.youtube.com/embed/${value.toString()}?wmode=transparent';
-    });
+    videoID = new FrameworkProperty(this, "videoID",
+      propertyChangedCallback: (String value){
+        rawElement.attributes["src"] =
+          'http://www.youtube.com/embed/${value}?wmode=transparent';
+      });
   }
 
-  void createElement(){
+  @override void createPrimitive(){
     rawElement = new Element.tag("iframe");
     Browser.appendClass(rawElement, 'youtube-player');
     rawElement.attributes["type"] = "text/html";

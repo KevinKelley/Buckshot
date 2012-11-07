@@ -72,6 +72,4 @@ class Slider extends Control
     rawElement = new InputElement();
     rawElement.attributes["type"] = "range";
   }
-
-  get defaultControlTemplate => '';
 }

@@ -29,10 +29,6 @@ class Hyperlink extends Control implements FrameworkContainer
 
   Hyperlink()
   {
-    Browser.appendClass(rawElement, "hyperlink");
-
-    _initHyperlinkProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = content;
   }
 
@@ -41,13 +37,14 @@ class Hyperlink extends Control implements FrameworkContainer
 
   get containerContent => content.value;
 
-  void _initHyperlinkProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     // Initialize FrameworkProperty declarations.
     content = new FrameworkProperty(
       this,
       "content",
-      (value) {
-
+      propertyChangedCallback: (value) {
         //if the content is previously a textblock and the value is a String then just
         //replace the text property with the new string
         if (_content is TextBlock && value is String){
@@ -77,21 +74,23 @@ class Hyperlink extends Control implements FrameworkContainer
         }else{
           _content = null;
         }
-
       });
 
-    targetName = new FrameworkProperty(this, "targetName", (String value){
-      rawElement.attributes["target"] = value.toString();
-    }, "_self");
+    targetName = new FrameworkProperty(this, "targetName",
+      propertyChangedCallback: (String value){
+        rawElement.attributes["target"] = value.toString();
+      },
+      defaultValue: "_self");
 
-    navigateTo = new FrameworkProperty(this, "navigateTo", (String value){
-      rawElement.attributes["href"] = value.toString();
-    });
+    navigateTo = new FrameworkProperty(this, "navigateTo",
+      propertyChangedCallback: (String value){
+        rawElement.attributes["href"] = value.toString();
+      });
 
     foreground = new FrameworkProperty(
       this,
       "foreground",
-      (Color value){
+      propertyChangedCallback: (Color value){
         rawElement.style.color = '$value';
       },
       defaultValue: getResource('theme_text_foreground'),
@@ -100,20 +99,21 @@ class Hyperlink extends Control implements FrameworkContainer
     fontSize = new FrameworkProperty(
       this,
       "fontSize",
-      (value){
+      propertyChangedCallback: (value){
         rawElement.style.fontSize = '${value.toString()}px';
-      }, converter:const StringToNumericConverter());
+      },
+      converter:const StringToNumericConverter());
 
     fontFamily = new FrameworkProperty(
       this,
       "fontFamily",
-      (value){
+      propertyChangedCallback: (value){
         rawElement.style.fontFamily = value.toString();
       });
   }
 
   /// Overridden [FrameworkObject] method.
-  void createElement()
+  @override void createPrimitive()
   {
     //TODO find correct constructor for 'a'.
     rawElement = new Element.tag('a');

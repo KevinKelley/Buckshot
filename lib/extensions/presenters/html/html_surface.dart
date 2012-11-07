@@ -179,7 +179,7 @@ class HtmlSurface extends Surface
     window.requestAnimationFrame(_doEventLoopWork);
   }
 
-  void _doEventLoopWork(int time){
+  void _doEventLoopWork(num time){
     workers.forEach((_, work) => work(time));
     window.requestAnimationFrame(_doEventLoopWork);
   }

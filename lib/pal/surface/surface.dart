@@ -6,7 +6,6 @@ part 'src/surface_element.dart';
 part 'src/surface_point.dart';
 part 'src/rect_measurement.dart';
 
-
 Surface surfacePresenter = presenter as Surface;
 
 /**

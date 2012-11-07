@@ -29,34 +29,29 @@ class TextBox extends Control
 
   TextBox()
   {
-    Browser.appendClass(rawElement, "textbox");
-
-    _initTextBoxProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = text;
-
-    _initEvents();
-
-    registerEvent('textchanged', textChanged);
     userSelect.value = true;
   }
-
   TextBox.register() : super.register();
   makeMe() => new TextBox();
 
-  void _initTextBoxProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     final _ie = rawElement as InputElement;
 
     placeholder = new FrameworkProperty(
       this,
       "placeholder",
-      (String value){
+      propertyChangedCallback: (String value){
         rawElement.attributes["placeholder"] = '$value';
       });
 
-    text = new FrameworkProperty(this, "text", (value){
-      _ie.value = '$value';
-    },"");
+    text = new FrameworkProperty(this, "text",
+      propertyChangedCallback: (value){
+        _ie.value = '$value';
+      },
+      defaultValue: '');
 
     inputType = new FrameworkProperty(this, "inputType",
       propertyChangedCallback:
@@ -76,11 +71,7 @@ class TextBox extends Control
       "background",
       'background',
       propertyChangedCallback:(Brush value){
-        if (value == null){
-          rawElement.style.background = "None";
-          return;
-        }
-        value.renderBrush(rawElement);
+        _setFill(value);
       },
       defaultValue: getResource('theme_textbox_background'),
       converter:const StringToSolidColorBrushConverter());
@@ -91,7 +82,7 @@ class TextBox extends Control
         },
         defaultValue:
           getResource('theme_textbox_border_style',
-                      const StringToBorderStyleConverter()),
+                      converter: const StringToBorderStyleConverter()),
         converter: const StringToBorderStyleConverter());
 
     cornerRadius= new AnimatingFrameworkProperty(
@@ -126,7 +117,7 @@ class TextBox extends Control
     borderThickness = new FrameworkProperty(
       this,
       "borderThickness",
-      (value){
+      propertyChangedCallback: (value){
 
         String color = borderColor != null
             ? rawElement.style.borderColor
@@ -145,7 +136,7 @@ class TextBox extends Control
     padding = new FrameworkProperty(
         this,
         "padding",
-        (Thickness value){
+        propertyChangedCallback: (Thickness value){
           rawElement.style.padding = '${value.top}px ${value.right}px'
             ' ${value.bottom}px ${value.left}px';
           updateLayout();
@@ -157,7 +148,7 @@ class TextBox extends Control
     foreground = new FrameworkProperty(
         this,
         "foreground",
-        (Color c){
+        propertyChangedCallback: (Color c){
           rawElement.style.color = c.toColorString();
         },
         defaultValue: getResource('theme_textbox_foreground'),
@@ -166,20 +157,24 @@ class TextBox extends Control
     fontSize = new FrameworkProperty(
       this,
       "fontSize",
-      (value){
+      propertyChangedCallback: (value){
         rawElement.style.fontSize = '${value}px';
       });
 
     fontFamily = new FrameworkProperty(
       this,
       "fontFamily",
-      (value){
+      propertyChangedCallback: (value){
         rawElement.style.fontFamily = '$value';
       }, defaultValue:getResource('theme_text_font_family'));
   }
 
 
-  void _initEvents(){
+  @override void initEvents(){
+    super.initEvents();
+
+    registerEvent('textchanged', textChanged);
+
     final _ie = rawElement as InputElement;
     _ie.on.keyUp.add((e){
       if (text.value == _ie.value) return; //no change from previous keystroke
@@ -207,12 +202,83 @@ class TextBox extends Control
 
   }
 
-  void createElement(){
+  @override void createPrimitive(){
     rawElement = new InputElement();
     rawElement.attributes["type"] = "text";
   }
 
   get defaultControlTemplate => '';
+
+  void _setFill(Brush brush){
+    if (brush is SolidColorBrush){
+      rawElement.style.background =
+          '${brush.color.value.toColorString()}';
+    }else if (brush is LinearGradientBrush){
+      rawElement.style.background =
+          brush.fallbackColor.value.toColorString();
+
+      final colorString = new StringBuffer();
+
+      //create the string of stop colors
+      brush.stops.value.forEach((GradientStop stop){
+        colorString.add(stop.color.value.toColorString());
+
+        if (stop.percent.value != -1) {
+          colorString.add(" ${stop.percent.value}%");
+        }
+
+        if (stop != brush.stops.value.last) {
+          colorString.add(", ");
+        }
+      });
+
+      //set the background for all browser types
+      rawElement.style.background =
+          "-webkit-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "-moz-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "-ms-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "-o-linear-gradient(${brush.direction.value}, ${colorString})";
+      rawElement.style.background =
+          "linear-gradient(${brush.direction.value}, ${colorString})";
+    }else if (brush is RadialGradientBrush){
+      //set the fallback
+      rawElement.style.background = brush.fallbackColor.value.toColorString();
+
+      final colorString = new StringBuffer();
+
+      //create the string of stop colors
+      brush.stops.value.forEach((GradientStop stop){
+        colorString.add(stop.color.value.toColorString());
+
+        if (stop.percent.value != -1) {
+          colorString.add(" ${stop.percent.value}%");
+        }
+
+        if (stop != brush.stops.value.last) {
+          colorString.add(", ");
+        }
+      });
+
+      //set the background for all browser types
+      rawElement.style.background =
+        "-webkit-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "-moz-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "-ms-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "-o-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+      rawElement.style.background =
+        "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
+    }else{
+      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
+      rawElement.style.background =
+          new SolidColorBrush.fromPredefined(Colors.White);
+    }
+  }
 }
 
 class TextChangedEventArgs extends EventArgs {
@@ -235,24 +301,26 @@ abstract class IValidatable
   void setValid();
 }
 
+
+// validation is not yet implemented or supported.
+
 /**
 * Provides a validation service for IValidatable elements */
 class Validation{
   static AttachedFrameworkProperty validationProperty;
 
-
-  static void setValidation(FrameworkElement element, List<String> validationRules){
+  static void setValidation(FrameworkObject element, List<String> validationRules){
     if (element == null || validationRules == null) return;
 
     if (Validation.validationProperty == null){
       Validation.validationProperty = new AttachedFrameworkProperty("validation",
-        (FrameworkElement e, List<String> vr){
+        (FrameworkObject e, List<String> vr){
 
       });
     }
   }
 
-  static List<String> getValidation(FrameworkElement element){
+  static List<String> getValidation(FrameworkObject element){
     if (element == null) return null;
 
     List<String> value = AttachedFrameworkProperty.getValue(element, validationProperty);
@@ -263,8 +331,4 @@ class Validation{
 
     return AttachedFrameworkProperty.getValue(element, validationProperty);
   }
-
-
-
-
 }

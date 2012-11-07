@@ -4,21 +4,22 @@
 
 //TODO add mouse state template properties
 
-library listbox_controls_buckshot;
+library plusone_control_extensions_buckshot;
 
-import 'package:buckshot/buckshot.dart';
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 /**
 * A control that provides a scrollable list of selectable items.
 */
 class ListBox extends Control implements FrameworkContainer
 {
-  FrameworkProperty<bool> horizontalScrollEnabled;
-  FrameworkProperty<bool> verticalScrollEnabled;
+  FrameworkProperty<ScrollSetting> hScroll;
+  FrameworkProperty<ScrollSetting> vScroll;
   FrameworkProperty<dynamic> selectedItem;
   /// Represents the [Panel] element which will contain the generated UI for
   /// each element of the collection.
-  FrameworkProperty<Panel> presentationPanel;
+  FrameworkProperty<HtmlSurfaceElement> presentationPanel;
 
   /// Represents the UI that will display for each item in the collection.
   FrameworkProperty<String> itemsTemplate;
@@ -38,23 +39,26 @@ class ListBox extends Control implements FrameworkContainer
 
   ListBox()
   {
-    Browser.appendClass(rawElement, "listbox");
+    _presenter = Template
+      .findByName("__buckshot_listbox_presenter__", template)
+        as CollectionPresenter;
 
-    _initListBoxProperties();
-
-    _presenter = Template.findByName("__buckshot_listbox_presenter__", template);
     _border = Template.findByName("__buckshot_listbox_border__", template);
 
     assert(_presenter != null);
     assert(_border != null);
 
     _presenter.itemCreated + _OnItemCreated;
-
-    registerEvent('selectionchanged', selectionChanged);
   }
 
   ListBox.register() : super.register();
   makeMe() => new ListBox();
+
+  @override void initEvents(){
+    super.initEvents();
+
+    registerEvent('selectionchanged', selectionChanged);
+  }
 
   String get defaultControlTemplate {
     return
@@ -63,13 +67,14 @@ class ListBox extends Control implements FrameworkContainer
             <border bordercolor="{resource theme_border_color}"
                     background='{resource theme_light_brush}'
                     borderthickness="{resource theme_border_thickness}" 
-                    horizontalScrollEnabled="{template horizontalScrollEnabled}" 
-                    verticalScrollEnabled="{template verticalScrollEnabled}"
                     name="__buckshot_listbox_border__"
                     cursor="Arrow">
-                <collectionPresenter name="__buckshot_listbox_presenter__" 
-                                      halign='stretch'>
-                </collectionPresenter>
+                <scrollviewer hscroll="{template hScroll}" 
+                              vscroll="{template vScroll}"
+                              halign='stretch'
+                              valign='stretch'>
+                  <collectionPresenter name="__buckshot_listbox_presenter__" />
+                </scrollviewer>
             </border>
           </template>
         </controltemplate>
@@ -77,25 +82,24 @@ class ListBox extends Control implements FrameworkContainer
   }
 
   void _OnItemCreated(sender, ItemCreatedEventArgs args){
-    FrameworkElement item = args.itemCreated;
+    HtmlSurfaceElement item = args.itemCreated;
 
-    item.click + (_, __) {
-
-      _selectedIndex = _presenter.presentationPanel.value.children.indexOf(item);
-
-      selectedItem.value = item.stateBag[CollectionPresenter.OBJECT_CONTENT];
-
-      selectionChanged.invoke(this, new SelectedItemChangedEventArgs(item.stateBag[CollectionPresenter.OBJECT_CONTENT]));
-
-    };
-
-    item.mouseEnter + (_, __) => onItemMouseEnter(item);
-
-    item.mouseLeave + (_, __) => onItemMouseLeave(item);
-
-    item.mouseDown + (_, __) => onItemMouseDown(item);
-
-    item.mouseUp + (_, __) => onItemMouseUp(item);
+//    item.click + (_, __) {
+//
+//      _selectedIndex = _presenter.presentationPanel.value.children.indexOf(item);
+//
+//      selectedItem.value = item.stateBag[CollectionPresenter.OBJECT_CONTENT];
+//
+//      selectionChanged.invoke(this, new SelectedItemChangedEventArgs(item.stateBag[CollectionPresenter.OBJECT_CONTENT]));
+//    };
+//
+//    item.mouseEnter + (_, __) => onItemMouseEnter(item);
+//
+//    item.mouseLeave + (_, __) => onItemMouseLeave(item);
+//
+//    item.mouseDown + (_, __) => onItemMouseDown(item);
+//
+//    item.mouseUp + (_, __) => onItemMouseUp(item);
   }
 
   get containerContent => template;
@@ -134,37 +138,39 @@ class ListBox extends Control implements FrameworkContainer
   }
 
 
-  void _initListBoxProperties(){
+  @override void initProperties(){
+    super.initProperties();
 
-    highlightBrush = new FrameworkProperty(this, "highlightColor", (_){
-    }, new SolidColorBrush(new Color.predefined(Colors.PowderBlue)),
-    converter:const StringToSolidColorBrushConverter());
+    highlightBrush = new FrameworkProperty(this, "highlightColor",
+      defaultValue: new SolidColorBrush.fromPredefined(Colors.PowderBlue),
+      converter:const StringToSolidColorBrushConverter());
 
-    selectBrush = new FrameworkProperty(this, "selectColor", (_){
-    }, new SolidColorBrush(new Color.predefined(Colors.SkyBlue)),
-    converter:const StringToSolidColorBrushConverter());
+    selectBrush = new FrameworkProperty(this, "selectColor",
+      defaultValue: new SolidColorBrush.fromPredefined(Colors.SkyBlue),
+      converter:const StringToSolidColorBrushConverter());
 
-    selectedItem = new FrameworkProperty(this, "selectedItem", (_){});
+    selectedItem = new FrameworkProperty(this, "selectedItem");
 
     presentationPanel = new FrameworkProperty(this, "presentationPanel",
-    (Panel p){
-      if (_presenter == null) return;
-      _presenter.presentationPanel.value = p;
-    });
+      propertyChangedCallback: (HtmlSurfaceElement p){
+        assert(p is FrameworkContainer);
+        assert(p.containerContent is List);
+        if (_presenter == null) return;
+        _presenter.presentationPanel.value = p;
+      });
 
-    itemsTemplate = new FrameworkProperty(this, "itemsTemplate", (value){
-      if (_presenter == null) return;
-      _presenter.itemsTemplate.value = value;
-    });
+    itemsTemplate = new FrameworkProperty(this, "itemsTemplate",
+      propertyChangedCallback: (value){
+        if (_presenter == null) return;
+        _presenter.itemsTemplate.value = value;
+      });
 
-    horizontalScrollEnabled = new FrameworkProperty(this,
-        "horizontalScrollEnabled",
-        defaultValue:false,
-        converter:const StringToBooleanConverter());
+    hScroll = new FrameworkProperty(this, 'hScroll',
+          defaultValue: ScrollSetting.hidden,
+          converter: const StringToScrollSettingConverter());
 
-    verticalScrollEnabled = new FrameworkProperty(this,
-        "verticalScrollEnabled",
-        defaultValue:true,
-        converter:const StringToBooleanConverter());
+    vScroll = new FrameworkProperty(this, 'vScroll',
+          defaultValue: ScrollSetting.auto,
+          converter: const StringToScrollSettingConverter());
   }
 }

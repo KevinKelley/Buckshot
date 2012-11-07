@@ -21,6 +21,9 @@ class CollectionPresenter
   final Expando<HtmlSurfaceElement> templateReference =
       new Expando<HtmlSurfaceElement>();
 
+  final FrameworkEvent<ItemCreatedEventArgs> itemCreated =
+      new FrameworkEvent<ItemCreatedEventArgs>();
+
   final Element rawElement = new DivElement();
 
   CollectionPresenter.register() : super.register();
@@ -71,6 +74,7 @@ class CollectionPresenter
     }
 
     if (values is! Collection){
+      print('*** $values ');
       throw const BuckshotException("Expected CollectionPresenter items"
         " to be of type Collection.");
     }
@@ -184,7 +188,7 @@ class CollectionPresenter
           ..text.value = '$iterationObject';
         objectReference[it] = iterationObject;
 
-        //itemCreated.invokeAsync(this, new ItemCreatedEventArgs(it));
+        itemCreated.invokeAsync(this, new ItemCreatedEventArgs(it));
         presentationPanel.value.containerContent.add(it);
       });
     }else{
@@ -195,7 +199,7 @@ class CollectionPresenter
           objectReference[it] = iterationObject;
           it.dataContext.value = iterationObject;
           //templateReference[iterationObject] = it;
-          // itemCreated.invokeAsync(this, new ItemCreatedEventArgs(it));
+          itemCreated.invokeAsync(this, new ItemCreatedEventArgs(it));
           presentationPanel.value.containerContent.add(it);
         });
       });
@@ -211,8 +215,6 @@ class CollectionPresenter
   }
 
   void _updateChildLayout(){
-    assert(containerContent != null);
-
     final rawChild = presentationPanel.value.rawElement;
 
     if (presentationPanel.value.hAlign.value != null){
@@ -259,4 +261,11 @@ class CollectionPresenter
         break;
     }
   }
+}
+
+class ItemCreatedEventArgs extends EventArgs
+{
+  final dynamic itemCreated;
+
+  ItemCreatedEventArgs(this.itemCreated);
 }

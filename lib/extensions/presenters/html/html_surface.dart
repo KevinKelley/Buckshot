@@ -29,6 +29,7 @@ import 'package:buckshot/extensions/presenters/html/controls/hyperlink.dart';
 import 'package:buckshot/extensions/presenters/html/controls/drop_down_list.dart';
 import 'package:buckshot/extensions/presenters/html/controls/grid/grid.dart';
 import 'package:buckshot/extensions/presenters/html/controls/layout_canvas.dart';
+import 'package:buckshot/extensions/presenters/html/controls/raw_html.dart';
 
 export 'package:buckshot/extensions/presenters/html/controls/border.dart';
 export 'package:buckshot/extensions/presenters/html/controls/text_block.dart';
@@ -48,6 +49,7 @@ export 'package:buckshot/extensions/presenters/html/controls/hyperlink.dart';
 export 'package:buckshot/extensions/presenters/html/controls/drop_down_list.dart';
 export 'package:buckshot/extensions/presenters/html/controls/grid/grid.dart';
 export 'package:buckshot/extensions/presenters/html/controls/layout_canvas.dart';
+export 'package:buckshot/extensions/presenters/html/controls/raw_html.dart';
 
 part 'src/html_surface_element.dart';
 
@@ -79,6 +81,7 @@ void initPresenter(){
   registerElement(new ColumnDefinition.register());
   registerElement(new RowDefinition.register());
   registerElement(new LayoutCanvas.register());
+  registerElement(new RawHtml.register());
 }
 
 HtmlSurface get htmlPresenter => surfacePresenter as HtmlSurface;

@@ -191,12 +191,12 @@ class ModalDialog extends Control
 
     borderThickness = new FrameworkProperty(this, 'borderThickness',
         defaultValue: getResource('theme_border_thickness',
-                                  const StringToThicknessConverter()),
+                                converter: const StringToThicknessConverter()),
         converter: const StringToThicknessConverter());
 
     cornerRadius = new FrameworkProperty(this, 'cornerRadius',
         defaultValue: getResource('theme_border_corner_radius',
-            const StringToThicknessConverter()),
+            converter: const StringToThicknessConverter()),
         converter: const StringToThicknessConverter());
 
     cvRoot = Template.findByName('cvRoot', template);
@@ -209,7 +209,7 @@ class ModalDialog extends Control
   }
 
   Future<DialogButtonType> show(){
-    log('Showing ModalDialog', logLevel : Level.WARNING);
+    log('Showing ModalDialog');
     _dialogCompleter = new Completer<DialogButtonType>();
 
     b1 = bind(windowWidth, cvRoot.width);

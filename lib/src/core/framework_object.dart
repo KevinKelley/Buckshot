@@ -538,7 +538,7 @@ abstract class FrameworkObject
   }
 
   /** Called when the object is loaded into a [presenter] view. */
-  void onLoaded(){
+  @override void onLoaded(){
     isLoaded = true;
     updateDataContext();
 
@@ -555,11 +555,11 @@ abstract class FrameworkObject
   }
 
   /** Called when the object is unloaded from a [presenter] view. */
-  void onUnloaded(){
+  @override void onUnloaded(){
     isLoaded = false;
     unloaded.invoke(this, new EventArgs());
   }
-  void onFirstLoad(){}
+  @override void onFirstLoad(){}
 
   bool _dataContextUpdated = false;
   void updateDataContext(){

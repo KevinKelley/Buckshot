@@ -25,18 +25,18 @@ export 'package:meta/meta.dart';
 // Also below, set reflectionEnabled = true.
 // import 'dart:mirrors';
 
-part 'src/core/presenter.dart';
-part 'src/core/system.dart';
-part 'src/core/framework_object.dart';
-part 'src/core/framework_property.dart';
-part 'src/core/observable_list.dart';
-part 'src/core/framework_property_base.dart';
-part 'src/core/attached_framework_property.dart';
-part 'src/core/framework_container.dart';
-part 'src/core/hashable_object.dart';
-part 'src/core/theme.dart';
-part 'src/core/debug.dart';
-part 'src/core/_buckshot.dart';
+part 'src/presenter.dart';
+part 'src/system.dart';
+part 'src/framework_object.dart';
+part 'src/framework_property.dart';
+part 'src/observable_list.dart';
+part 'src/framework_property_base.dart';
+part 'src/attached_framework_property.dart';
+part 'src/framework_container.dart';
+part 'src/hashable_object.dart';
+part 'src/theme.dart';
+part 'src/debug.dart';
+part 'src/_buckshot.dart';
 
 part 'src/events/buckshot_event.dart';
 part 'src/events/attached_property_changed_event_args.dart';
@@ -100,10 +100,10 @@ part 'src/resources/gradient_stop.dart';
 //part 'src/animation/animation_state.dart';
 //part 'src/animation_css_compiler.dart';
 
-part 'src/templates/presentation_format_provider.dart';
-part 'src/templates/xml_template_provider.dart';
-part 'src/templates/template.dart';
-part 'src/templates/template_exception.dart';
+part 'src/template/presentation_format_provider.dart';
+part 'src/template/xml_template_provider.dart';
+part 'src/template/template.dart';
+part 'src/template/template_exception.dart';
 
 part 'src/converters/value_converter.dart';
 part 'src/primitives/thickness.dart';

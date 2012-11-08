@@ -59,13 +59,17 @@ abstract class Control
     _visualTemplateApplied = true;
 
     if (defaultControlTemplate is ControlTemplate){
-      final tName = XML.parse(defaultControlTemplate.rawData).attributes['controlType'];
+      // this allows implementers to pull control templates from
+      // resources.
+      final tName =
+          XML.parse(defaultControlTemplate.rawData).attributes['controlType'];
       assert(tName != null);
       assert(!tName.isEmpty);
       Template
         .deserialize(defaultControlTemplate.rawData)
         .then((_) => _finishApplyVisualTemplate(tName));
-    } else if (defaultControlTemplate is String && !defaultControlTemplate.isEmpty){
+    } else if (defaultControlTemplate is String &&
+        !defaultControlTemplate.isEmpty){
       final tName = XML.parse(defaultControlTemplate).attributes['controlType'];
       assert(tName != null);
       assert(!tName.isEmpty);
@@ -101,17 +105,19 @@ abstract class Control
 
   @override void onLoaded(){
     super.onLoaded();
-    //returning if we have already done this, or if no template was actually used for this control
+    // Returning if we have already done this, or if no template was actually
+    // used for this control
     if (_templateBindingsApplied || !_templateApplied) return;
     _templateBindingsApplied = true;
     _bindTemplateBindings();
   }
 
   @override void onUnloaded(){
-    //returning if we have already done this, or if no template was actually used for this control
+    super.onUnloaded();
+    // Returning if we have already done this, or if no template was actually
+    // used for this control
     if (!_templateApplied) return;
     template.isLoaded = false;
-    super.onUnloaded();
   }
 
   void _bindTemplateBindings(){

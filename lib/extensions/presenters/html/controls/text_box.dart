@@ -183,7 +183,8 @@ class TextBox extends Control
       text.value = _ie.value;
 
       if (!textChanged.hasHandlers) return;
-      textChanged.invoke(this, new TextChangedEventArgs.with(oldValue, text.value));
+      textChanged.invokeAsync(this,
+          new TextChangedEventArgs.with(oldValue, text.value));
 
       if (e.cancelable) e.cancelBubble = true;
     });
@@ -195,7 +196,8 @@ class TextBox extends Control
       text.value = _ie.value;
 
       if (!textChanged.hasHandlers) return;
-      textChanged.invoke(this, new TextChangedEventArgs.with(oldValue, text.value));
+      textChanged.invokeAsync(this,
+          new TextChangedEventArgs.with(oldValue, text.value));
 
       if (e.cancelable) e.cancelBubble = true;
     });

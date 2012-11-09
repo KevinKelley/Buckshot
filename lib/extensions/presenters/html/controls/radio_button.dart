@@ -19,11 +19,7 @@ class RadioButton extends Control
   /// Event which fires whenever a selection change occurs on this radio button.
   final FrameworkEvent selectionChanged = new FrameworkEvent<EventArgs>();
 
-  RadioButton()
-  {
-    registerEvent('selectionchanged', selectionChanged);
-  }
-
+  RadioButton();
   RadioButton.register() : super.register();
   makeMe() => new RadioButton();
 
@@ -44,9 +40,10 @@ class RadioButton extends Control
 
   @override void initEvents(){
     super.initEvents();
-//    click + (_, __){
-//      selectionChanged.invoke(this, new EventArgs());
-//    };
+    registerEvent('selectionchanged', selectionChanged);
+    click + (_, __){
+      selectionChanged.invoke(this, new EventArgs());
+    };
   }
 
   /// Gets whether the check box is checked.

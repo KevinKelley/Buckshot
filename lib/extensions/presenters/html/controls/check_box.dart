@@ -23,11 +23,7 @@ class CheckBox extends Control
   /// Event which fires whenever a selection change occurs on this checkbox.
   final FrameworkEvent selectionChanged = new FrameworkEvent<EventArgs>();
 
-  CheckBox()
-  {
-    registerEvent('selectionchanged', selectionChanged);
-  }
-
+  CheckBox();
   CheckBox.register() : super.register();
   makeMe() => new CheckBox();
 
@@ -48,10 +44,10 @@ class CheckBox extends Control
 
   @override void initEvents(){
     super.initEvents();
-
-//    click + (_, __){
-//      selectionChanged.invoke(this, new EventArgs());
-//    };
+    registerEvent('selectionchanged', selectionChanged);
+    click + (_, __){
+      selectionChanged.invoke(this, new EventArgs());
+    };
   }
 
   @override void createPrimitive(){

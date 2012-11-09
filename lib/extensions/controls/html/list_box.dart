@@ -85,9 +85,8 @@ class ListBox extends Control implements FrameworkContainer
     HtmlSurfaceElement item = args.itemCreated;
 
     item.click + (_, __) {
-
       _selectedIndex =
-          _presenter.presentationPanel.value.children.indexOf(item);
+          (_presenter.presentationPanel.value as Stack).children.indexOf(item);
 
       selectedItem.value = _presenter.objectReference[item];
 

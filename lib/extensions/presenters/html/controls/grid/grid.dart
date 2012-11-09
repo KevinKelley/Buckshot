@@ -103,7 +103,7 @@ class Grid extends Control implements FrameworkContainer
 
     background = new FrameworkProperty(this, 'background',
       propertyChangedCallback: (Brush brush){
-        _setFill(brush);
+        HtmlSurfaceElement.setBackgroundBrush(this, brush);
       },
       converter: const StringToSolidColorBrushConverter());
   }
@@ -164,11 +164,11 @@ class Grid extends Control implements FrameworkContainer
     if (!isLoaded) return;
 
     htmlPresenter
-      .measure(this)
-      .then((RectMeasurement r){
-        _updateRowLayout(r.height);
-        _updateColumnLayout(r.width);
-      });
+    .measure(this)
+    .then((RectMeasurement r){
+      _updateRowLayout(r.height);
+      _updateColumnLayout(r.width);
+    });
   }
 
   // Updates the column layout of the Grid based on given [gridWidth]
@@ -187,96 +187,96 @@ class Grid extends Control implements FrameworkContainer
       return;
     }
 
-      num totalPixelValue = 0;
-      num totalStarValue = 0;
-      ColumnDefinition lastStar = null;
+    num totalPixelValue = 0;
+    num totalStarValue = 0;
+    ColumnDefinition lastStar = null;
 
-      //initialize values for column types
-      columnDefinitions.value.forEach((ColumnDefinition c){
-        if (c.width.value.gridUnitType.value == GridUnitType.pixel){
-          c._adjustedLength = c.width.value.length.value;
-          //summing the total pixels used by fixed column values
-          totalPixelValue += c.width.value.length.value;
+    //initialize values for column types
+    columnDefinitions.value.forEach((ColumnDefinition c){
+      if (c.width.value.gridUnitType.value == GridUnitType.pixel){
+        c._adjustedLength = c.width.value.length.value;
+        //summing the total pixels used by fixed column values
+        totalPixelValue += c.width.value.length.value;
+      }
+      else if (c.width.value.gridUnitType.value == GridUnitType.star){
+        totalStarValue += c.width.value.length.value; //generating a denominator for later actual width calculation
+        lastStar = c;
+      }
+      else if (c.width.value.gridUnitType.value == GridUnitType.auto){
+        num widestAuto = 0;
+
+        //measure the largest child for the current column
+        _internalChildren
+          .filter((child){
+            //children that span outside the column are excluded
+            return
+                Grid.getColumn(child.content.value) ==
+                columnDefinitions.value.indexOf(c, 0) &&
+                Grid.getColumnSpan(child.content.value) < 2;
+          })
+          .forEach((_GridCell child){
+            num childWidth =
+                child.content.value.rawElement.getBoundingClientRect().width;
+            num mOffset = child.content.value.margin.value.left +
+                child.content.value.margin.value.right;
+            if (childWidth + mOffset > widestAuto) {
+              widestAuto = childWidth + mOffset;
+            }
+          });
+
+        c._adjustedLength = widestAuto;
+        totalPixelValue += widestAuto;
+      }
+    });
+
+    num availColWidth = gridWidth - totalPixelValue;
+
+    //now determine the offsets for each column
+    num ii = 0;
+    num totalStarLength = 0;
+    columnDefinitions.value.forEach((ColumnDefinition c){
+
+      // if star type calculate adjusted length
+      if (c.width.value.gridUnitType.value == GridUnitType.star){
+        if (identical(c, lastStar)){
+          c._adjustedLength = (availColWidth - totalStarLength);
         }
-        else if (c.width.value.gridUnitType.value == GridUnitType.star){
-          totalStarValue += c.width.value.length.value; //generating a denominator for later actual width calculation
-          lastStar = c;
+        else{
+          c._adjustedLength = ((availColWidth * (c.width.value.length.value / totalStarValue)).round());
+          totalStarLength += c._adjustedLength;
         }
-        else if (c.width.value.gridUnitType.value == GridUnitType.auto){
-          num widestAuto = 0;
+      }
 
-          //measure the largest child for the current column
-          _internalChildren
-            .filter((child){
-              //children that span outside the column are excluded
-              return
-                  Grid.getColumn(child.content.value) ==
-                  columnDefinitions.value.indexOf(c, 0) &&
-                  Grid.getColumnSpan(child.content.value) < 2;
-            })
-            .forEach((_GridCell child){
-              num childWidth =
-                  child.content.value.rawElement.getBoundingClientRect().width;
-              num mOffset = child.content.value.margin.value.left +
-                  child.content.value.margin.value.right;
-              if (childWidth + mOffset > widestAuto) {
-                widestAuto = childWidth + mOffset;
-              }
-            });
+      //calculate the offset for each column
+      num id = ii - 1;
+      c._adjustedOffset = ii == 0
+          ? 0
+          : columnDefinitions.value[id]._adjustedOffset +
+            columnDefinitions.value[id]._adjustedLength;
 
-          c._adjustedLength = widestAuto;
-          totalPixelValue += widestAuto;
+      ii++;
+    });
+
+    //set child wrappers to column offsets
+    _internalChildren.forEach((child){
+      num colIndex = Grid.getColumn(child.content.value).toInt();
+
+      num childColumnSpan = Grid.getColumnSpan(child.content.value).toInt();
+
+      //child.rawElement.style.left = '${columnDefinitions[colIndex]._adjustedOffset}px';
+      child.margin.value =
+          new Thickness.specified(child.margin.value.top, 0, 0, columnDefinitions.value[colIndex]._adjustedOffset);
+
+      if (childColumnSpan > 1){
+        if (childColumnSpan > columnDefinitions.value.length - colIndex) {
+          childColumnSpan = columnDefinitions.value.length - colIndex;
         }
-      });
-
-      num availColWidth = gridWidth - totalPixelValue;
-
-      //now determine the offsets for each column
-      num ii = 0;
-      num totalStarLength = 0;
-      columnDefinitions.value.forEach((ColumnDefinition c){
-
-        // if star type calculate adjusted length
-        if (c.width.value.gridUnitType.value == GridUnitType.star){
-          if (identical(c, lastStar)){
-            c._adjustedLength = (availColWidth - totalStarLength);
-          }
-          else{
-            c._adjustedLength = ((availColWidth * (c.width.value.length.value / totalStarValue)).round());
-            totalStarLength += c._adjustedLength;
-          }
-        }
-
-        //calculate the offset for each column
-        num id = ii - 1;
-        c._adjustedOffset = ii == 0
-            ? 0
-            : columnDefinitions.value[id]._adjustedOffset +
-              columnDefinitions.value[id]._adjustedLength;
-
-        ii++;
-      });
-
-      //set child wrappers to column offsets
-      _internalChildren.forEach((child){
-        num colIndex = Grid.getColumn(child.content.value).toInt();
-
-        num childColumnSpan = Grid.getColumnSpan(child.content.value).toInt();
-
-        //child.rawElement.style.left = '${columnDefinitions[colIndex]._adjustedOffset}px';
-        child.margin.value =
-            new Thickness.specified(child.margin.value.top, 0, 0, columnDefinitions.value[colIndex]._adjustedOffset);
-
-        if (childColumnSpan > 1){
-          if (childColumnSpan > columnDefinitions.value.length - colIndex) {
-            childColumnSpan = columnDefinitions.value.length - colIndex;
-          }
-          child.rawElement.style.width = '${_totalLengthOf(columnDefinitions.value.getRange(colIndex, childColumnSpan))}px';
-        }else{
-          child.rawElement.style.width = '${columnDefinitions.value[colIndex]._adjustedLength}px';
-        }
-        child.updateLayout();
-      });
+        child.rawElement.style.width = '${_totalLengthOf(columnDefinitions.value.getRange(colIndex, childColumnSpan))}px';
+      }else{
+        child.rawElement.style.width = '${columnDefinitions.value[colIndex]._adjustedLength}px';
+      }
+      child.updateLayout();
+    });
   }
 
   // Updates the row layout of the Grid based on the given [gridHeight]
@@ -507,76 +507,5 @@ class Grid extends Control implements FrameworkContainer
     }
 
     return AttachedFrameworkProperty.getValue(element, rowSpanProperty);
-  }
-
-  void _setFill(Brush brush){
-    if (brush is SolidColorBrush){
-      rawElement.style.background =
-          '${brush.color.value.toColorString()}';
-    }else if (brush is LinearGradientBrush){
-      rawElement.style.background =
-          brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      rawElement.style.background =
-          "-webkit-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-moz-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-ms-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-o-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "linear-gradient(${brush.direction.value}, ${colorString})";
-    }else if (brush is RadialGradientBrush){
-      //set the fallback
-      rawElement.style.background = brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      rawElement.style.background =
-        "-webkit-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-moz-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-ms-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-o-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-    }else{
-      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
-      rawElement.style.background =
-          new SolidColorBrush.fromPredefined(Colors.White);
-    }
   }
 }

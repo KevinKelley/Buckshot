@@ -15,12 +15,9 @@ class BuckshotEvent<T extends EventArgs> extends FrameworkEvent
   Function _lostLastSubscriberCallback;
 
   BuckshotEvent();
-
-  BuckshotEvent.watchFirstAndLast(this._gotFirstSubscriberCallback,
-      this._lostLastSubscriberCallback)
-  :
-    super();
-
+  BuckshotEvent.watchFirstAndLast(Function this._gotFirstSubscriberCallback,
+      Function this._lostLastSubscriberCallback)
+  : super();
 
   /**
   * Registers an EventHandler to the FrameworkEvent, and returns an

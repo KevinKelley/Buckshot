@@ -341,10 +341,12 @@ class Template {
 
     ofElement.getEventByName(e)
     .then((event){
+      print('trying to bind event... $ofElement $event $e');
       if (event is! FrameworkEvent || ofElement is! FrameworkObject){
         c.complete(false);
         return;
       }
+      print('registering event binding.');
       // registered the handler name and the event for later binding
       // when the data context is set.
       ofElement._eventBindings[v] = event;

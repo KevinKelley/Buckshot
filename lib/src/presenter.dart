@@ -29,9 +29,11 @@ typedef void EventLoopCallback(num time);
 /**
  * Base contract for PAL providers.
  */
-abstract class Presenter
+abstract class Presenter extends FrameworkObject
 {
   HashMap<String, EventLoopCallback> workers;
+  FrameworkProperty<num> viewportWidth;
+  FrameworkProperty<num> viewportHeight;
 
   String get namespace;
 

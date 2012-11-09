@@ -43,6 +43,10 @@ class ScrollViewer extends SurfaceScrollViewer implements HtmlSurfaceElement
     newChild.parent = this;
   }
 
+  @override void initEvents(){
+    HtmlSurfaceElement.initializeBaseEvents(this);
+    super.initEvents();
+  }
 
   /*
    * SurfaceElement Overrides

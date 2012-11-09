@@ -29,6 +29,10 @@ abstract class BoxModelSurfaceElement extends SurfaceElement
   void onHAlignChanged(HorizontalAlignment value);
   void onVAlignChanged(VerticalAlignment value);
 
+  @override void initEvents(){
+    super.initEvents();
+  }
+
   @override void initProperties(){
     super.initProperties();
     vAlign = new FrameworkProperty(this, 'vAlign',

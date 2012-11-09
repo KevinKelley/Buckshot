@@ -23,9 +23,13 @@ class ContentPresenter
     if (content.value == null) return;
     if (!isLoaded) return;
 
-    _updateChildLayout();
+    HtmlSurfaceElement.updateChildAlignment(this);
   }
 
+  @override void initEvents(){
+    HtmlSurfaceElement.initializeBaseEvents(this);
+    super.initEvents();
+  }
 
   /*
    * SurfaceContentPresenter overrides.
@@ -46,7 +50,8 @@ class ContentPresenter
     rawElement.elements.clear();
 
     if (newContent is String){
-      newContent = new TextBlock()..text.value = newContent;
+      content.value = new TextBlock()..text.value = newContent;
+      return;
     }
 
     rawElement.elements.add(newContent.rawElement);
@@ -129,59 +134,4 @@ class ContentPresenter
   @override void onDraggableChanged(bool draggable){
     throw new NotImplementedException('todo...');
   }
-
-  /*
-   * Private methods.
-   */
-
-  void _updateChildLayout(){
-    assert(containerContent != null);
-
-    final rawChild = containerContent.rawElement;
-
-    if (containerContent.hAlign.value != null){
-      switch(containerContent.hAlign.value){
-        case HorizontalAlignment.left:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.right:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-end');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.center:
-          rawElement.style.setProperty('-webkit-justify-content', 'center');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.stretch:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.minWidth = '0px';
-          rawChild.style.setProperty('-webkit-flex', '1 1 auto');
-          // this setting prevents the flex box from overflowing if it's child
-          // content is bigger than it's parent.
-          // Flexbox spec 7.2
-          break;
-      }
-    }
-
-    if (containerContent.vAlign.value == null) return;
-    switch(containerContent.vAlign.value){
-      case VerticalAlignment.top:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-start');
-        break;
-      case VerticalAlignment.bottom:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-end');
-        break;
-      case VerticalAlignment.center:
-        rawElement.style.setProperty('-webkit-align-items', 'center');
-        break;
-      case VerticalAlignment.stretch:
-        rawElement.style.setProperty('-webkit-align-items', 'stretch');
-        break;
-    }
-  }
-
 }

@@ -237,25 +237,6 @@ getObjectByName(String name){
 }
 
 /**
- * Bindable window width property.
- *
- * Typically you will not need to bind to this directly.  Use the
- * bindToWindowDimensions() function instead.
- */
-@deprecated FrameworkProperty windowWidth = new FrameworkProperty(
-    buckshot, "windowWidth");//, defaultValue:window.innerWidth);
-
-/**
- * Bindable window height property.
- *
- * Typically you will not need to bind to this directly.  Use the
- * bindToWindowDimensions() function instead.
- */
-@deprecated FrameworkProperty windowHeight = new FrameworkProperty(
-    buckshot, "windowHeight");//, defaultValue:window.innerHeight);
-
-
-/**
  * Register global event handlers here when reflection is not enabled.  Global
  * handlers are necessary in some cases, such as when content is generated
  * within a databound CollectinoPresenter template.

@@ -24,6 +24,10 @@ class Image extends SurfaceImage implements HtmlSurfaceElement
     rawElement.attributes['alt'] = '$newAlt';
   }
 
+  @override void initEvents(){
+    HtmlSurfaceElement.initializeBaseEvents(this);
+    super.initEvents();
+  }
 
   /*
    * SurfaceElement Overrides

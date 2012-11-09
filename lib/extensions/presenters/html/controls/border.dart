@@ -17,65 +17,20 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
 
   get containerContent => content.value;
 
+  @override void initEvents(){
+    super.initEvents();
+    HtmlSurfaceElement.initializeBaseEvents(this);
+  }
+
   @override void updateLayout(){
     if (content.value == null) return;
     if (!isLoaded) return;
 
-    _updateChildLayout();
-  }
-
-  void _updateChildLayout(){
-    assert(containerContent != null);
-
-    final rawChild = containerContent.rawElement;
-
-    if (containerContent.hAlign.value != null){
-      switch(containerContent.hAlign.value){
-        case HorizontalAlignment.left:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.right:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-end');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.center:
-          rawElement.style.setProperty('-webkit-justify-content', 'center');
-          rawChild.style.setProperty('-webkit-flex', 'none');
-          rawChild.style.minWidth = '';
-          break;
-        case HorizontalAlignment.stretch:
-          rawElement.style.setProperty('-webkit-justify-content', 'flex-start');
-          rawChild.style.minWidth = '0px';
-          rawChild.style.setProperty('-webkit-flex', '1 1 auto');
-          // this setting prevents the flex box from overflowing if it's child
-          // content is bigger than it's parent.
-          // Flexbox spec 7.2
-          break;
-      }
-    }
-
-    if (containerContent.vAlign.value == null) return;
-    switch(containerContent.vAlign.value){
-      case VerticalAlignment.top:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-start');
-        break;
-      case VerticalAlignment.bottom:
-        rawElement.style.setProperty('-webkit-align-items', 'flex-end');
-        break;
-      case VerticalAlignment.center:
-        rawElement.style.setProperty('-webkit-align-items', 'center');
-        break;
-      case VerticalAlignment.stretch:
-        rawElement.style.setProperty('-webkit-align-items', 'stretch');
-        break;
-    }
+    HtmlSurfaceElement.updateChildAlignment(this);
   }
 
   @override void onBackgroundChanged(Brush brush){
-    _setFill(brush);
+    HtmlSurfaceElement.setBackgroundBrush(this, brush);
   }
 
   @override void onCornerRadiusChanged(Thickness value){
@@ -187,77 +142,6 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
 
   @override void onDraggableChanged(bool draggable){
     throw new NotImplementedException('todo...');
-  }
-
-  void _setFill(Brush brush){
-    if (brush is SolidColorBrush){
-      rawElement.style.background =
-          '${brush.color.value.toColorString()}';
-    }else if (brush is LinearGradientBrush){
-      rawElement.style.background =
-          brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      rawElement.style.background =
-          "-webkit-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-moz-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-ms-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-o-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "linear-gradient(${brush.direction.value}, ${colorString})";
-    }else if (brush is RadialGradientBrush){
-      //set the fallback
-      rawElement.style.background = brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      rawElement.style.background =
-        "-webkit-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-moz-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-ms-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-o-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-    }else{
-      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
-      rawElement.style.background =
-          new SolidColorBrush.fromPredefined(Colors.White);
-    }
   }
 }
 

@@ -62,7 +62,7 @@ abstract class ActionBase extends FrameworkObject
   }
 
   _setEvent(String eventName){
-    var ee = eventName.toLowerCase();
+    var ee = eventName;
 
     //only allow one registration per event
     if (_ref.containsKey(ee)) return;

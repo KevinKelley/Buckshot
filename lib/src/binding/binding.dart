@@ -18,7 +18,7 @@ part of core_buckshotui_org;
 * ### Unregistering a Binding
 * bindingReference.unregister();
 */
-class Binding extends FrameworkObject
+class Binding
 {
   BindingMode bindingMode;
   Binding _twoWayPartner;
@@ -30,9 +30,6 @@ class Binding extends FrameworkObject
   *   **This value is set by the framework**.
   */
   bool bindingSet = false;
-
-  initProperties() => super.initProperties();
-  initEvents() => super.initEvents();
 
   /**
   * Instantiates a binding between [fromProperty] and [toProperty],
@@ -88,8 +85,6 @@ class Binding extends FrameworkObject
 
     _registerBinding();
   }
-
-  makeMe() => null;
 
   _registerBinding()
   {

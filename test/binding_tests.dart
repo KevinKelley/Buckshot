@@ -31,13 +31,13 @@ Future run(){
 
     test('Strict binding null properties throws', (){
       Expect.throws(
-          () => new Binding(e1.a, null, BindingMode.OneWay),
+          () => new Binding(e1.a, null, bindingMode: BindingMode.OneWay),
           (err)=> (err is BuckshotException)
       );
 
       Expect.throws(
-          ()=> new Binding(null, e1.b, BindingMode.OneWay),
-          (err)=> (err is BuckshotException)
+          ()=> new Binding(null, e1.b, bindingMode: BindingMode.OneWay),
+          (err) => err is BuckshotException
       );
     });
 

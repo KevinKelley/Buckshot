@@ -107,23 +107,48 @@ class ModalDialog extends Control
 
   Completer _dialogCompleter;
 
-  ModalDialog()
-  {
-    _initModalDialogProperties();
-  }
-
+  ModalDialog();
   ModalDialog.register() : super.register();
   makeMe() => new ModalDialog();
 
   ModalDialog.with(titleContent, bodyContent, List<DialogButtonType> buttons)
+      : super()
   {
-    _initModalDialogProperties();
     _initButtons(buttons);
     title.value = titleContent;
     body.value = bodyContent;
-
   }
 
+
+  /**
+   * Displays the [ModalDialog] and returns a Future that completes when
+   * one of the dialog buttons is clicked.
+   */
+  Future<DialogButtonType> show(){
+    log('Showing ModalDialog');
+    _dialogCompleter = new Completer<DialogButtonType>();
+
+    b1 = bind(htmlPresenter.viewportWidth, cvRoot.width);
+    b2 = bind(htmlPresenter.viewportHeight, cvRoot.height);
+
+    cvRoot.width.value = window.innerWidth;
+    cvRoot.height.value = window.innerHeight;
+
+    document.body.elements.add(cvRoot.rawElement);
+    // manually trigger loaded state since we aren't adding this
+    // to the visual tree using the API...
+    onLoaded();
+    cvRoot.onLoaded();
+    assert(cvRoot.isLoaded);
+    _loadChildren(cvRoot);
+
+//    htmlPresenter.workers['__modal_watcher__'] = (_){
+//      cvRoot.rawElement.style.top = '0px';
+//      cvRoot.rawElement.style.left = '0px';
+//    };
+
+    return _dialogCompleter.future;
+  }
 
   void setButtons(List<DialogButtonType> buttons){
     _initButtons(buttons);
@@ -131,6 +156,7 @@ class ModalDialog extends Control
 
   void buttonClick_handler(sender, args){
     final b = sender as Button;
+//    htmlPresenter.workers.remove('__modal_watcher__');
     b1.unregister();
     b2.unregister();
     this.rawElement.remove();
@@ -139,18 +165,9 @@ class ModalDialog extends Control
     _dialogCompleter.complete(DialogButtonType.fromString(b.content.value));
   }
 
-  // modalDialog needs to override this in order to work property.
-  void finishOnLoaded(){
-    template.isLoaded = true;
-
-    // we have to fire this manually because of the complicate
-    // layout nature of this control.
-    (template as Panel).children[1].onAddedToDOM();
-  }
-
   void _initButtons(List buttons){
     final buttonsContainer =
-        Template.findByName('spButtonContainer', template) as Panel;
+        Template.findByName('spButtonContainer', template) as Stack;
 
     for (final Button b in buttonsContainer.children){
       if (buttons.some((tb) => tb.toString() == b.content.value.toLowerCase())){
@@ -166,7 +183,9 @@ class ModalDialog extends Control
     }
   }
 
-  void _initModalDialogProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     title = new FrameworkProperty(this, 'title',
         defaultValue:'undefined');
 
@@ -200,7 +219,8 @@ class ModalDialog extends Control
         converter: const StringToThicknessConverter());
 
     cvRoot = Template.findByName('cvRoot', template);
-
+    assert(cvRoot != null);
+    assert(cvRoot is Grid);
     // Override the underlying DOM element on this canvas so that it
     // is absolutely positioned int the window at 0,0
     cvRoot.rawElement.style.position = 'absolute';
@@ -208,29 +228,17 @@ class ModalDialog extends Control
     cvRoot.rawElement.style.left = '0px';
   }
 
-  Future<DialogButtonType> show(){
-    log('Showing ModalDialog');
-    _dialogCompleter = new Completer<DialogButtonType>();
-
-    b1 = bind(windowWidth, cvRoot.width);
-    b2 = bind(windowHeight, cvRoot.height);
-
-    document.body.elements.add(cvRoot.rawElement);
-
-    // manually trigger loaded state since we aren't adding this
-    // to the visual tree using the API...
-    cvRoot.isLoaded = true;
-    onLoaded();
-    cvRoot.updateLayout();
-
-    return _dialogCompleter.future;
-  }
-
   String get defaultControlTemplate {
     return
         '''
 <controltemplate controlType='${this.templateName}'>
   <grid name='cvRoot' zorder='32766'>
+    <rowdefinitions>
+      <rowdefinition height='*' />
+    </rowdefinitions>
+    <columndefinitions>
+      <columndefinition width='*' />
+    </columndefinitions>
     <border halign='stretch'
             valign='stretch'
             background='{template maskBrush}'
@@ -239,7 +247,9 @@ class ModalDialog extends Control
             shadowy='3'
             shadowblur='6'
             minwidth='200'
-            halign='center' valign='center' padding='5'
+            halign='center' 
+            valign='center' 
+            padding='5'
             cornerRadius='{template cornerRadius}'
             borderthickness='{template borderThickness}' 
             bordercolor='{template borderColor}' 
@@ -261,6 +271,34 @@ class ModalDialog extends Control
   </grid>
 </controltemplate>
         ''';
+  }
+
+  void _loadChildren(FrameworkContainer container){
+    if (container.containerContent == null) return;
+
+    if (container.containerContent is Collection){
+      container.containerContent.forEach((content){
+        if(content is! SurfaceElement) {
+          // likely a text node of a textblock.
+          assert(content is String);
+          return;
+        }
+        content.onLoaded();
+
+        if (content is FrameworkContainer){
+          _loadChildren(content);
+        }
+
+      });
+    }else if (container.containerContent is SurfaceElement){
+      container.containerContent.onLoaded();
+      if (container.containerContent is FrameworkContainer){
+        _loadChildren(container.containerContent);
+      }
+    }else{
+//      log('Invalid container type found: $container'
+//          ' ${container.containerContent}');
+    }
   }
 }
 

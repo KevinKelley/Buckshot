@@ -2,10 +2,6 @@ part of surface_buckshot;
 
 abstract class SurfaceElement extends FrameworkObject
 {
-  RectMeasurement previousMeasurement;
-  RectMeasurement previousPosition;
-  RectMeasurement mostRecentMeasurement;
-
   FrameworkProperty<bool> userSelect;
   /// Represents the width of the FrameworkElement.
   FrameworkProperty<num> width;
@@ -22,11 +18,24 @@ abstract class SurfaceElement extends FrameworkObject
   /// Represents whether an element is draggable
   FrameworkProperty<bool> draggable;
 
-  final FrameworkEvent<MeasurementChangedEventArgs> measurementChanged
-    = new FrameworkEvent<MeasurementChangedEventArgs>();
-
-  final FrameworkEvent<MeasurementChangedEventArgs> positionChanged
-    = new FrameworkEvent<MeasurementChangedEventArgs>();
+  FrameworkEvent<MeasurementChangedEventArgs> measurementChanged;
+  FrameworkEvent<MeasurementChangedEventArgs> positionChanged;
+  /// Fires when the DOM gives the FrameworkElement focus.
+  FrameworkEvent<EventArgs> gotFocus;
+  /// Fires when the DOM removes focus from the FrameworkElement.
+  FrameworkEvent<EventArgs> lostFocus;
+  /// Fires when the mouse enters the boundary of the FrameworkElement.
+  FrameworkEvent<EventArgs> mouseEnter;
+  /// Fires when the mouse leaves the boundary of the FrameworkElement.
+  FrameworkEvent<EventArgs> mouseLeave;
+  /// Fires when a mouse click occurs on the FrameworkElement.
+  FrameworkEvent<MouseEventArgs> click;
+  /// Fires when the mouse position changes over the FrameworkElement.
+  FrameworkEvent<MouseEventArgs> mouseMove;
+  /// Fires when the mouse button changes to a down position while over the FrameworkElement.
+  FrameworkEvent<MouseEventArgs> mouseDown;
+  /// Fires when the mouse button changes to an up position while over the FrameworkElement.
+  FrameworkEvent<MouseEventArgs> mouseUp;
 
   SurfaceElement();
   SurfaceElement.register() : super.register();
@@ -78,7 +87,16 @@ abstract class SurfaceElement extends FrameworkObject
   }
 
   @override void initEvents(){
+    super.initEvents();
     registerEvent('measurementchanged', measurementChanged);
     registerEvent('positionchanged', positionChanged);
+    registerEvent('gotfocus', gotFocus);
+    registerEvent('lostfocus', lostFocus);
+    registerEvent('click', click);
+    registerEvent('mouseleave', mouseLeave);
+    registerEvent('mouseenter', mouseEnter);
+    registerEvent('mousedown', mouseDown);
+    registerEvent('mouseup', mouseUp);
+    registerEvent('mousemove', mouseMove);
   }
 }

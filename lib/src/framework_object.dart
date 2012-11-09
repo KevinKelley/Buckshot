@@ -82,7 +82,9 @@ abstract class FrameworkObject
   FrameworkObject() {
     //TODO visual template needs to apply before this?
     applyVisualTemplate();
-    presenter.initElement(this);
+    if (presenter != null){
+      presenter.initElement(this);
+    }
     initProperties();
     initEvents();
     assert(dataContext != null);
@@ -135,7 +137,7 @@ abstract class FrameworkObject
     bool hasEventInternal(classMirror){
       final result = classMirror
           .variables
-          .getKeys()
+          .keys
           .some((k){
             if (k.startsWith('_')) return false;
             //TODO: provide a better checking here (= is FrameworkEvent)

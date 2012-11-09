@@ -14,9 +14,7 @@ abstract class Control
   extends BoxModelSurfaceElement implements HtmlSurfaceElement
 {
   Element rawElement;
-
   FrameworkProperty<bool> isEnabled;
-
   HtmlSurfaceElement template;
 
   /**
@@ -51,6 +49,11 @@ abstract class Control
       },
       defaultValue: true,
       converter: const StringToBooleanConverter());
+  }
+
+  @override void initEvents(){
+    HtmlSurfaceElement.initializeBaseEvents(this);
+    super.initEvents();
   }
 
   void applyVisualTemplate(){

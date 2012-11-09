@@ -9,5 +9,6 @@ class MeasurementChangedEventArgs extends EventArgs {
   final RectMeasurement oldMeasurement;
   final RectMeasurement newMeasurement;
 
-  MeasurementChangedEventArgs(this.oldMeasurement, this.newMeasurement);
+  MeasurementChangedEventArgs(RectMeasurement this.oldMeasurement,
+      RectMeasurement this.newMeasurement);
 }

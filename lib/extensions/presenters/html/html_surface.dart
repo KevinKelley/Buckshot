@@ -156,34 +156,24 @@ class HtmlSurface extends Surface
     return c.future;
   }
 
+  @override void initProperties(){
+    super.initProperties();
+    viewportWidth = new FrameworkProperty(this, 'viewportwidth');
+    viewportHeight = new FrameworkProperty(this, 'viewportheight');
+    _setViewportWatcher();
+  }
 
-//    assert(primitive[element] == null);
-//
-//    HtmlPrimitive p;
-//
-//    // TODO Use some sort of supported type enumeration or a map instead
-//    // of this?
-//    if (primitiveKind is Box){
-//      p = new BoxImpl();
-//    } else if (primitiveKind is Scroller){
-//      p = new ScrollerImpl();
-//    } else if (primitiveKind is StackPanel){
-//      p = new StackPanelImpl();
-//    } else if (primitiveKind is TextPrimitive){
-//      p = new TextImpl();
-//    } else if (primitiveKind is ImagePrimitive){
-//      p = new ImageImpl();
-//    }else if (primitiveKind is ContentPresenterPrimitive){
-//      p = new ContentPresenterImpl();
-//    }else{
-//        throw 'Invalid Surface Primitive';
-//    }
-//
-//    primitive[element] = p;
-//
-//    surfaceElement[p.rawElement] = element;
-//    return p;
-//  }
+  void _setViewportWatcher(){
+    window.on.resize.add((e){
+      if (window.innerWidth != viewportWidth.value){
+        viewportWidth.value = window.innerWidth;
+      }
+
+      if (window.innerHeight != viewportHeight.value){
+        viewportHeight.value = window.innerHeight;
+      }
+    });
+  }
 
   void _startEventLoop(){
     workers = new HashMap<String, EventLoopCallback>();

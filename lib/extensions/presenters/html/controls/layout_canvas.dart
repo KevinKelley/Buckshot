@@ -48,7 +48,7 @@ class LayoutCanvas extends Control implements FrameworkContainer
 
     background = new FrameworkProperty(this, 'background',
         propertyChangedCallback: (Brush brush){
-          _setFill(brush);
+          HtmlSurfaceElement.setBackgroundBrush(this, brush);
         },
         converter: const StringToSolidColorBrushConverter());
   }
@@ -233,77 +233,6 @@ class LayoutCanvas extends Control implements FrameworkContainer
   @override void createPrimitive(){
     rawElement = new DivElement();
     rawElement.style.overflow = "hidden";
-  }
-
-  void _setFill(Brush brush){
-    if (brush is SolidColorBrush){
-      rawElement.style.background =
-          '${brush.color.value.toColorString()}';
-    }else if (brush is LinearGradientBrush){
-      rawElement.style.background =
-          brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      rawElement.style.background =
-          "-webkit-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-moz-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-ms-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "-o-linear-gradient(${brush.direction.value}, ${colorString})";
-      rawElement.style.background =
-          "linear-gradient(${brush.direction.value}, ${colorString})";
-    }else if (brush is RadialGradientBrush){
-      //set the fallback
-      rawElement.style.background = brush.fallbackColor.value.toColorString();
-
-      final colorString = new StringBuffer();
-
-      //create the string of stop colors
-      brush.stops.value.forEach((GradientStop stop){
-        colorString.add(stop.color.value.toColorString());
-
-        if (stop.percent.value != -1) {
-          colorString.add(" ${stop.percent.value}%");
-        }
-
-        if (stop != brush.stops.value.last) {
-          colorString.add(", ");
-        }
-      });
-
-      //set the background for all browser types
-      rawElement.style.background =
-        "-webkit-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-moz-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-ms-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "-o-radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-      rawElement.style.background =
-        "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
-    }else{
-      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
-      rawElement.style.background =
-          new SolidColorBrush.fromPredefined(Colors.White);
-    }
   }
 }
 

@@ -14,16 +14,10 @@ void generateCode(){
     return;
   }
 
-  log.pushContext('generator');
-
   final out = new File('test.tmp').openOutputStream();
 
-  log.write('$fileNames');
-
   out.onError = (e){
-    log.write('build.dart error! $e');
     out.close();
-    log.close();
     exit(1);
   };
 
@@ -36,30 +30,23 @@ void generateCode(){
         throw const Exception('Could not read file data.');
       }
 
-      log.write('Working on "${gs.name}, ${gs.fileType}"');
-
       var result;
 
       if (gs.fileType == GeneratorFile.HTML){
         result = _generateFromHTML(gs.name, gs.fileData);
-        log.write('html>> ${result}');
 
       }else if (gs.fileType == GeneratorFile.TEMPLATE){
         result = _generateFromXMLTemplate(gs.name, gs.fileData);
 
-        out.writeString('${result.getValues()}');
+        out.writeString('${result.values}');
       }
 
     } on XmlException catch(xmlE){
-      log.write('<<XML ERROR>> $xmlE');
     } on Exception catch(e){
-      log.write('<<GENERAL ERROR>> $e');
     }
   }
 
   out.close();
-  log.popContext();
-  log.close();
 }
 
 List<String> _getChangedFiles(List<String> rawArgs){

@@ -84,22 +84,24 @@ class ListBox extends Control implements FrameworkContainer
   void _OnItemCreated(sender, ItemCreatedEventArgs args){
     HtmlSurfaceElement item = args.itemCreated;
 
-//    item.click + (_, __) {
-//
-//      _selectedIndex = _presenter.presentationPanel.value.children.indexOf(item);
-//
-//      selectedItem.value = item.stateBag[CollectionPresenter.OBJECT_CONTENT];
-//
-//      selectionChanged.invoke(this, new SelectedItemChangedEventArgs(item.stateBag[CollectionPresenter.OBJECT_CONTENT]));
-//    };
-//
-//    item.mouseEnter + (_, __) => onItemMouseEnter(item);
-//
-//    item.mouseLeave + (_, __) => onItemMouseLeave(item);
-//
-//    item.mouseDown + (_, __) => onItemMouseDown(item);
-//
-//    item.mouseUp + (_, __) => onItemMouseUp(item);
+    item.click + (_, __) {
+
+      _selectedIndex =
+          _presenter.presentationPanel.value.children.indexOf(item);
+
+      selectedItem.value = _presenter.objectReference[item];
+
+      selectionChanged.invoke(this,
+          new SelectedItemChangedEventArgs(_presenter.objectReference[item]));
+    };
+
+    item.mouseEnter + (_, __) => onItemMouseEnter(item);
+
+    item.mouseLeave + (_, __) => onItemMouseLeave(item);
+
+    item.mouseDown + (_, __) => onItemMouseDown(item);
+
+    item.mouseUp + (_, __) => onItemMouseUp(item);
   }
 
   get containerContent => template;

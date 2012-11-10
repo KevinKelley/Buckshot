@@ -28,7 +28,7 @@
       <button on.click='dockpanel_click' content='Right'/>
       <button on.click='dockpanel_click' content='Bottom'/>
    </stack>
-   
+
    <textblock style='{resource headerText}' text='Nested Content In DockPanel' />
    <dockpanel fillLast='true' width='250' height='250' background='Orange'>
       <border dockpanel.dock='left' style='{resource borderStyle}'>

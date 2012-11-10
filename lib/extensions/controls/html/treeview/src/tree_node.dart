@@ -1,4 +1,4 @@
-part of treeview_controls_buckshot;
+part of treeview_control_extensions_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -14,9 +14,9 @@ class TreeNode extends Control implements FrameworkContainer
   TreeNode _parentNode = null;
 
   FrameworkProperty<dynamic> header;
-  FrameworkProperty<FrameworkElement> icon;
-  FrameworkProperty<FrameworkElement> folderIcon;
-  FrameworkProperty<FrameworkElement> fileIcon;
+  FrameworkProperty<HtmlSurfaceElement> icon;
+  FrameworkProperty<HtmlSurfaceElement> folderIcon;
+  FrameworkProperty<HtmlSurfaceElement> fileIcon;
   FrameworkProperty<ObservableList<TreeNode>> childNodes;
   FrameworkProperty<dynamic> indicator;
   FrameworkProperty<Visibility> childVisibility;
@@ -24,15 +24,8 @@ class TreeNode extends Control implements FrameworkContainer
 
   TreeNode()
   {
-    Browser.appendClass(rawElement, "TreeNode");
-
-    _initializeTreeNodeProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = childNodes.value;
-
     _initControl();
-
-    _setMouseStyles();
   }
 
   TreeNode.register() : super.register();
@@ -40,8 +33,8 @@ class TreeNode extends Control implements FrameworkContainer
 
   void _initControl(){
     // Toggle visibility of child nodes when clicked.
-    Template
-      .findByName('__tree_node_indicator__', template)
+    (Template
+      .findByName('__tree_node_indicator__', template) as HtmlSurfaceElement)
       .click + (_, __){
         childVisibility.value = childVisibility.value == Visibility.visible
             ? Visibility.collapsed
@@ -49,10 +42,12 @@ class TreeNode extends Control implements FrameworkContainer
 
         updateIndicator();
       };
+
+    _setMouseStyles();
   }
 
   void onFirstLoad(){
-    _parentTreeView = Template.findParentByType(this, 'TreeView');
+    _parentTreeView = Template.findParentByType(this, 'TreeView') as TreeView;
     assert(_parentTreeView != null);
     updateIndicator();
   }
@@ -112,7 +107,8 @@ class TreeNode extends Control implements FrameworkContainer
   }
 
 
-  void _initializeTreeNodeProperties(){
+  @override void initProperties(){
+    super.initProperties();
 
     childNodes = new FrameworkProperty(this, 'childNodes',
         defaultValue:new ObservableList<TreeNode>());
@@ -145,9 +141,8 @@ class TreeNode extends Control implements FrameworkContainer
     childVisibility = new FrameworkProperty(
       this,
       'childVisibility',
-      (_){},
-      Visibility.collapsed,
-      converter:const StringToVisibilityConverter());
+      defaultValue: Visibility.collapsed,
+      converter: const StringToVisibilityConverter());
 
     _mouseEventStyles = new FrameworkProperty(this, '_mouseEventStyles',
         defaultValue: getResource('__TreeView_mouse_leave_style_template__'));

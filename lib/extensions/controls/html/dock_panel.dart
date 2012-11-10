@@ -21,11 +21,13 @@ class DockPanel extends Control implements FrameworkContainer
 
   DockPanel()
   {
-    registerAttachedProperty('dockpanel.dock', DockPanel.setDock);
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = children;
   }
 
-  DockPanel.register() : super.register();
+  DockPanel.register() : super.register()
+  {
+    registerAttachedProperty('dockpanel.dock', DockPanel.setDock);
+  }
   makeMe() => new DockPanel();
 
   @override void initEvents(){

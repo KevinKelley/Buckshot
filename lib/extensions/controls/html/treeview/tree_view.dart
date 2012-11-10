@@ -2,16 +2,17 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library treeview_controls_buckshot;
+library treeview_control_extensions_buckshot;
 
-import 'package:buckshot/buckshot.dart';
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
-part 'tree_node.dart';
+part 'src/tree_node.dart';
 
 /**
 * Displays a heirachical list of [TreeNode] elements.
 */
-class TreeView extends Panel
+class TreeView extends Control
 {
   static const String INDICATOR_COLLAPSED = '\u{25b7}';
   static const String INDICATOR_EXPANDED = '\u{25e2}';
@@ -26,7 +27,6 @@ class TreeView extends Panel
   </stack>
 </border>
 ''';
-
 
   static const String FOLDER_DEFAULT_TEMPLATE =
       '''
@@ -46,6 +46,7 @@ class TreeView extends Panel
   FrameworkProperty<Thickness> borderThickness;
   FrameworkProperty<Color> borderColor;
   FrameworkProperty<TreeNode> selectedNode;
+  FrameworkProperty<Brush> background;
 
   /// Event which fires when a node is selected in the TreeView.
   final FrameworkEvent<TreeNodeSelectedEventArgs> treeNodeSelected =
@@ -53,23 +54,98 @@ class TreeView extends Panel
 
   TreeView()
   {
-    Browser.appendClass(rawElement, "TreeView");
-
-    _initializeTreeViewProperties();
-
     initStyleTemplates();
-
-    cursor.value = Cursors.Arrow;
-
-    background.value = getResource('theme_light_brush');
-
-    registerEvent('treenodeselected', treeNodeSelected);
+//    background.value = getResource('theme_light_brush');
   }
 
   TreeView.register() : super.register(){
     registerElement(new TreeNode.register());
   }
   makeMe() => new TreeView();
+
+  /** Selects a [node] as the active node. */
+  void selectNode(TreeNode node) => _onTreeNodeSelected(node);
+
+  /** Clears the selectged node. */
+  void clearSelectedNode(){
+    if (selectedNode == null) return;
+
+    selectedNode.value._mouseEventStyles.value = mouseLeaveBorderStyle;
+    selectedNode.value == null;
+  }
+
+  @override void initEvents(){
+    super.initEvents();
+    registerEvent('treenodeselected', treeNodeSelected);
+  }
+
+  @override void initProperties(){
+    super.initProperties();
+
+    cursor.value = Cursors.Arrow;
+
+    selectedNode = new FrameworkProperty(this, 'selectedNode');
+
+    indent = new FrameworkProperty(this, 'indent',
+      propertyChangedCallback: (_) => updateLayout(),
+      defaultValue: 10,
+      converter:const StringToNumericConverter());
+
+    borderColor = new AnimatingFrameworkProperty(
+      this,
+      "borderColor",
+      'border',
+      propertyChangedCallback: (Color value){
+        rawElement.style.borderColor = '$value';
+      },
+      defaultValue: getResource('theme_background_light'),
+      converter:const StringToColorConverter());
+
+    borderThickness = new FrameworkProperty(
+      this,
+      "borderThickness",
+      propertyChangedCallback:
+        (value){
+
+        String color = borderColor.value != null
+            ? rawElement.style.borderColor
+            : '${getResource('theme_background_light')}';
+
+        //TODO support border hatch styles
+        rawElement.style.borderTop = 'solid ${value.top}px $color';
+        rawElement.style.borderRight = 'solid ${value.right}px $color';
+        rawElement.style.borderLeft = 'solid ${value.left}px $color';
+        rawElement.style.borderBottom = 'solid ${value.bottom}px $color';
+
+      },
+      defaultValue:new Thickness(0),
+      converter:const StringToThicknessConverter());
+
+  }
+
+  void onChildrenChanging(ListChangedEventArgs args){
+    args.newItems.forEach((HtmlSurfaceElement element){
+      assert(element is TreeNode);
+      element._parentTreeView = this;
+    });
+  }
+
+  @override void createPrimitive(){
+    rawElement = new DivElement();
+    rawElement.style.overflowX = "auto";
+    rawElement.style.overflowY = "auto";
+  }
+
+  void _onTreeNodeSelected(TreeNode node){
+
+    if (selectedNode.value != null){
+      selectedNode.value._mouseEventStyles.value = mouseLeaveBorderStyle;
+    }
+
+    selectedNode.value = node;
+    selectedNode.value._mouseEventStyles.value = mouseUpBorderStyle;
+    treeNodeSelected.invoke(this, new TreeNodeSelectedEventArgs(node));
+  }
 
   /**
    * Override this method to customize the mouse event styles on [TreeNode]s.
@@ -113,90 +189,6 @@ class TreeView extends Panel
         mouseDownBorderStyle = getResource('__TreeView_mouse_down_style_template__');
         mouseUpBorderStyle = getResource('__TreeView_mouse_up_style_template__');
       });
-  }
-
-  /** Selects a [node] as the active node. */
-  void selectNode(TreeNode node) => _onTreeNodeSelected(node);
-
-  /** Clears the selectged node. */
-  void clearSelectedNode(){
-    if (selectedNode == null) return;
-
-    selectedNode.value._mouseEventStyles.value = mouseLeaveBorderStyle;
-    selectedNode.value == null;
-  }
-
-
-  void _onTreeNodeSelected(TreeNode node){
-
-    if (selectedNode.value != null){
-      selectedNode.value._mouseEventStyles.value = mouseLeaveBorderStyle;
-    }
-
-    selectedNode.value = node;
-    selectedNode.value._mouseEventStyles.value = mouseUpBorderStyle;
-    treeNodeSelected.invoke(this, new TreeNodeSelectedEventArgs(node));
-  }
-
-  void _initializeTreeViewProperties(){
-    selectedNode = new FrameworkProperty(this, 'selectedNode');
-
-    indent = new FrameworkProperty(this, 'indent'
-      , (_) => updateLayout(), 10, converter:const StringToNumericConverter());
-
-    borderColor = new AnimatingFrameworkProperty(
-      this,
-      "borderColor",
-      'border',
-      propertyChangedCallback: (Color value){
-        rawElement.style.borderColor = '$value';
-      },
-      defaultValue: getResource('theme_background_light'),
-      converter:const StringToColorConverter());
-
-    borderThickness = new FrameworkProperty(
-      this,
-      "borderThickness",
-      propertyChangedCallback:
-        (value){
-
-        String color = borderColor.value != null
-            ? rawElement.style.borderColor
-            : '${getResource('theme_background_light')}';
-
-        //TODO support border hatch styles
-        rawElement.style.borderTop = 'solid ${value.top}px $color';
-        rawElement.style.borderRight = 'solid ${value.right}px $color';
-        rawElement.style.borderLeft = 'solid ${value.left}px $color';
-        rawElement.style.borderBottom = 'solid ${value.bottom}px $color';
-
-      },
-      defaultValue:new Thickness(0),
-      converter:const StringToThicknessConverter());
-
-  }
-
-  void onChildrenChanging(ListChangedEventArgs args){
-    super.onChildrenChanging(args);
-
-    args.oldItems.forEach((FrameworkElement element){
-      element.removeFromLayoutTree();
-    });
-
-    args.newItems.forEach((FrameworkElement element){
-      if (element is! TreeNode){
-        throw const
-        BuckshotException('TreeView children must be of type TreeNode');
-      }
-      element._parentTreeView = this;
-      element.addToLayoutTree(this);
-    });
-  }
-
-  void createElement(){
-    rawElement = new DivElement();
-    rawElement.style.overflowX = "auto";
-    rawElement.style.overflowY = "auto";
   }
 }
 

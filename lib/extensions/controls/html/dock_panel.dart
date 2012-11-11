@@ -15,6 +15,7 @@ class DockPanel extends Control implements FrameworkContainer
   static AttachedFrameworkProperty dockProperty;
 
   FrameworkProperty<bool> fillLast;
+  FrameworkProperty<Brush> background;
 
   final ObservableList<HtmlSurfaceElement> children =
       new ObservableList<HtmlSurfaceElement>();
@@ -42,6 +43,12 @@ class DockPanel extends Control implements FrameworkContainer
     fillLast = new FrameworkProperty(this, 'fillLast',
       defaultValue: true,
       converter:const StringToBooleanConverter());
+
+    background = new FrameworkProperty(this, 'background',
+        propertyChangedCallback: (Brush brush) {
+          HtmlSurfaceElement.setBackgroundBrush(this, brush);
+        },
+        converter: const StringToSolidColorBrushConverter());
   }
 
   get containerContent => children;

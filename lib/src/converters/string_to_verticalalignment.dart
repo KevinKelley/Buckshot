@@ -8,10 +8,10 @@ part of core_buckshotui_org;
 * Converts from [String] to [VerticalAlignment] enumerator.
 */
 class StringToVerticalAlignmentConverter implements IValueConverter{
-  
+
   const StringToVerticalAlignmentConverter();
-  
-  dynamic convert(dynamic value, [dynamic parameter]){
+
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (!(value is String)) return value;
     switch(value){
     case "center":

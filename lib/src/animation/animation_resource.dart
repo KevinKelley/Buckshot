@@ -23,9 +23,11 @@ class AnimationResource extends FrameworkResource
 
   _initAnimationResourceProperties(){
 
-    keyFrames = new FrameworkProperty(this, 'keyFrames', (_){
+    keyFrames = new FrameworkProperty(this, 'keyFrames',
+    propertyChangedCallback: (_){
       _invalidate();
-    }, new List<AnimationKeyFrame>());
+    },
+    defaultValue: new List<AnimationKeyFrame>());
 
   }
 

@@ -49,23 +49,25 @@ abstract class Shape extends FrameworkElement
         },
         converter:const StringToSolidColorBrushConverter());
 
-    _swProperty = new FrameworkProperty(this, '_sw', (v){
-      if (v is! num) return;
+    _swProperty = new FrameworkProperty(this, '_sw',
+      propertyChangedCallback: (v){
+        if (v is! num) return;
 
-      _svgWrapper.attributes['width'] = '$v';
-    });
+        _svgWrapper.attributes['width'] = '$v';
+      });
 
-    _shProperty = new FrameworkProperty(this, '_sh', (v){
-      if (v is! num) return;
+    _shProperty = new FrameworkProperty(this, '_sh',
+      propertyChangedCallback: (v){
+        if (v is! num) return;
 
-      _svgWrapper.attributes['height'] = '$v';
-    });
+        _svgWrapper.attributes['height'] = '$v';
+      });
 
     bind(width, _swProperty);
     bind(height, _shProperty);
   }
 
-  abstract String get shapeTag;
+  String get shapeTag;
 
   void createElement(){
     rawElement = new DivElement();

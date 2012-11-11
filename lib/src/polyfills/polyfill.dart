@@ -10,5 +10,5 @@ abstract class Polyfill extends HashableObject
   Polyfill(FrameworkElement this.element);
 
   /** Requires the polyfill to recalcuate. */
-  abstract void invalidate();
+  void invalidate();
 }

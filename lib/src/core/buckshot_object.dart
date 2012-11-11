@@ -76,7 +76,7 @@ abstract class BuckshotObject extends HashableObject
     return hasEventInternal(buckshot.reflectMe(this).type);
   }
 
-  abstract makeMe();
+  makeMe();
 
   /**
    * Returns a boolean value indicting whether the object contains

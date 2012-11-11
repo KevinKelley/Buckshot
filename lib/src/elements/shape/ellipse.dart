@@ -23,30 +23,34 @@ class Ellipse extends Shape{
   makeMe() => new Ellipse();
 
   void _initEllipseProperties(){
-    _cx = new FrameworkProperty(this, '_cx', (v){
-      if (v is! num) return;
+    _cx = new FrameworkProperty(this, '_cx',
+      propertyChangedCallback: (v){
+        if (v is! num) return;
 
-      var result = v / 2;
-      shapeElement.attributes['cx'] = '${result}';
-      _rx.value = result;
+        var result = v / 2;
+        shapeElement.attributes['cx'] = '${result}';
+        _rx.value = result;
 
-    });
+      });
 
-    _cy = new FrameworkProperty(this, '_cy', (v){
-      if (v is! num) return;
+    _cy = new FrameworkProperty(this, '_cy',
+      propertyChangedCallback: (v){
+        if (v is! num) return;
 
-      var result = v / 2;
-      shapeElement.attributes['cy'] = '${result}';
-      _ry.value = result;
+        var result = v / 2;
+        shapeElement.attributes['cy'] = '${result}';
+        _ry.value = result;
 
-    });
+      });
 
-    _rx = new FrameworkProperty(this, '_rx', (v){
-      shapeElement.attributes['rx'] = '${v - strokeWidth.value / 2}';
-    });
-    _ry = new FrameworkProperty(this, '_ry', (v){
-      shapeElement.attributes['ry'] = '${v - strokeWidth.value / 2}';
-    });
+    _rx = new FrameworkProperty(this, '_rx',
+      propertyChangedCallback: (v){
+        shapeElement.attributes['rx'] = '${v - strokeWidth.value / 2}';
+      });
+    _ry = new FrameworkProperty(this, '_ry',
+      propertyChangedCallback: (v){
+        shapeElement.attributes['ry'] = '${v - strokeWidth.value / 2}';
+      });
 
     bind(width, _cx);
     bind(height, _cy);

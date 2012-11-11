@@ -47,7 +47,7 @@ void generateCode(){
       }else if (gs.fileType == GeneratorFile.TEMPLATE){
         result = _generateFromXMLTemplate(gs.name, gs.fileData);
 
-        out.writeString('${result.getValues()}');
+        out.writeString('${result.values}');
       }
 
     } on XmlException catch(xmlE){

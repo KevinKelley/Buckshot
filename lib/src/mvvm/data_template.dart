@@ -118,12 +118,12 @@ class DataTemplate extends BuckshotObject
 
     if (defaultData == null && changedCallback != null){
       _properties[propertyName] = new FrameworkProperty(this, propertyName,
-          changedCallback);
+          propertyChangedCallback: changedCallback);
       return;
     }
 
     //defaultData != null && changedCallback != null
     _properties[propertyName] = new FrameworkProperty(this, propertyName,
-        changedCallback, defaultValue:defaultData);
+        propertyChangedCallback: changedCallback, defaultValue:defaultData);
   }
 }

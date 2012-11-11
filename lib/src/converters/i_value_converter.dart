@@ -13,7 +13,7 @@ abstract class IValueConverter
 
   /// Returns a converted value from a given [Dynamic] value and optional [Dynamic]
   /// parameter.
-  abstract dynamic convert(dynamic value, {dynamic parameter});
+  dynamic convert(dynamic value, {dynamic parameter});
 
   //TODO implement two-way conversion support
 }

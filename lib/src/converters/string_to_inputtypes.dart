@@ -8,10 +8,10 @@ part of core_buckshotui_org;
 /** Provides a conversion between [String] and [InputTypes]. */
 class StringToInputTypesConverter implements IValueConverter{
   const StringToInputTypesConverter();
-    
-  dynamic convert(dynamic value, [dynamic parameter]){
+
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
-    
+
     switch(value){
     case "password":
       return InputTypes.password;

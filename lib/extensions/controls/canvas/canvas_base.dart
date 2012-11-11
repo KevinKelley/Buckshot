@@ -73,13 +73,19 @@ class CanvasBase extends FrameworkElement
   String get _name => "canvas_${_canvasId}";
 
   void _initCanvasProperties() {
-    surfaceWidth = new FrameworkProperty(this, "surfaceWidth", (num v){
+    surfaceWidth = new FrameworkProperty(this, "surfaceWidth",
+    propertyChangedCallback: (num v){
       rawElement.attributes["width"] = '$v';
-    }, 640, converter:const StringToNumericConverter());
+    },
+    defaultValue: 640,
+    converter:const StringToNumericConverter());
 
-    surfaceHeight = new FrameworkProperty(this, "surfaceHeight", (num v){
+    surfaceHeight = new FrameworkProperty(this, "surfaceHeight",
+    propertyChangedCallback: (num v){
       rawElement.attributes["height"] = '$v';
-    }, 480, converter:const StringToNumericConverter());
+    },
+    defaultValue: 480,
+    converter:const StringToNumericConverter());
   }
 
   void _initCanvasEvents() {

@@ -10,5 +10,5 @@ part of core_buckshotui_org;
  */
 abstract class FrameworkContainer
 {
-  abstract get containerContent;
+  get containerContent;
 }

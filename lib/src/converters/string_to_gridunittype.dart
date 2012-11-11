@@ -8,9 +8,9 @@ part of core_buckshotui_org;
 * Provides a conversion between [String] values and [GridUnitType].
 */
 class StringToGridUnitTypeConverter implements IValueConverter{
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (!(value is String)) return value;
-    
+
     switch(value){
     case "star":
       return GridUnitType.star;

@@ -39,7 +39,7 @@ class StringToCursorConverter implements IValueConverter {
 
   const StringToCursorConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (!(value is String)) return value;
 
     switch(value){

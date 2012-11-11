@@ -233,24 +233,24 @@ class DockPanel extends Panel
 
       switch(loc){
         case DockLocation.left:
-          g.columnDefinitions.add(new ColumnDefinition.with(new GridLength.auto()));
-          g.columnDefinitions.add(new ColumnDefinition.with(new GridLength.star(1)));
-          g.rowDefinitions.add(new RowDefinition.with(new GridLength.star(1)));
+          g.columnDefinitions.value.add(new ColumnDefinition.with(new GridLength.auto()));
+          g.columnDefinitions.value.add(new ColumnDefinition.with(new GridLength.star(1)));
+          g.rowDefinitions.value.add(new RowDefinition.with(new GridLength.star(1)));
           return g;
         case DockLocation.right:
-          g.columnDefinitions.add(new ColumnDefinition.with(new GridLength.star(1)));
-          g.columnDefinitions.add(new ColumnDefinition.with(new GridLength.auto()));
-          g.rowDefinitions.add(new RowDefinition.with(new GridLength.star(1)));
+          g.columnDefinitions.value.add(new ColumnDefinition.with(new GridLength.star(1)));
+          g.columnDefinitions.value.add(new ColumnDefinition.with(new GridLength.auto()));
+          g.rowDefinitions.value.add(new RowDefinition.with(new GridLength.star(1)));
           return g;
         case DockLocation.top:
-          g.rowDefinitions.add(new RowDefinition.with(new GridLength.auto()));
-          g.rowDefinitions.add(new RowDefinition.with(new GridLength.star(1)));
-          g.columnDefinitions.add(new ColumnDefinition.with(new GridLength.star(1)));
+          g.rowDefinitions.value.add(new RowDefinition.with(new GridLength.auto()));
+          g.rowDefinitions.value.add(new RowDefinition.with(new GridLength.star(1)));
+          g.columnDefinitions.value.add(new ColumnDefinition.with(new GridLength.star(1)));
           return g;
         case DockLocation.bottom:
-          g.rowDefinitions.add(new RowDefinition.with(new GridLength.star(1)));
-          g.rowDefinitions.add(new RowDefinition.with(new GridLength.auto()));
-          g.columnDefinitions.add(new ColumnDefinition.with(new GridLength.star(1)));
+          g.rowDefinitions.value.add(new RowDefinition.with(new GridLength.star(1)));
+          g.rowDefinitions.value.add(new RowDefinition.with(new GridLength.auto()));
+          g.columnDefinitions.value.add(new ColumnDefinition.with(new GridLength.star(1)));
           return g;
       }
 

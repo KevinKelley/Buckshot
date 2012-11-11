@@ -26,10 +26,10 @@ String toString() => _str;
 */
 class StringToLinearGradientDirectionConverter implements IValueConverter{
   const StringToLinearGradientDirectionConverter();
-  
-  dynamic convert(dynamic value, [dynamic parameter]){
+
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (!(value is String)) return value;
-    
+
     switch(value){
       case "vertical":
         return LinearGradientDirection.vertical;

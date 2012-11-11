@@ -83,7 +83,7 @@ abstract class ActionBase extends TemplateObject
     }
   }
 
-  abstract void onEventTrigger();
+  void onEventTrigger();
 
   /// Helper method used to set the target for the given action.
   /// Should

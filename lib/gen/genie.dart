@@ -73,7 +73,7 @@ bool _hasOption(GenOption option) =>
 
 abstract class GeneratorComponent
 {
-  abstract String generate();
+  String generate();
 }
 
 class DataContext implements GeneratorComponent

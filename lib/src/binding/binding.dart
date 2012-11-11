@@ -170,5 +170,5 @@ class Binding extends BuckshotObject
 class _DefaultConverter implements IValueConverter{
   const _DefaultConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]) => value;
+  dynamic convert(dynamic value, {dynamic parameter}) => value;
 }

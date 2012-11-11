@@ -10,7 +10,7 @@ part of core_buckshotui_org;
 class StringToLocationConverter implements IValueConverter {
   const StringToLocationConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (value is! String) return value;
 
     switch(value.toLowerCase()){

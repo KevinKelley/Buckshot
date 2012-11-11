@@ -8,7 +8,7 @@ class StringToSolidColorBrushConverter implements IValueConverter
 
   const StringToSolidColorBrushConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
 
     if (value is! String) {
       new Logger('buckshot.StringToSolidColorBrushConverter')

@@ -24,6 +24,17 @@ class MenuStrip extends Control implements FrameworkContainer
   @override void initEvents(){
     super.initEvents();
     registerEvent('menuitemselected', menuItemSelected);
+    menus.value.listChanged + onMenusChanging;
+  }
+
+  void onMenusChanging(_, ListChangedEventArgs args){
+    args.newItems.forEach((item){
+      item.parent = this;
+    });
+
+    args.oldItems.forEach((item){
+      item.parent = null;
+    });
   }
 
   @override void initProperties(){
@@ -41,8 +52,11 @@ class MenuStrip extends Control implements FrameworkContainer
 
   @override void onLoaded(){
     super.onLoaded();
-
     if (menus.value.isEmpty) return;
+
+    final cp = Template.findByName('__menu_strip_cp__', template);
+    assert(cp != null);
+    assert(cp is CollectionPresenter);
 
     menus.value.forEach((Menu m){
       if (!m.menuItems.value.isEmpty){
@@ -53,9 +67,11 @@ class MenuStrip extends Control implements FrameworkContainer
       }
 
       if (m.header == null) return;
-      printTree(m);
+
+      final cpTemplate = cp.templateReference[m] as Stack;
+
       // gets the border surrounding the menu header content
-      final b = (m.parent.parent as Stack).children[0] as Border;
+      final b = cpTemplate.children[0] as Border;
 
       b.click + (_, __){
         if (m.visibility.value == Visibility.visible){
@@ -92,7 +108,7 @@ class MenuStrip extends Control implements FrameworkContainer
 <controltemplate controlType='${this.templateName}'>
   <template>
     <border cursor='Arrow' background='{resource theme_menu_background_brush}'>
-      <collectionpresenter halign='stretch' items='{template menus}'>
+      <collectionpresenter name='__menu_strip_cp__' halign='stretch' items='{template menus}'>
          <presentationpanel>
             <stack orientation='{template orientation}'></stack>
          </presentationpanel>

@@ -35,14 +35,19 @@ class Menu extends Control implements FrameworkContainer
     menuItems.value.listChanged + onItemsChanging;
   }
 
-  void onItemsChanging(_ ListChangedEventArgs args){
+  void onItemsChanging(_, ListChangedEventArgs args){
+    args.newItems.forEach((item){
+      item.parent = this;
+    });
+
+    args.oldItems.forEach((item){
+      item.parent = null;
+    });
   }
 
   @override void onLoaded(){
     super.onLoaded();
 
-    printTree(this);
-    print('${template.parent}');
     assert(parent != null);
 
     var mp = _menuParent.value;

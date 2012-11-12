@@ -80,7 +80,6 @@ abstract class FrameworkObject
           new FrameworkEvent<AttachedPropertyChangedEventArgs>();
 
   FrameworkObject() {
-    //TODO visual template needs to apply before this?
     applyVisualTemplate();
     if (presenter != null){
       presenter.initElement(this);

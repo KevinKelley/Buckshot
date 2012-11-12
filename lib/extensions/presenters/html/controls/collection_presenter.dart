@@ -4,7 +4,8 @@ import 'dart:html';
 import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
 class CollectionPresenter
-  extends SurfaceCollectionPresenter implements HtmlSurfaceElement
+  extends SurfaceCollectionPresenter
+  implements HtmlSurfaceElement, FrameworkContainer
 {
   /**
    * Expands a property on a SurfaceElement which holds a reference to the
@@ -34,8 +35,9 @@ class CollectionPresenter
 
     presentationPanel.value = new Stack();
   }
-
   @override makeMe() => new CollectionPresenter();
+
+  @override get containerContent => presentationPanel.value;
 
   @override void onPanelChanged(SurfaceElement newPanel){
     assert(newPanel != null);
@@ -184,7 +186,9 @@ class CollectionPresenter
           ..hAlign.value = HorizontalAlignment.stretch
           ..text.value = '$iterationObject';
         objectReference[it] = iterationObject;
-
+        if (iterationObject is HtmlSurfaceElement){
+          templateReference[iterationObject] = it;
+        }
         itemCreated.invokeAsync(this, new ItemCreatedEventArgs(it));
         presentationPanel.value.containerContent.add(it);
       });
@@ -195,7 +199,9 @@ class CollectionPresenter
         .then((SurfaceElement it){
           objectReference[it] = iterationObject;
           it.dataContext.value = iterationObject;
-          //templateReference[iterationObject] = it;
+          if (iterationObject is HtmlSurfaceElement){
+            templateReference[iterationObject] = it;
+          }
           itemCreated.invokeAsync(this, new ItemCreatedEventArgs(it));
           presentationPanel.value.containerContent.add(it);
         });

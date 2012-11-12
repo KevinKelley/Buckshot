@@ -144,7 +144,7 @@ abstract class Control
     var tb = new HashMap<FrameworkProperty, String>();
     _getAllTemplateBindings(tb, template);
 
-//    log('*** template bindings: $tb', element:this);
+    log('*** template bindings: $tb', element:this);
 
     tb.forEach((FrameworkProperty k, String v){
       getPropertyByName(v)

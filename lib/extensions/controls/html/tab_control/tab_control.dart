@@ -2,12 +2,13 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library tabcontrol_controls_buckshot;
+library tabcontrol_control_extensions_buckshot;
 
-import 'package:buckshot/buckshot.dart';
+import 'dart:html';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
-part 'tab_item.dart';
-part 'tab_selected_event_args.dart';
+part 'src/tab_item.dart';
+part 'src/tab_selected_event_args.dart';
 
 class TabControl extends Control implements FrameworkContainer
 {
@@ -28,19 +29,22 @@ class TabControl extends Control implements FrameworkContainer
 
   TabControl()
   {
-    Browser.appendClass(rawElement, "TabControl");
-
-    _initTabContainerProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = tabItems.value;
+    tabItems.value.listChanged + tabItemsChanged;
   }
-
   TabControl.register() : super.register(){
     registerElement(new TabItem.register());
   }
-  makeMe() => new TabControl();
+  @override makeMe() => new TabControl();
 
-  get containerContent => tabItems.value;
+  @override get containerContent => tabItems.value;
+
+  void tabItemsChanged(_, ListChangedEventArgs args){
+    args.newItems.forEach((item){
+      assert(item is TabItem);
+      item.parent = this;
+    });
+  }
 
   void switchToTab(TabItem tab){
     if (currentTab == tab) return;
@@ -88,22 +92,22 @@ class TabControl extends Control implements FrameworkContainer
     currentTab = null;
 
     switchToTab(tabItems.value[0]);
-
   }
 
-  void onFirstLoad(){
+  @override void onLoaded(){
+    super.onLoaded();
+
     if (tabItems.value.isEmpty) return;
 
     // this is the collection of the visual elements representing each
     // tab
-    final pc = (Template.findByName('__tc_presenter__', template)
-                           as CollectionPresenter)
-                        .presentationPanel
-                        .value
-                        .children;
+    Stack pc = (Template.findByName('__tc_presenter__', template)
+        as CollectionPresenter)
+        .presentationPanel
+        .value;
 
     int i = 0;
-    pc.forEach((e){
+    pc.children.forEach((e){
       final ti = tabItems.value[i++] as TabItem;
       ti.parent = this;
       ti._visualTemplate = e;
@@ -128,10 +132,11 @@ class TabControl extends Control implements FrameworkContainer
     };
 
     switchToTab(tabItems.value[0]);
-
   }
 
-  void _initTabContainerProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     currentContent = new FrameworkProperty(this, 'currentContent');
 
     tabItems = new FrameworkProperty(this, 'tabItems',
@@ -151,7 +156,7 @@ class TabControl extends Control implements FrameworkContainer
 
   }
 
-  String get defaultControlTemplate {
+  @override get defaultControlTemplate {
     return
 '''
 <controltemplate controlType='${this.templateName}'>
@@ -161,9 +166,9 @@ class TabControl extends Control implements FrameworkContainer
            <rowdefinition height='auto' />
            <rowdefinition height='*' />
         </rowdefinitions>
-        <collectionpresenter name='__tc_presenter__' halign='{template tabAlignment}' collection='{template tabItems}'>
+        <collectionpresenter name='__tc_presenter__' halign='{template tabAlignment}' items='{template tabItems}'>
            <presentationpanel>
-              <stack name='polo' orientation='horizontal' />
+              <stack orientation='horizontal' />
            </presentationpanel>
            <itemstemplate>
               <border name='tab_border' valign='stretch' cursor='Arrow' background='{resource theme_dark_brush}' margin='0,1,0,0' borderthickness='1,1,0,1' bordercolor='{resource theme_border_color}' padding='2'>

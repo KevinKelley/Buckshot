@@ -544,12 +544,12 @@ abstract class FrameworkObject
     isLoaded = true;
     updateDataContext();
 
+    updateLayout();
+
     if (_firstLoad){
       onFirstLoad();
       _firstLoad = false;
     }
-
-    updateLayout();
 
     loaded.invoke(this, new EventArgs());
 

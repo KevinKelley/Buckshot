@@ -1,4 +1,4 @@
-part of tabcontrol_controls_buckshot;
+part of tabcontrol_control_extensions_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -6,39 +6,34 @@ part of tabcontrol_controls_buckshot;
 
 class TabItem extends Control implements FrameworkContainer
 {
-  FrameworkProperty<FrameworkElement> header;
-  FrameworkProperty<FrameworkElement> icon;
+  FrameworkProperty<HtmlSurfaceElement> header;
+  FrameworkProperty<HtmlSurfaceElement> icon;
   FrameworkProperty<bool> closeEnabled;
   FrameworkProperty<Visibility> _closeButtonVisiblity;
   FrameworkProperty<dynamic> content;
 
-  FrameworkElement _visualTemplate;
+  HtmlSurfaceElement _visualTemplate;
 
   TabItem(){
-    Browser.appendClass(rawElement, "TabItem");
-
-    _initTabItemProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = content;
   }
-
   TabItem.register() : super.register();
-  makeMe() => new TabItem();
+  @override makeMe() => new TabItem();
 
-  get containerContent => content.value;
+  @override get containerContent => content.value;
 
-  void _initTabItemProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     header = new FrameworkProperty(this, 'header');
 
     icon = new FrameworkProperty(this, 'icon');
 
     content = new FrameworkProperty(this, 'content',
         propertyChangedCallback:(value){
-          // ensure that the content has a parent assigned so that
-          // .onAddedToDOM() will bind events successfully.
-          if (value is FrameworkElement && value.parent == null){
-            value.parent = this;
-          }
+          assert(value is HtmlSurfaceElement);
+          assert(value.parent == null);
+          value.parent = this;
     });
 
     _closeButtonVisiblity = new FrameworkProperty(this,
@@ -62,5 +57,8 @@ class TabItem extends Control implements FrameworkContainer
         converter: const StringToBooleanConverter());
   }
 
-  get defaultControlTemplate => '';
+  @override void createPrimitive(){
+    rawElement = new DivElement();
+  }
+
 }

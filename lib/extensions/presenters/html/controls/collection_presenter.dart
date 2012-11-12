@@ -56,11 +56,8 @@ class CollectionPresenter
 
   void invalidate(){
     assert(presentationPanel.value != null);
-
     //print('invalidating CollectionPresenter');
-
     var values = items.value;
-
     if (values == null){
       final dc = resolveDataContext();
       if (dc == null && presentationPanel.value.isLoaded){

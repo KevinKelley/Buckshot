@@ -54,9 +54,9 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
       rawElement.elements.clear();
       return;
     }
-    if (newChild.isLoaded){
-      throw 'Child already child of another element.';
-    }
+//    if (newChild.isLoaded){
+//      throw 'Child already child of another element.';
+//    }
     rawElement.elements.clear();
     rawElement.elements.add(newChild.rawElement);
     newChild.parent = this;

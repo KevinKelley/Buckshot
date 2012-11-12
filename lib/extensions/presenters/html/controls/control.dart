@@ -113,6 +113,7 @@ abstract class Control
     if (_templateBindingsApplied || !_templateApplied) return;
     _templateBindingsApplied = true;
     _bindTemplateBindings();
+    _onTemplateLoaded();
   }
 
   @override void onUnloaded(){
@@ -120,7 +121,23 @@ abstract class Control
     // Returning if we have already done this, or if no template was actually
     // used for this control
     if (!_templateApplied) return;
-    template.isLoaded = false;
+    _onTemplateUnloaded();
+  }
+
+  // proxies the loaded behavior of a normal element into the template.
+  void _onTemplateLoaded(){
+    template.onLoaded();
+    if (template is FrameworkContainer){
+      _loadChildren(template as FrameworkContainer);
+    }
+  }
+
+  // proxies the unloaded behavior of a normal element into the template.
+  void _onTemplateUnloaded(){
+    template.onUnloaded();
+    if (template is FrameworkContainer){
+      _unloadChildren(template as FrameworkContainer);
+    }
   }
 
   void _bindTemplateBindings(){
@@ -233,6 +250,58 @@ abstract class Control
 
   @override void onDraggableChanged(bool draggable){
     throw new NotImplementedException('todo...');
+  }
+
+  void _unloadChildren(FrameworkContainer container){
+    if (container.containerContent == null) return;
+
+    if (container.containerContent is Collection){
+      container.containerContent.forEach((content){
+        assert(content is SurfaceElement);
+        content.onUnloaded();
+
+        if (content is FrameworkContainer){
+          _unloadChildren(content);
+        }
+
+      });
+    }else if (container.containerContent is SurfaceElement){
+      container.containerContent.onUnloaded();
+      if (container.containerContent is FrameworkContainer){
+        _unloadChildren(container.containerContent);
+      }
+    }else{
+      log('Invalid container type found: $container'
+          ' ${container.containerContent}');
+    }
+  }
+
+  void _loadChildren(FrameworkContainer container){
+    if (container.containerContent == null) return;
+
+    if (container.containerContent is Collection){
+      container.containerContent.forEach((content){
+        if(content is! SurfaceElement) {
+          // likely a text node of a textblock.
+          assert(content is String);
+          return;
+        }
+        content.onLoaded();
+
+        if (content is FrameworkContainer){
+          _loadChildren(content);
+        }
+
+      });
+    }else if (container.containerContent is SurfaceElement){
+      container.containerContent.onLoaded();
+      if (container.containerContent is FrameworkContainer){
+        _loadChildren(container.containerContent);
+      }
+    }else{
+      log('Invalid container type found: $container'
+          ' ${container.containerContent}');
+    }
   }
 }
 

@@ -12,7 +12,7 @@ part 'src/tree_node.dart';
 /**
 * Displays a heirachical list of [TreeNode] elements.
 */
-class TreeView extends Control
+class TreeView extends Control implements FrameworkContainer
 {
   static const String INDICATOR_COLLAPSED = '\u{25b7}';
   static const String INDICATOR_EXPANDED = '\u{25e2}';
@@ -55,6 +55,7 @@ class TreeView extends Control
   TreeView()
   {
     initStyleTemplates();
+
 //    background.value = getResource('theme_light_brush');
   }
 

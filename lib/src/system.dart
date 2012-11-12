@@ -307,7 +307,6 @@ Binding bind(FrameworkProperty from, FrameworkProperty to,
   return new Binding(from, to, bindingMode:bindingMode, converter:converter);
 }
 
-
 /**
  * Returns a resource object with the given [resourceKey].
  *
@@ -315,16 +314,9 @@ Binding bind(FrameworkProperty from, FrameworkProperty to,
  * first passed through converter.convert();
  */
 getResource(String resourceKey, {ValueConverter converter: null}){
-  if (_resourceRegistry == null) return null;
-
-  String lowered = resourceKey.trim().toLowerCase();
-
-  if (!_resourceRegistry.containsKey(lowered)) return null;
-
-  var res = _resourceRegistry[lowered];
-
-  // TODO: check the rawData field of the resource to see if it is a template.
-  // Deserialize it if so.
+  assert(_resourceRegistry != null);
+  if (!_resourceRegistry.containsKey(resourceKey)) return null;
+  var res = _resourceRegistry[resourceKey];
 
   if (res.stateBag.containsKey(FrameworkResource.RESOURCE_PROPERTY)){
     // resource property defined so return it's value
@@ -341,7 +333,7 @@ getResource(String resourceKey, {ValueConverter converter: null}){
  * platforms.
  */
 void registerResource(FrameworkResource resource){
-  _resourceRegistry[resource.key.value.trim().toLowerCase()] = resource;
+  _resourceRegistry[resource.key.value.trim()] = resource;
 }
 
 /**

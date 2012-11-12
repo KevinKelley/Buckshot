@@ -43,9 +43,9 @@ class ContentPresenter
       return;
     }
 
-    if (newContent is HtmlSurfaceElement && newContent.isLoaded){
-      throw 'Child already child of another element.';
-    }
+//    if (newContent is HtmlSurfaceElement && newContent.isLoaded){
+//      throw 'Child already child of another element.';
+//    }
 
     rawElement.elements.clear();
 

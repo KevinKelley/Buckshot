@@ -2,12 +2,12 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-library accordion_controls_buckshot;
+library tabcontrol_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/buckshot.dart';
+import 'package:buckshot/extensions/presenters/html/html_surface.dart';
 
-part 'accordion_item.dart';
+part 'src/accordion_item.dart';
 
 class Accordion extends Control implements FrameworkContainer
 {
@@ -19,19 +19,16 @@ class Accordion extends Control implements FrameworkContainer
 
   Accordion()
   {
-    Browser.appendClass(rawElement, "Accordion");
-
-    _initializeAccordionProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = accordionItems.value;
   }
-
   Accordion.register() : super.register(){
     registerElement(new AccordionItem.register());
   }
-  makeMe() => new Accordion();
+  @override makeMe() => new Accordion();
 
-  void _initializeAccordionProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     accordionItems = new FrameworkProperty(this, 'accordionItems',
         defaultValue: new ObservableList<FrameworkObject>());
 
@@ -44,35 +41,35 @@ class Accordion extends Control implements FrameworkContainer
           if (!isLoaded) return;
           _invalidate();
         },
-        defaultValue: SelectionMode.multi,
+        defaultValue: SelectionMode.single,
         converter: const StringToSelectionModeConverter());
   }
 
-  get containerContent => accordionItems.value;
+  @override get containerContent => accordionItems.value;
 
-  void onFirstLoad(){
-
-    _invalidate();
+  @override void initEvents(){
+    super.initEvents();
 
     // Invalidate on any changes to the list after first load.
     accordionItems.value.listChanged + (_, __) => _invalidate();
+  }
 
-    super.onFirstLoad();
-
+  @override void onLoaded(){
+    super.onLoaded();
+    _invalidate();
   }
 
   void _invalidate(){
     if (accordionItems.value.isEmpty) return;
 
-    final pc = (Template.findByName('__ac_presenter__', template)
+    Stack pc = (Template.findByName('__ac_presenter__', template)
         as CollectionPresenter)
         .presentationPanel
-        .value
-        .children;
+        .value;
 
     int i = 0;
 
-    pc.forEach((e){
+    pc.children.forEach((e){
       final ai = accordionItems.value[i++];
 
       final header = Template.findByName('__accordion_header__', e);
@@ -84,19 +81,22 @@ class Accordion extends Control implements FrameworkContainer
       // any user hooked events.
       header.click.handlers.clear();
 
-      if (selectionMode == SelectionMode.multi ||
+      if (selectionMode.value == SelectionMode.multi ||
           accordionItems.value.length == 1){
         body.visibility = ai.visibility;
 
         header.click + (_, __){
+          print('click');
           body.visibility.value = (body.visibility.value == null
               || body.visibility.value == Visibility.visible )
               ? Visibility.collapsed
                   : Visibility.visible;
+          //BUG: Multi-mode not working...
+          print('$body ${body.visibility.value}');
         };
       }else{
         // first item visible if nothing selected
-        if (_currentSelected == null && pc.indexOf(e) == 0){
+        if (_currentSelected == null && pc.children.indexOf(e) == 0){
           _currentSelected = header;
           body.visibility.value = Visibility.visible;
         }else{
@@ -124,7 +124,7 @@ class Accordion extends Control implements FrameworkContainer
             halign='{template hAlign}' height='{template height}' 
             width='{template width}'
             cursor='Arrow'>
-      <collectionpresenter halign='stretch' name='__ac_presenter__' collection='{template accordionItems}'>
+      <collectionpresenter halign='stretch' name='__ac_presenter__' items='{template accordionItems}'>
          <itemstemplate>
             <stack halign='stretch'>
               $headerTemplate
@@ -183,12 +183,11 @@ class SelectionMode
   static const multi = const SelectionMode('multi');
 }
 
-class StringToSelectionModeConverter implements IValueConverter
+class StringToSelectionModeConverter implements ValueConverter
 {
-
   const StringToSelectionModeConverter();
 
-  dynamic convert(dynamic value, [dynamic parameter]){
+  dynamic convert(dynamic value, {dynamic parameter}){
     if (!(value is String)) return value;
 
     switch(value){

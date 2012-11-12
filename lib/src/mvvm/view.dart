@@ -64,7 +64,8 @@ class View
     ready = _c.future;
 
     Template
-      .deserialize(resourceName)
+      .getTemplate(resourceName)
+      .chain((template) => Template.deserialize(template))
       .then((t) => rootVisual = t);
   }
 

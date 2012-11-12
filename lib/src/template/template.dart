@@ -66,11 +66,6 @@ class Template {
   final List<IPresentationFormatProvider> providers =
       [new XmlTemplateProvider()];
 
-  static const int _UNKNOWN = -1;
-  static const int _HTML_ELEMENT = 0;
-  static const int _HTTP_RESOURCE = 1;
-  static const int _SERIALIZED = 2;
-
   /**
    * Returns the first parent that matches the given [type].  Returns
    * null if parent not found in visual tree.
@@ -129,29 +124,6 @@ class Template {
   }
 
   /**
-  * Used to determine the type of the string.
-  *
-  * Checks to see if its referencing a [_HTML_ELEMENT], a [_HTTP_RESOURCE]
-  * or one of the serialized types [_SERIALIZED].
-  */
-  static int _determineType(String from) {
-    if (from.startsWith('#')) {
-      return _HTML_ELEMENT;
-    }else{
-      final t = new Template();
-
-      for(final p in t.providers){
-        if(p.isFormat(from)){
-          return _SERIALIZED;
-        }
-      }
-    }
-
-    // Assume its pointing to a HTTP resource
-    return _HTTP_RESOURCE;
-  }
-
-  /**
   * # Usage #
   *     //Retrieves the template from the current web page
   *     //and returns a String containing the template
@@ -166,49 +138,8 @@ class Template {
   *
   * Use the [deserialize] method to convert a template to a [FrameworkObject].
   */
-  static Future<String> getTemplate(String from, {type: _UNKNOWN}){
-    var c = new Completer();
-
-    if (type == _UNKNOWN) {
-      type = _determineType(from);
-    }
-
-//    if (type == _HTML_ELEMENT) {
-//      var result = document.query(from);
-//      if (result == null) {
-//        throw new BuckshotException('Unabled to find template'
-//            ' "${from}" in HTML file.');
-//      }
-//
-//      c.complete(result.text.trim());
-//    }else if (type == _HTTP_RESOURCE){
-//      //TODO cache...
-//
-//      var r = new HttpRequest();
-//
-//      void onError(e) {
-//        c.complete(null);
-//      }
-//
-//      r.on.abort.add(onError);
-//      r.on.error.add(onError);
-//      r.on.loadEnd.add((e) {
-//        c.complete(r.responseText.trim());
-//      });
-//
-//      try{
-//        r.open('GET', from, true);
-//        r.setRequestHeader('Accept', 'text/xml');
-//        r.send();
-//      }on Exception catch(e){
-//        c.complete(null);
-//      }
-//    }else
-    {
-      c.complete(from);
-    }
-
-    return c.future;
+  static Future<String> getTemplate(String uri){
+    return presenter.getTemplate(uri);
   }
 
   /**

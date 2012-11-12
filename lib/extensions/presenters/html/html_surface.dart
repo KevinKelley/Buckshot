@@ -93,8 +93,13 @@ set htmlPresenter(HtmlSurface p) {
 /**
  * Html box model presentation provider.
  */
-class HtmlSurface extends Surface
+class HtmlSurface extends BoxModelSurface
 {
+  static const int _UNKNOWN = -1;
+  static const int _HTML_ELEMENT = 0;
+  static const int _HTTP_RESOURCE = 1;
+  static const int _SERIALIZED = 2;
+
   final Expando<HtmlSurfaceElement> surfaceElement =
       new Expando<HtmlSurfaceElement>();
   Element _rootDiv;
@@ -111,6 +116,47 @@ class HtmlSurface extends Surface
   }
 
   String get namespace => 'http://surface.buckshotui.org/html';
+
+  @override Future<String> getTemplate(String uri){
+    var c = new Completer();
+    final type = _determineType(uri);
+
+    if (type == _HTML_ELEMENT) {
+      // e.g. "#something"
+      var result = document.query(uri);
+      if (result == null) {
+        throw new BuckshotException('Unabled to find template'
+            ' "${uri}" in HTML file.');
+      }
+      c.complete(result.text.trim());
+    }else if (type == _HTTP_RESOURCE){
+      // e.g. "path/to/myTemplate.xml"
+      var r = new HttpRequest();
+
+      void onError(e) {
+        c.complete(null);
+      }
+
+      r.on.abort.add(onError);
+      r.on.error.add(onError);
+      r.on.loadEnd.add((e) {
+        c.complete(r.responseText.trim());
+      });
+
+      try{
+        r.open('GET', uri, true);
+        r.setRequestHeader('Accept', 'text/xml');
+        r.send();
+      }on Exception catch(e){
+        c.complete(null);
+      }
+    }else{
+      // should be a template.
+      c.complete(uri);
+    }
+
+    return c.future;
+  }
 
   @override void render(SurfaceElement rootElement){
     assert(rootElement is HtmlSurfaceElement);
@@ -161,6 +207,29 @@ class HtmlSurface extends Surface
     viewportWidth = new FrameworkProperty(this, 'viewportwidth');
     viewportHeight = new FrameworkProperty(this, 'viewportheight');
     _setViewportWatcher();
+  }
+
+  /**
+  * Used to determine the type of the string.
+  *
+  * Checks to see if its referencing a [_HTML_ELEMENT], a [_HTTP_RESOURCE]
+  * or one of the serialized types [_SERIALIZED].
+  */
+  static int _determineType(String from) {
+    if (from.startsWith('#')) {
+      return _HTML_ELEMENT;
+    }else{
+      final t = new Template();
+
+      for(final p in t.providers){
+        if(p.isFormat(from)){
+          return _SERIALIZED;
+        }
+      }
+    }
+
+    // Assume its pointing to a HTTP resource
+    return _HTTP_RESOURCE;
   }
 
   void _setViewportWatcher(){

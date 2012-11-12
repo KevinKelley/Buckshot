@@ -40,6 +40,8 @@ abstract class Presenter extends FrameworkObject
   /** Initializes the given [element] to the [Presenter]. */
   void initElement(PresenterElement element);
 
+  Future<String> getTemplate(String uri);
+
   Presenter();
 }
 

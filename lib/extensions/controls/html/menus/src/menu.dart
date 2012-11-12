@@ -139,10 +139,7 @@ class Menu extends Control implements FrameworkContainer
     return '''
 <controltemplate controlType='${this.templateName}'>
   <template>
-    <border shadowx='{resource theme_shadow_x}'
-            shadowy='{resource theme_shadow_y}'
-            shadowblur='{resource theme_shadow_blur}'
-            zorder='32766'
+    <border zorder='32766'
             minwidth='20'
             minheight='20'
             borderthickness='{resource theme_border_thickness}'

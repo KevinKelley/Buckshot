@@ -40,10 +40,7 @@ class Button extends Control implements FrameworkContainer
 '''
 <controltemplate controlType='${this.templateName}'>
   <template>
-    <border shadowx='{resource theme_shadow_x}'
-            shadowy='{resource theme_shadow_y}'
-            shadowblur='{resource theme_shadow_blur}'
-            zorder='32766'
+    <border zorder='32766'
             minwidth='20'
             minheight='20'
             background='{resource theme_button_background}'
@@ -54,21 +51,6 @@ class Button extends Control implements FrameworkContainer
         <actions>
           <setproperty event='mouseEnter' property='background' value='{resource theme_button_background_hover}' />
           <setproperty event='mouseLeave' property='background' value='{resource theme_button_background}' />
-          <setproperty event='mouseLeave' property='translateX' value='0' />
-          <setproperty event='mouseLeave' property='translateY' value='0' />
-          <setproperty event='mouseLeave' property='shadowX' value='{resource theme_shadow_x}' />
-          <setproperty event='mouseLeave' property='shadowY' value='{resource theme_shadow_y}' />
-          <setproperty event='mouseLeave' property='shadowSize' value='0' />
-          <setproperty event='mouseDown' property='translateX' value='2' />
-          <setproperty event='mouseDown' property='translateY' value='2' />
-          <setproperty event='mouseDown' property='shadowX' value='0' />
-          <setproperty event='mouseDown' property='shadowY' value='0' />
-          <setproperty event='mouseDown' property='shadowSize' value='-1' />
-          <setproperty event='mouseUp' property='translateX' value='0' />
-          <setproperty event='mouseUp' property='translateY' value='0' />
-          <setproperty event='mouseUp' property='shadowX' value='{resource theme_shadow_x}' />
-          <setproperty event='mouseUp' property='shadowY' value='{resource theme_shadow_y}' />
-          <setproperty event='mouseUp' property='shadowSize' value='0' />
         </actions>
         <contentpresenter halign='center' valign='center' content='{template content}' />
     </border>

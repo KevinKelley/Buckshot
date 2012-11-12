@@ -22,20 +22,15 @@ abstract class ActionBase extends FrameworkObject
   FrameworkObject get source => _source.value;
   FrameworkObject get targetElement => _target;
 
-  final HashMap <String, EventHandlerReference> _ref;
+  final HashMap <String, EventHandlerReference> _ref =
+      new HashMap<String, EventHandlerReference>();
 
-  ActionBase()
-  : _ref = new HashMap<String, EventHandlerReference>()
-  {
-    _initActionBaseProperties();
-  }
+  ActionBase();
+  ActionBase.register() : super.register();
+  @override makeMe() => null;
 
-  ActionBase.register() : super.register(),
-    _ref = new HashMap<String, EventHandlerReference>();
-
-  makeMe() => null;
-
-  void _initActionBaseProperties(){
+  @override void initProperties(){
+    super.initProperties();
 
     targetName = new FrameworkProperty(this, 'targetName');
 
@@ -62,7 +57,7 @@ abstract class ActionBase extends FrameworkObject
   }
 
   _setEvent(String eventName){
-    var ee = eventName;
+    var ee = eventName.toLowerCase();
 
     //only allow one registration per event
     if (_ref.containsKey(ee)) return;
@@ -76,6 +71,7 @@ abstract class ActionBase extends FrameworkObject
 
     if (!reflectionEnabled){
       if (_source._bindableEvents.containsKey(ee)){
+        assert(_source._bindableEvents[ee] != null);
         _ref[ee] = _source._bindableEvents[ee] + (_, __) => onEventTrigger();
       }
     }else{

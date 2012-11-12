@@ -18,8 +18,8 @@ class Border extends SurfaceBorder implements HtmlSurfaceElement
   get containerContent => content.value;
 
   @override void initEvents(){
-    super.initEvents();
     HtmlSurfaceElement.initializeBaseEvents(this);
+    super.initEvents();
   }
 
   @override void updateLayout(){

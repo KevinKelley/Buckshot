@@ -16,21 +16,19 @@ class ToggleProperty extends ActionBase
 
   dynamic _currentValue;
 
-  ToggleProperty(){
-    _initTogglePropertyActionProperties();
-  }
-
+  ToggleProperty();
   ToggleProperty.register() : super.register();
-  makeMe() => new ToggleProperty();
+  @override makeMe() => new ToggleProperty();
 
-  void _initTogglePropertyActionProperties(){
+  @override void initProperties(){
+    super.initProperties();
     target = new FrameworkProperty(this, 'target');
     property = new FrameworkProperty(this, 'property');
     firstValue = new FrameworkProperty(this, 'firstValue');
     secondValue = new FrameworkProperty(this, 'secondValue');
   }
 
-  void onEventTrigger(){
+  @override void onEventTrigger(){
 
     //TODO throw?
     if (property.value == null ||

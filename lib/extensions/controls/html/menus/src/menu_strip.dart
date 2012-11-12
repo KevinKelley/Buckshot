@@ -24,7 +24,6 @@ class MenuStrip extends Control implements FrameworkContainer
   @override void initEvents(){
     super.initEvents();
     registerEvent('menuitemselected', menuItemSelected);
-    menus.value.listChanged + onMenusChanging;
   }
 
   void onMenusChanging(_, ListChangedEventArgs args){
@@ -46,6 +45,8 @@ class MenuStrip extends Control implements FrameworkContainer
     orientation = new FrameworkProperty(this, 'orientation',
         defaultValue: Orientation.horizontal,
         converter: const StringToOrientationConverter());
+
+    menus.value.listChanged + onMenusChanging;
   }
 
   @override get containerContent => menus.value;

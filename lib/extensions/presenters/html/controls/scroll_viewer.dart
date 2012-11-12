@@ -8,7 +8,6 @@ class ScrollViewer extends SurfaceScrollViewer implements HtmlSurfaceElement
 
   final Element rawElement = new DivElement();
 
-
   ScrollViewer.register() : super.register();
   ScrollViewer();
 

@@ -14,21 +14,19 @@ class SetProperty extends ActionBase
   FrameworkProperty value;
 
 
-  SetProperty(){
-    _initSetPropertyActionProperties();
-  }
-
+  SetProperty();
   SetProperty.register() : super.register();
   makeMe() => new SetProperty();
 
-  void _initSetPropertyActionProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     target = new FrameworkProperty(this, 'target');
     property = new FrameworkProperty(this, 'property');
     value = new FrameworkProperty(this, 'value');
   }
 
-  void onEventTrigger(){
-
+  @override void onEventTrigger(){
     //TODO throw?
     if (property.value == null || value.value == null) return;
 

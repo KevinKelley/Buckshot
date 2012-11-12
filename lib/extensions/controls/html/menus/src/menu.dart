@@ -32,7 +32,6 @@ class Menu extends Control implements FrameworkContainer
   @override void initEvents(){
     super.initEvents();
     registerEvent('menuitemselected', menuItemSelected);
-    menuItems.value.listChanged + onItemsChanging;
   }
 
   void onItemsChanging(_, ListChangedEventArgs args){
@@ -130,6 +129,8 @@ class Menu extends Control implements FrameworkContainer
     rawElement.style.top = '0px';
     rawElement.style.left = '0px';
     visibility.value = Visibility.collapsed;
+
+    menuItems.value.listChanged + onItemsChanging;
   }
 
   @override get containerContent => menuItems.value;

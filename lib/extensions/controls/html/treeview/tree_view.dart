@@ -52,17 +52,22 @@ class TreeView extends Control implements FrameworkContainer
   final FrameworkEvent<TreeNodeSelectedEventArgs> treeNodeSelected =
       new FrameworkEvent<TreeNodeSelectedEventArgs>();
 
+  final ObservableList<TreeNode> children =
+      new ObservableList<TreeNode>();
+
   TreeView()
   {
-    initStyleTemplates();
-
+    _initStyleTemplates();
+    stateBag[FrameworkObject.CONTAINER_CONTEXT] = children;
 //    background.value = getResource('theme_light_brush');
+    children.listChanged + onChildrenChanging;
   }
-
   TreeView.register() : super.register(){
     registerElement(new TreeNode.register());
   }
-  makeMe() => new TreeView();
+  @override makeMe() => new TreeView();
+
+  @override get containerContent => children;
 
   /** Selects a [node] as the active node. */
   void selectNode(TreeNode node) => _onTreeNodeSelected(node);
@@ -124,10 +129,16 @@ class TreeView extends Control implements FrameworkContainer
 
   }
 
-  void onChildrenChanging(ListChangedEventArgs args){
-    args.newItems.forEach((HtmlSurfaceElement element){
-      assert(element is TreeNode);
-      element._parentTreeView = this;
+  void onChildrenChanging(sender, ListChangedEventArgs args){
+    args.newItems.forEach((TreeNode node){
+      assert(node is TreeNode);
+      node.parent = this;
+      node._parentTreeView = this;
+      rawElement.elements.add(node.rawElement);
+    });
+
+    args.oldItems.forEach((TreeNode node){
+      node.parent = null;
     });
   }
 
@@ -145,13 +156,10 @@ class TreeView extends Control implements FrameworkContainer
 
     selectedNode.value = node;
     selectedNode.value._mouseEventStyles.value = mouseUpBorderStyle;
-    treeNodeSelected.invoke(this, new TreeNodeSelectedEventArgs(node));
+    treeNodeSelected.invokeAsync(this, new TreeNodeSelectedEventArgs(node));
   }
 
-  /**
-   * Override this method to customize the mouse event styles on [TreeNode]s.
-   */
-  void initStyleTemplates(){
+  void _initStyleTemplates(){
     Template
       .deserialize('''
 <resourcecollection>

@@ -27,9 +27,8 @@ class TreeNode extends Control implements FrameworkContainer
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = childNodes.value;
     _initControl();
   }
-
   TreeNode.register() : super.register();
-  makeMe() => new TreeNode();
+  @override makeMe() => new TreeNode();
 
   void _initControl(){
     // Toggle visibility of child nodes when clicked.
@@ -80,28 +79,25 @@ class TreeNode extends Control implements FrameworkContainer
     _mouseStylesSet = true;
 
     final rowElement = Template.findByName('__tree_node_header__', template);
-    if (rowElement is! Border) {
-      throw const BuckshotException('Expected TreeNode row element to'
-          ' be of type Border.');
-    }
+    assert(rowElement is Border);
 
     rowElement.mouseEnter + (_, __){
-      if (_parentTreeView.selectedNode == this) return;
+      if (_parentTreeView.selectedNode.value == this) return;
       _mouseEventStyles.value = _parentTreeView.mouseEnterBorderStyle;
     };
 
     rowElement.mouseLeave + (_, __){
-      if (_parentTreeView.selectedNode == this) return;
+      if (_parentTreeView.selectedNode.value == this) return;
       _mouseEventStyles.value = _parentTreeView.mouseLeaveBorderStyle;
     };
 
     rowElement.mouseDown + (_, __){
-      if (_parentTreeView.selectedNode == this) return;
+      if (_parentTreeView.selectedNode.value == this) return;
       _mouseEventStyles.value = _parentTreeView.mouseDownBorderStyle;
     };
 
     rowElement.mouseUp + (_, __){
-      if (_parentTreeView.selectedNode == this) return;
+      if (_parentTreeView.selectedNode.value == this) return;
       _parentTreeView._onTreeNodeSelected(this);
     };
   }
@@ -159,11 +155,11 @@ class TreeNode extends Control implements FrameworkContainer
   }
 
   // IFrameworkContainer interface
-  get containerContent => template;
+  @override get containerContent => template;
 
   TreeNode get parentNode => _parentNode;
 
-  String get defaultControlTemplate {
+  @override String get defaultControlTemplate {
     return
     '''<controltemplate controlType="${this.templateName}">
           <template>

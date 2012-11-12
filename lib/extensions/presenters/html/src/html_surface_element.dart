@@ -84,7 +84,9 @@ abstract class HtmlSurfaceElement implements BoxModelSurfaceElement
 
       localMouseCoordinate(element, e.pageX, e.pageY)
       .then((p){
-        element.mouseUp.invoke(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
+        element
+          .mouseUp
+          .invoke(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
       });
     }
 
@@ -102,7 +104,9 @@ abstract class HtmlSurfaceElement implements BoxModelSurfaceElement
       e.stopPropagation();
       localMouseCoordinate(element, e.pageX, e.pageY)
       .then((p){
-        element.mouseDown.invoke(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
+        element
+          .mouseDown
+          .invoke(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
       });
     }
 
@@ -120,7 +124,9 @@ abstract class HtmlSurfaceElement implements BoxModelSurfaceElement
 
       localMouseCoordinate(element, e.pageX, e.pageY)
       .then((p){
-        element.mouseMove.invoke(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
+        element
+          .mouseMove
+          .invoke(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
       });
     }
 
@@ -139,7 +145,9 @@ abstract class HtmlSurfaceElement implements BoxModelSurfaceElement
 
       localMouseCoordinate(element, e.pageX, e.pageY)
       .then((p){
-        element.click.invokeAsync(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
+        element
+          .click
+          .invoke(element, new MouseEventArgs(p.x, p.y, e.pageX, e.pageY));
       });
     }
 
@@ -245,8 +253,8 @@ abstract class HtmlSurfaceElement implements BoxModelSurfaceElement
       rawChild.style.setProperty('-webkit-flex', 'none');
       rawChild.style.minWidth =
           element.containerContent.minWidth.value == null
-          ? ''
-              : '${element.containerContent.minWidth.value}px';
+            ? ''
+            : '${element.containerContent.minWidth.value}px';
     }
 
 

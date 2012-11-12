@@ -1,4 +1,4 @@
-part of menus_controls_buckshot;
+part of menus_control_extensions_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot

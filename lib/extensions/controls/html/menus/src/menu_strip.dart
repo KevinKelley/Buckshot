@@ -1,4 +1,4 @@
-part of menus_controls_buckshot;
+part of menus_control_extensions_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -16,20 +16,32 @@ class MenuStrip extends Control implements FrameworkContainer
 
   MenuStrip()
   {
-    Browser.appendClass(rawElement, "MenuStrip");
-
-    _initMenuStripProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = menus.value;
+  }
+  MenuStrip.register() : super.register();
+  @override makeMe() => new MenuStrip();
 
+  @override void initEvents(){
+    super.initEvents();
     registerEvent('menuitemselected', menuItemSelected);
-
   }
 
-  MenuStrip.register() : super.register();
-  makeMe() => new MenuStrip();
+  @override void initProperties(){
+    super.initProperties();
 
-  void onFirstLoad(){
+    menus = new FrameworkProperty(this, 'menus',
+        defaultValue: new ObservableList<Menu>());
+
+    orientation = new FrameworkProperty(this, 'orientation',
+        defaultValue: Orientation.horizontal,
+        converter: const StringToOrientationConverter());
+  }
+
+  @override get containerContent => menus.value;
+
+  @override void onLoaded(){
+    super.onLoaded();
+
     if (menus.value.isEmpty) return;
 
     menus.value.forEach((Menu m){
@@ -40,25 +52,25 @@ class MenuStrip extends Control implements FrameworkContainer
         };
       }
 
-      if (m.header != null){
-        // gets the border surrounding the menu header content
-        final b = (m.parent.parent as Stack).children[0] as Border;
+      if (m.header == null) return;
+      printTree(m);
+      // gets the border surrounding the menu header content
+      final b = (m.parent.parent as Stack).children[0] as Border;
 
-        b.click + (_, __){
-          if (m.visibility.value == Visibility.visible){
-            m.hide();
-            return;
-          }
-          hideAllMenus();
-          if (m.menuItems.value.isEmpty){
-              // item-less menu, so just send the menu in the sender of the
-              // event..
-              menuItemSelected.invoke(m, new MenuItemSelectedEventArgs(null));
-          }else{
-            m.show();
-          }
-        };
-      }
+      b.click + (_, __){
+        if (m.visibility.value == Visibility.visible){
+          m.hide();
+          return;
+        }
+        hideAllMenus();
+        if (m.menuItems.value.isEmpty){
+            // item-less menu, so just send the menu in the sender of the
+            // event..
+            menuItemSelected.invoke(m, new MenuItemSelectedEventArgs(null));
+        }else{
+          m.show();
+        }
+      };
     });
   }
 
@@ -75,25 +87,12 @@ class MenuStrip extends Control implements FrameworkContainer
     });
   }
 
-  void _initMenuStripProperties(){
-    menus = new FrameworkProperty(this, 'menus',
-        defaultValue: new ObservableList<Menu>());
-
-    orientation = new FrameworkProperty(this, 'orientation',
-        defaultValue: Orientation.horizontal,
-        converter: const StringToOrientationConverter());
-  }
-
-  get containerContent => menus.value;
-
-
-  String get defaultControlTemplate {
-    return
-'''
+  @override get defaultControlTemplate {
+    return '''
 <controltemplate controlType='${this.templateName}'>
   <template>
     <border cursor='Arrow' background='{resource theme_menu_background_brush}'>
-      <collectionpresenter halign='stretch' collection='{template menus}'>
+      <collectionpresenter halign='stretch' items='{template menus}'>
          <presentationpanel>
             <stack orientation='{template orientation}'></stack>
          </presentationpanel>

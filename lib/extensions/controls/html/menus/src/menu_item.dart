@@ -1,4 +1,4 @@
-part of menus_controls_buckshot;
+part of menus_control_extensions_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -7,30 +7,22 @@ part of menus_controls_buckshot;
 /** Represents an item in a [Menu] control */
 class MenuItem extends Control
 {
+  FrameworkProperty<HtmlSurfaceElement> icon;
+  FrameworkProperty<HtmlSurfaceElement> header;
 
-  FrameworkProperty<FrameworkElement> icon;
-  FrameworkProperty<FrameworkElement> header;
-
-  MenuItem()
-  {
-    Browser.appendClass(rawElement, "MenuItem");
-
-    _initMenuItemProperties();
-  }
-
+  MenuItem();
   MenuItem.register() : super.register();
-  makeMe() => new MenuItem();
+  @override makeMe() => new MenuItem();
 
-  void _initMenuItemProperties()
+  @override void initProperties()
   {
+    super.initProperties();
     icon = new FrameworkProperty(this, 'icon');
-
     header = new FrameworkProperty(this, 'header');
   }
 
-  String get defaultControlTemplate {
-    return
-'''
+  @override get defaultControlTemplate {
+    return '''
 <controltemplate controlType='${this.templateName}'>
   <template>
     <stack orientation='horizontal' halign='stretch' maxheight='50'>

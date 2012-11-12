@@ -1,4 +1,4 @@
-part of menus_controls_buckshot;
+part of menus_control_extensions_buckshot;
 
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
@@ -15,7 +15,7 @@ class Menu extends Control implements FrameworkContainer
   FrameworkProperty<ObservableList<MenuItem>> menuItems;
   FrameworkProperty<String> parentName;
   FrameworkProperty<dynamic> header;
-  FrameworkProperty<FrameworkElement> _menuParent;
+  FrameworkProperty<HtmlSurfaceElement> _menuParent;
   FrameworkProperty<num> offsetX;
   FrameworkProperty<num> offsetY;
 
@@ -24,21 +24,27 @@ class Menu extends Control implements FrameworkContainer
 
   Menu()
   {
-    Browser.appendClass(rawElement, "Menu");
-
-    _initMenuProperties();
-
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = menuItems.value;
+  }
+  Menu.register() : super.register();
+  @override makeMe() => new Menu();
 
-    visibility.value = Visibility.collapsed;
-
+  @override void initEvents(){
+    super.initEvents();
     registerEvent('menuitemselected', menuItemSelected);
+    menuItems.value.listChanged + onItemsChanging;
   }
 
-  Menu.register() : super.register();
-  makeMe() => new Menu();
+  void onItemsChanging(_ ListChangedEventArgs args){
+  }
 
-  void onFirstLoad(){
+  @override void onLoaded(){
+    super.onLoaded();
+
+    printTree(this);
+    print('${template.parent}');
+    assert(parent != null);
+
     var mp = _menuParent.value;
 
     if (mp == null){
@@ -88,16 +94,18 @@ class Menu extends Control implements FrameworkContainer
     var mp = _menuParent.value;
     if (mp == null) new Future.immediate(null);
 
-    return mp
-     .updateMeasurementAsync
-     .chain((ElementRect r){
-      rawElement.style.left = '${offsetX.value + r.bounding.left}px';
-      rawElement.style.top = '${offsetY.value + r.bounding.top}px';
-      return new Future.immediate(r);
-    });
+    return htmlPresenter
+             .measure(mp)
+             .chain((RectMeasurement r){
+              rawElement.style.left = '${offsetX.value + r.left}px';
+              rawElement.style.top = '${offsetY.value + r.top}px';
+              return new Future.immediate(r);
+            });
   }
 
-  void _initMenuProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     menuItems = new FrameworkProperty(this, 'menuItems',
         defaultValue: new ObservableList<MenuItem>());
 
@@ -116,13 +124,13 @@ class Menu extends Control implements FrameworkContainer
     rawElement.style.position = 'absolute';
     rawElement.style.top = '0px';
     rawElement.style.left = '0px';
+    visibility.value = Visibility.collapsed;
   }
 
-  get containerContent => menuItems.value;
+  @override get containerContent => menuItems.value;
 
-  String get defaultControlTemplate {
-    return
-'''
+  @override get defaultControlTemplate {
+    return '''
 <controltemplate controlType='${this.templateName}'>
   <template>
     <border shadowx='{resource theme_shadow_x}'
@@ -134,7 +142,7 @@ class Menu extends Control implements FrameworkContainer
             borderthickness='{resource theme_border_thickness}'
             bordercolor='{resource theme_border_color}'
             cursor='Arrow'>
-      <collectionpresenter halign='stretch' collection='{template menuItems}'>
+      <collectionpresenter halign='stretch' items='{template menuItems}'>
          <itemstemplate>
            <border padding='{resource theme_menu_padding}' background='{resource theme_dark_brush}' halign='stretch'>
               <actions>

@@ -7,6 +7,7 @@ class CollectionPresenter
   extends SurfaceCollectionPresenter
   implements HtmlPlatformElement, FrameworkContainer
 {
+  var _eHandler;
   /**
    * Expands a property on a SurfaceElement which holds a reference to the
    * object item from the items collection.  This is typically used on the
@@ -80,6 +81,18 @@ class CollectionPresenter
 
     presentationPanel.value.rawElement.elements.clear();
     _addItems(values);
+
+    // If an observable list, watch it and add/remove items as necessary.
+    if (values is ObservableList && _eHandler == null){
+      _eHandler = values.listChanged + (_, ListChangedEventArgs args) {
+         if(!args.newItems.isEmpty){
+           _addItems(args.newItems);
+         }
+
+         if (args.oldItems.isEmpty) return;
+         _removeItems(args.oldItems);
+      };
+    }
   }
 
   /*
@@ -164,13 +177,12 @@ class CollectionPresenter
   void _removeItems(Collection items){
     int count = 0;
     final container = presentationPanel.value.containerContent;
-
-    for(final element in container.children){
-      if (items.some((item) => item == objectReference[element])){
-        container.children.remove(element);
+    assert(container is List);
+    for(final element in container){
+      if (items.some((item) => identical(item, objectReference[element]))){
+        container.remove(element);
         count++;
       }
-
       if (count == items.length){
         // found them all
         break;

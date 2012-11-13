@@ -23,7 +23,7 @@ class Stack extends SurfaceStack implements HtmlPlatformElement
 
   void onListChanged(_, ListChangedEventArgs args){
     args.oldItems.forEach((child){
-      rawElement.remove();
+      child.rawElement.remove();
       child.parent = null;
     });
 

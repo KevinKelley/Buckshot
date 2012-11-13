@@ -66,7 +66,6 @@ class StockTickerViewModel extends ViewModelBase
    * Handles any ticker updates coming from the model.
    */
   void stock_update_handler(sender, StockUpdateEventArgs args){
-
     /*
      * We are going to constrain the list length to 13 elements.
      */

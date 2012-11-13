@@ -20,6 +20,10 @@ class _GridCell extends Control implements FrameworkContainer
 
   get containerContent => content.value;
 
+  @override void onLoaded(){
+    super.onLoaded();
+  }
+
   @override void initProperties(){
     super.initProperties();
 
@@ -28,6 +32,7 @@ class _GridCell extends Control implements FrameworkContainer
         {
           rawElement.elements.clear();
           assert(newContent != null);
+          newContent.parent = this;
           rawElement.elements.add(newContent.rawElement);
         });
   }

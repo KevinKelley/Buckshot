@@ -1,3 +1,4 @@
+part of switchy_buckshot;
 
 /**
  * Represents the master view of the Switch application.

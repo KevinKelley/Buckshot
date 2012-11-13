@@ -3,7 +3,7 @@
        <menu tag='home'>
           <header>
             <stack margin='0,5,0,5'>
-              <image halign='center' width='25' height='25' alt='house icon' sourceuri='web/resources/house.png' />
+              <image halign='center' width='25' height='25' alt='house icon' uri='web/resources/house.png' />
               <textblock halign='center'>Home</textblock>
             </stack>
           </header>
@@ -11,79 +11,79 @@
        <menu>
           <header>
             <stack margin='0,5,0,5'>
-              <image halign='center' width='25' height='25' alt='wrench icon' sourceuri='web/resources/wrench.png' />
+              <image halign='center' width='25' height='25' alt='wrench icon' uri='web/resources/wrench.png' />
               <textblock halign='center'>Tools</textblock>
             </stack>
           </header>
           <menuitem header='Stock Ticker' tag='stock_ticker'>
             <icon>
-              <image width='25' height='25' alt='chart icon' sourceuri='web/resources/chart_curve.png' />
+              <image width='25' height='25' alt='chart icon' uri='web/resources/chart_curve.png' />
             </icon>
           </menuitem>
           <menuitem header='Calculator' tag='calculator'>
             <icon>
-              <image width='25' height='25' alt='calculator icon' sourceuri='web/resources/calculator.png' />
+              <image width='25' height='25' alt='calculator icon' uri='web/resources/calculator.png' />
             </icon>
           </menuitem>
           <menuitem header='Clock' tag='clock'>
             <icon>
-              <image width='25' height='25' alt='clock icon' sourceuri='web/resources/time.png' />
+              <image width='25' height='25' alt='clock icon' uri='web/resources/time.png' />
             </icon>
           </menuitem>
        </menu>
        <menu>
           <header>
             <stack margin='0,5,0,5'>
-              <image halign='center' width='25' height='25' alt='help icon' sourceuri='web/resources/help.png' />
+              <image halign='center' width='25' height='25' alt='help icon' uri='web/resources/help.png' />
               <textblock halign='center'>Info</textblock>
             </stack>
           </header>
           <menuitem header='About Switchy' tag='about'>
             <icon>
-              <image width='25' height='25' alt='help icon' sourceuri='web/resources/help.png' />
+              <image width='25' height='25' alt='help icon' uri='web/resources/help.png' />
             </icon>
           </menuitem>
        </menu>
        <menu>
           <header>
             <stack margin='0,5,0,5'>
-              <image halign='center' width='30' height='25' alt='buckshot icon' sourceuri='web/resources/buckshot_logo.png' />
+              <image halign='center' width='30' height='25' alt='buckshot icon' uri='web/resources/buckshot_logo.png' />
               <textblock halign='center'>Buckshot</textblock>
             </stack>
           </header>
           <menuitem header='Repo on Github' tag='buckshot_repo'>
           	<icon>
-              <image width='25' height='25' alt='github icon' sourceuri='web/resources/github.png' />
+              <image width='25' height='25' alt='github icon' uri='web/resources/github.png' />
             </icon>
           </menuitem>
           <menuitem header='Discussion Group' tag='buckshot_discuss'>
           	<icon>
-              <image width='25' height='25' alt='github icon' sourceuri='web/resources/user_comment.png' />
+              <image width='25' height='25' alt='github icon' uri='web/resources/user_comment.png' />
             </icon>
           </menuitem>
           <menuitem header='Sandbox' tag='buckshot_sandbox'>
           	<icon>
-              <image width='25' height='25' alt='github icon' sourceuri='web/resources/rainbow.png' />
+              <image width='25' height='25' alt='github icon' uri='web/resources/rainbow.png' />
             </icon>
           </menuitem>
           <menuitem header='Blog' tag='buckshot_blog'>
             <icon>
-              <image width='25' height='25' alt='github icon' sourceuri='web/resources/book_open.png' />
+              <image width='25' height='25' alt='github icon' uri='web/resources/book_open.png' />
             </icon>
           </menuitem>
           <menuitem header='Videos' tag='buckshot_videos'>
             <icon>
-              <image width='25' height='25' alt='github icon' sourceuri='web/resources/television.png' />
+              <image width='25' height='25' alt='github icon' uri='web/resources/television.png' />
             </icon>
           </menuitem>
           <menuitem header='Page on G+' tag='buckshot_gplus'>
           	<icon>
-              <image width='25' height='25' alt='github icon' sourceuri='web/resources/gplus-icon.png' />
+              <image width='25' height='25' alt='github icon' uri='web/resources/gplus-icon.png' />
             </icon>
           </menuitem>
           <menuitem header='Suggestions' tag='buckshot_suggest'>
           	<icon>
-              <image width='25' height='25' alt='github icon' sourceuri='web/resources/lightbulb.png' />
+              <image width='25' height='25' alt='github icon' uri='web/resources/lightbulb.png' />
             </icon>
           </menuitem>
        </menu>

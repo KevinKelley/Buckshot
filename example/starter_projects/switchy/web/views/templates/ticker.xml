@@ -16,16 +16,18 @@
 				   <textbox valign='center' placeholder='Enter a stock symbol...' text='{data tickerInput, mode=TwoWay}' />
 				   <button on.click='watch_ticker_click' content='Submit' margin='5' />
 			   </stack>
-			   <border verticalscrollenabled='true' halign='stretch' margin='5' height='380' background='Black'>
-			   		<collectionpresenter collection='{data tickerOutput}'>
-			   		  <itemstemplate>
-			   		  	<stack orientation='horizontal'>
-			   		  		<textblock margin='5' minwidth='60' foreground='White' text='{data datetime}' />
-		   		  			<textblock margin='5' minwidth='60' foreground='White' text='{data symbol}' />
-			   		  		<textblock margin='5' foreground='{data directionColor}' text='{data quote}' />
-			   		  	</stack>
-			   		  </itemstemplate>
-			   		</collectionpresenter>
+			   <border halign='stretch' background='Black' height='380'>
+				   <scrollviewer vscroll='visible' halign='stretch' valign='stretch' margin='5'>
+				   		<collectionpresenter items='{data tickerOutput}'>
+				   		  <itemstemplate>
+				   		  	<stack orientation='horizontal'>
+				   		  		<textblock margin='5' minwidth='60' foreground='White' text='{data datetime}' />
+			   		  			<textblock margin='5' minwidth='60' foreground='White' text='{data symbol}' />
+				   		  		<textblock margin='5' foreground='{data directionColor}' text='{data quote}' />
+				   		  	</stack>
+				   		  </itemstemplate>
+				   		</collectionpresenter>
+				   </scrollviewer>
 			   </border>
 		  </stack>
 		</border>
@@ -39,7 +41,7 @@
 		   <stack>
 		     <textblock text='Watch List' />
 		     <border borderthickness='1' halign='stretch' bordercolor='Black' />
-		     <collectionpresenter collection='{data watchList}'>
+		     <collectionpresenter items='{data watchList}'>
 		     </collectionpresenter>
 		   </stack>
 		</border>

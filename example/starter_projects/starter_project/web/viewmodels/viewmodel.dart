@@ -6,22 +6,17 @@ class ViewModel extends ViewModelBase
   FrameworkProperty result;
   FrameworkProperty entry;
 
-  final Model _model;
+  final Model _model = new Model();
 
-  ViewModel() :
-    _model = new Model()
-  {
-    _initViewModelProperties();
-    _initEventHandlers();
-  }
-
-  void _initEventHandlers(){
-    if (reflectionEnabled) return;
+  @override void initEvents(){
+    super.initEvents();
 
     registerEventHandler('click_handler', click_handler);
   }
 
-  void _initViewModelProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     message = new FrameworkProperty(this, 'message',
         defaultValue:_model.title);
 

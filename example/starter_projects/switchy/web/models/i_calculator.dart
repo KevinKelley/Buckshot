@@ -6,21 +6,21 @@ part of calculator_model;
 * this application.
 */
 abstract class ICalculator{
-  
+
   /**
   * Receives input from the environment and applies it to
   * the current calculator state.
   */
   void put(String value);
-  
-  /** 
-  * An event which fires when the calculator implementation 
+
+  /**
+  * An event which fires when the calculator implementation
   * changes the primary output.
   */
-  final FrameworkEvent<OutputChangedEventArgs> mainOutputChanged;
-  
-  /** 
-  * An event which fires when the calculator implementation 
+  FrameworkEvent<OutputChangedEventArgs> mainOutputChanged;
+
+  /**
+  * An event which fires when the calculator implementation
   * changes the sub-output.
   *
   * The sub-output is a convience output to indicate previously
@@ -29,8 +29,8 @@ abstract class ICalculator{
   * which indicates to the user that 5 is already stored, and the
   * addition operator will be applied to it and the second operand.
   */
-  final FrameworkEvent<OutputChangedEventArgs> subOutputChanged;
-  
+  FrameworkEvent<OutputChangedEventArgs> subOutputChanged;
+
   /**
   * An event which fires when the calculator changes the memory-
   * marker state.
@@ -40,5 +40,5 @@ abstract class ICalculator{
   * either an empty string or "M" to indicate if the memory register
   * contains a value.
   */
-  final FrameworkEvent<OutputChangedEventArgs> memoryMarkerChanged;
+  FrameworkEvent<OutputChangedEventArgs> memoryMarkerChanged;
 }

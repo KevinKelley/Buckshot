@@ -135,6 +135,7 @@ class Grid extends Control implements FrameworkContainer
       final p = item.parent;
       assert(p is _GridCell);
       p.content.value.rawElement.remove();
+      p.parent = null;
       p.rawElement.remove();
     });
 
@@ -142,6 +143,7 @@ class Grid extends Control implements FrameworkContainer
       final gridCell = new _GridCell();
       gridCell.content.value = item;
       _internalChildren.add(gridCell);
+      gridCell.parent = this;
       rawElement.elements.add(gridCell.rawElement);
     });
 

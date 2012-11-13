@@ -1,3 +1,4 @@
+part of switchy_buckshot;
 
 class Clock extends View
 {

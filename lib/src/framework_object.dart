@@ -496,62 +496,16 @@ abstract class FrameworkObject
         defaultValue: new StyleTemplate());
   }
 
-  @deprecated void addToLayoutTree(FrameworkObject parentElement){
-
-//    parentElement.rawElement.elements.add(rawElement);
-
-    parent = parentElement;
-
-    if (!parentElement.isLoaded) return;
-
-    onAddedToDOM();
-  }
-
-  @deprecated void onAddedToDOM(){
-    //parent is in the DOM so we should call loaded event and check for children
-
-    updateDataContext();
-
-    isLoaded = true;
-
-    if (parent != null){
-      parent.updateLayout();
-    }
-
-    onLoaded();
-
-
-
-    if (this is! FrameworkContainer) return;
-
-    final containerContent = (this as FrameworkContainer).containerContent;
-
-    if (containerContent is Collection){
-      containerContent
-        .forEach((FrameworkObject child)
-          {
-            child.parent = this;
-            child.onAddedToDOM();
-          });
-    }else if (containerContent is FrameworkObject){
-      containerContent.onAddedToDOM();
-    }
-  }
-
   /** Called when the object is loaded into a [platform] view. */
   @override void onLoaded(){
-    isLoaded = true;
     updateDataContext();
-
-    updateLayout();
-
     if (_firstLoad){
       onFirstLoad();
       _firstLoad = false;
     }
-
+    isLoaded = true;
+    updateLayout();
     loaded.invoke(this, new EventArgs());
-
     _log.fine('loaded $this');
   }
 
@@ -683,40 +637,6 @@ abstract class FrameworkObject
             }
           }
       });
-    }
-  }
-
-  @deprecated void removeFromLayoutTree(){
-//    if (rawElement != null){
-//      rawElement.remove();
-//    }
-
-    //db('Removed from Layout Tree', this);
-    final p = parent;
-
-    parent = null;
-
-    if (p == null || !p.isLoaded) return;
-
-    _onRemoveFromDOM();
-  }
-
-  @deprecated _onRemoveFromDOM(){
-    isLoaded = false;
-
-    onUnloaded();
-    unloaded.invoke(this, new EventArgs());
-
-    //db('Removed from DOM', this);
-
-    if (this is! FrameworkContainer) return;
-
-    final cc = this as FrameworkContainer;
-
-    if (cc.containerContent is List){
-      cc.containerContent.forEach((FrameworkObject child) => child._onRemoveFromDOM());
-    }else if (cc.containerContent is FrameworkObject){
-      cc.containerContent._onRemoveFromDOM();
     }
   }
 

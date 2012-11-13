@@ -53,6 +53,8 @@ export 'package:buckshot/extensions/platforms/html/controls/raw_html.dart';
 
 part 'src/html_platform_element.dart';
 
+bool _platformInitialized = false;
+
 /**
  * Initializes the Buckshot framework to use the [HtmlPlatform] presenter.
  *
@@ -62,7 +64,8 @@ part 'src/html_platform_element.dart';
  * to the Buckshot API.
  */
 void initPlatform({String hostID : '#BuckshotHost'}){
-  htmlPlatform = new HtmlPlatform.host(hostID);
+  if (_platformInitialized) return;
+  _htmlPlatform = new HtmlPlatform.host(hostID);
   registerElement(new Border.register());
   registerElement(new TextBlock.register());
   registerElement(new Stack.register());
@@ -85,10 +88,14 @@ void initPlatform({String hostID : '#BuckshotHost'}){
   registerElement(new LayoutCanvas.register());
   registerElement(new RawHtml.register());
   htmlPlatform._loadResources();
+  _platformInitialized = true;
 }
 
-HtmlPlatform get htmlPlatform => surfacePlatform as HtmlPlatform;
-set htmlPlatform(HtmlPlatform p) {
+/**
+ * Gets the [HtmlPlatform] context for this [Platform].
+ */
+HtmlPlatform get htmlPlatform => platform as HtmlPlatform;
+set _htmlPlatform(HtmlPlatform p) {
   assert(platform == null);
   platform = p;
 }
@@ -330,17 +337,18 @@ class HtmlPlatform extends BoxModelSurface
       r.addedNodes.forEach((node){
         if (surfaceElement[node] == null) return;
         final el = surfaceElement[node];
+        if (el.isLoaded) return;
         el.onLoaded();
 
         if (el is FrameworkContainer){
           _loadChildren(el);
         }
-
       });
 
       r.removedNodes.forEach((node){
         if (surfaceElement[node] == null) return;
         final el = surfaceElement[node];
+        if (!el.isLoaded) return;
         el.onUnloaded();
 
         if (el is FrameworkContainer){
@@ -361,7 +369,6 @@ class HtmlPlatform extends BoxModelSurface
         if (content is FrameworkContainer){
           _unloadChildren(content);
         }
-
       });
     }else if (container.containerContent is SurfaceElement){
       container.containerContent.onUnloaded();
@@ -389,7 +396,6 @@ class HtmlPlatform extends BoxModelSurface
         if (content is FrameworkContainer){
           _loadChildren(content);
         }
-
       });
     }else if (container.containerContent is SurfaceElement){
       container.containerContent.onLoaded();

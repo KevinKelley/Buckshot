@@ -39,7 +39,7 @@
 
     <!-- logo -->
     <stack halign='center' valign='center' margin='90,0,0,0'>
-      <image halign='center' alt='Buckshot Logo' width='25' sourceuri='web/resources/buckshot_logo.png'></image>
+      <image halign='center' alt='Buckshot Logo' width='25' uri='web/resources/buckshot_logo.png'></image>
       <textblock text='Buckshot' fontsize='10' />
     </stack>
 

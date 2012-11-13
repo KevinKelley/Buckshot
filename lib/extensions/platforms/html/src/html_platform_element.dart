@@ -239,7 +239,7 @@ abstract class HtmlPlatformElement implements BoxModelElement
 
   /**
    * Helper function which updates the alignment of a single child element
-   * within a given [FrameworkContainer] [element].
+   * within a given [element].
    */
   static void updateChildAlignment(FrameworkContainer element){
     assert(element != null);

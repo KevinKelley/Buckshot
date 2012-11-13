@@ -44,8 +44,8 @@
          </stack>
       </stack>
       <border margin='0,0,0,15' bordercolor='SteelBlue' borderthickness='2' width='300' height='300'>
-         <border halign='center' valign='center' 
-            scalex='{element slSX.value}' 
+         <border halign='center' valign='center'
+            scalex='{element slSX.value}'
             scaley='{element slSY.value}'
             scalez='{element slSZ.value}'
             translatex='{element slTX.value}'
@@ -54,11 +54,11 @@
             rotatex='{element slRX.value}'
             rotatey='{element slRY.value}'
             rotatez='{element slRZ.value}'
-            background='Orange' 
-            width='75' 
+            background='Orange'
+            width='75'
             height='75'>
-            <image halign='center' valign='center' width='65' sourceuri='web/resources/buckshot_logo.png' alt='Buckshot Logo' />
+            <image halign='center' valign='center' width='65' uri='web/resources/buckshot_logo.png' alt='Buckshot Logo' />
          </border>
-      </border> 
+      </border>
    </stack>
 </stack>

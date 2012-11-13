@@ -1,3 +1,5 @@
+part of switchy_buckshot;
+
 class Calculator extends View
 {
 

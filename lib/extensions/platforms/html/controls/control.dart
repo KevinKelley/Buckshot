@@ -107,6 +107,7 @@ abstract class Control
   }
 
   @override void onLoaded(){
+    if (isLoaded) return;
     super.onLoaded();
     // Returning if we have already done this, or if no template was actually
     // used for this control
@@ -117,6 +118,7 @@ abstract class Control
   }
 
   @override void onUnloaded(){
+    if (!isLoaded) return;
     super.onUnloaded();
     // Returning if we have already done this, or if no template was actually
     // used for this control
@@ -126,18 +128,18 @@ abstract class Control
 
   // proxies the loaded behavior of a normal element into the template.
   void _onTemplateLoaded(){
+    if (template.isLoaded) return;
     template.onLoaded();
-    if (template is FrameworkContainer){
-      _loadChildren(template as FrameworkContainer);
-    }
+    if (template is! FrameworkContainer) return;
+    _loadChildren(template as FrameworkContainer);
   }
 
   // proxies the unloaded behavior of a normal element into the template.
   void _onTemplateUnloaded(){
+    if (!template.isLoaded) return;
     template.onUnloaded();
-    if (template is FrameworkContainer){
-      _unloadChildren(template as FrameworkContainer);
-    }
+    if (template is! FrameworkContainer) return;
+    _unloadChildren(template as FrameworkContainer);
   }
 
   void _bindTemplateBindings(){

@@ -44,9 +44,7 @@ class Menu extends Control implements FrameworkContainer
     });
   }
 
-  @override void onLoaded(){
-    super.onLoaded();
-
+  @override void onFirstLoad(){
     assert(parent != null);
 
     var mp = _menuParent.value;
@@ -79,7 +77,6 @@ class Menu extends Control implements FrameworkContainer
         }
       }
     });
-
   }
 
   Future show(){

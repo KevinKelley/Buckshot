@@ -19,13 +19,13 @@ abstract class SurfaceText extends BoxModelElement
 
   SurfaceText.register() : super.register();
 
-  onFontWeightChanged(String value);
-  onDecorationChanged(String decoration);
-  onBackgroundChanged(Brush brush);
-  onForegroundChanged(Color color);
-  onTextChanged(String text);
-  onFontSizeChanged(num value);
-  onFontFamilyChanged(String family);
+  void onFontWeightChanged(String value);
+  void onDecorationChanged(String decoration);
+  void onBackgroundChanged(Brush brush);
+  void onForegroundChanged(Color color);
+  void onTextChanged(String text);
+  void onFontSizeChanged(num value);
+  void onFontFamilyChanged(String family);
 
   @override void initProperties(){
     super.initProperties();
@@ -48,8 +48,8 @@ abstract class SurfaceText extends BoxModelElement
 
     fontSize = new FrameworkProperty(
       this,
-      "fontSize",
-      propertyChangedCallback: (num value) => onFontSizeChanged,
+      'fontSize',
+      propertyChangedCallback: onFontSizeChanged,
       converter: const StringToNumericConverter());
 
     fontFamily = new FrameworkProperty(

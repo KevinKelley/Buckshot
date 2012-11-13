@@ -31,9 +31,10 @@ class StockTickerViewModel extends ViewModelBase
    */
   final View view;
 
-  StockTickerViewModel.with(this.view){
-    // Initialize the framework properties.
-    _initStockTickerViewModelProperties();
+  StockTickerViewModel.with(this.view);
+
+  @override void initEvents(){
+    super.initEvents();
 
     // Register an event handler that a view can declaratively bind to
     // with "on.click='watch_ticker_click'"
@@ -47,7 +48,9 @@ class StockTickerViewModel extends ViewModelBase
     view.rootVisual.unloaded + (_, __) => _model.stop();
   }
 
-  void _initStockTickerViewModelProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     tickerInput = new FrameworkProperty(this, 'tickerInput');
 
     tickerOutput = new FrameworkProperty(this, 'tickerOutput',

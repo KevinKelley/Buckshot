@@ -115,7 +115,7 @@ r'''
         <border style='{resource calcHeader}'></border>
         <border style='{resource borderSeperator}'></border>
         <stack orientation='horizontal' valign='center' margin='0,0,0,2'>
-            <image width='50' alt="Buckshot Logo" sourceuri="apps/calculator/resources/buckshot_logo.png" />
+            <image width='50' alt="Buckshot Logo" uri="apps/calculator/resources/buckshot_logo.png" />
           <stack>
             <textblock style='{resource calcDefaultText}' text='Buckshot' />
             <textblock style='{resource calcDefaultText}' text='Calculator' />

@@ -25,7 +25,7 @@ part of core_buckshotui_org;
 *
 *     <!-- Now we can bind to the resources in various ways... -->
 *     <textblock text="{resource stringresource}"></textblock>
-*     <image alt="image test" sourceuri="{resource urlresource}"></image>
+*     <image alt="image test" uri="{resource urlresource}"></image>
 *     <border background="Orange" width="{resource numericresource}" content="{resource contentresource}"></border>
 *
 * ## See Also

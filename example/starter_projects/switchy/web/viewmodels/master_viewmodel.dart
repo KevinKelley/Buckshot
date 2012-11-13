@@ -1,8 +1,9 @@
+part of switchy_buckshot;
 
 class MasterViewModel extends ViewModelBase
 {
   FrameworkProperty<String> statusMessage;
-  FrameworkProperty<FrameworkElement> content;
+  FrameworkProperty<HtmlPlatformElement> content;
 
   final View _calc = new Calculator();
   final View _home = new Home();
@@ -10,18 +11,18 @@ class MasterViewModel extends ViewModelBase
   final View _ticker = new StockTicker();
 
   MasterViewModel(){
-    _initMasterViewModelProperties();
-
     registerEventHandler('menu_selected', menu_selected);
 
     setContent(_home);
   }
 
-  void _initMasterViewModelProperties(){
+  @override void initProperties(){
+    super.initProperties();
     statusMessage = new FrameworkProperty(this, 'statusMessage',
         defaultValue: 'Home view selected.');
 
     content = new FrameworkProperty(this, 'content');
+
   }
 
   String _viewNameFromInstanceOf(View view){
@@ -79,12 +80,9 @@ class MasterViewModel extends ViewModelBase
     setTemporaryMessage('Opened $uri.');
   }
 
-
-
   // Event handlers
 
   void menu_selected(sender, MenuItemSelectedEventArgs args){
-
     final selection =
         args.selectedMenuItem == null ? sender : args.selectedMenuItem;
 

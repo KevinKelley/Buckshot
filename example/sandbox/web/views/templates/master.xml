@@ -27,7 +27,7 @@
   <border padding='5' dockpanel.dock='top' background='{resource header_background_brush}'>
 	    <stack orientation='horizontal'>
 	       <hyperlink valign='center' navigateto='http://www.buckshotui.org/'>
-		       <image width='35' sourceuri='web/resources/buckshot_logo.png' alt='Buckshot Logo' />
+		       <image width='35' uri='web/resources/buckshot_logo.png' alt='Buckshot Logo' />
 		       </hyperlink>
 	       <textblock margin='0,0,0,5' valign='center' foreground='White' text='Buckshot Sandbox' />
 	       <textblock margin='0,0,0,5' valign='center' foreground='White' fontsize='10' text='alpha' />

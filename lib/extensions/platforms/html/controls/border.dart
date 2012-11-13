@@ -58,8 +58,9 @@ class Border extends SurfaceBorder implements HtmlPlatformElement
 //      throw 'Child already child of another element.';
 //    }
     rawElement.elements.clear();
-    rawElement.elements.add(newChild.rawElement);
     newChild.parent = this;
+    rawElement.elements.add(newChild.rawElement);
+    HtmlPlatformElement.updateChildAlignment(this);
   }
 
   @override void onBorderThicknessChanged(Thickness value){

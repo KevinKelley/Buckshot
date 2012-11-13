@@ -1,3 +1,4 @@
+part of switchy_buckshot;
 
 /** Represents a view for a stock ticker widget. */
 class StockTicker extends View

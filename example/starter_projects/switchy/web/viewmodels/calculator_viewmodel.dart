@@ -1,6 +1,6 @@
 library calculator_view_model;
 
-import 'package:buckshot/buckshot.dart';
+import 'package:buckshot/buckshot_browser.dart';
 import '../models/calc.dart';
 
 part '../views/calculator/standard_calc.dart';
@@ -13,16 +13,16 @@ part '../views/calculator/extended_calc.dart';
 class CalculatorViewModel extends ViewModelBase
 {
   /// Represents the standard calculator layout [IView].
-  final StandardCalc standardCalc;
+  final StandardCalc standardCalc = new StandardCalc();
 
   /// Represents the extended calculator layout [IView].
-  final ExtendedCalc extendedCalc;
+  final ExtendedCalc extendedCalc = new ExtendedCalc();
 
   /// Represents the calculator implementation being used by the application.
-  final ICalculator model;
+  final ICalculator model = new Calc();
 
   /// Represents the keypad view of the calculator (standard or extended).
-  FrameworkProperty<FrameworkElement> keypad;
+  FrameworkProperty<HtmlPlatformElement> keypad;
 
   /// Represents the primary output text of the calculator.
   FrameworkProperty<String> output;
@@ -36,15 +36,10 @@ class CalculatorViewModel extends ViewModelBase
 
   FrameworkProperty<num> width;
 
-  /* End Singleton */
-
-  CalculatorViewModel()
-  :
-    standardCalc = new StandardCalc(),
-    extendedCalc = new ExtendedCalc(),
-    model = new Calc()
-  {
-    _initProperties();
+  @override void initEvents(){
+    super.initEvents();
+    registerEventHandler('buttonclick_handler', buttonClick_handler);
+    registerEventHandler('selectionchanged_handler', selectionChanged_handler);
 
     // Subscribe to the model events that we are interested in.
     model.mainOutputChanged + updateOutput;
@@ -52,8 +47,8 @@ class CalculatorViewModel extends ViewModelBase
     model.memoryMarkerChanged + updateMemoryMarker;
   }
 
-  void _initProperties(){
-
+  @override void initProperties(){
+    super.initProperties();
     // Initialize the framework properties with default values.
 
     keypad = new FrameworkProperty(this, 'keypad',
@@ -69,9 +64,6 @@ class CalculatorViewModel extends ViewModelBase
 
     width = new FrameworkProperty(this, 'width',
         defaultValue:300);
-
-    registerEventHandler('buttonclick_handler', buttonClick_handler);
-    registerEventHandler('selectionchanged_handler', selectionChanged_handler);
   }
 
   /**
@@ -139,6 +131,7 @@ class CalculatorViewModel extends ViewModelBase
    * mode selector on the calculator.
    */
   void selectionChanged_handler(sender, args){
+    print('calc selection changed');
     setMode(args.selectedItem.item.value);
   }
 }

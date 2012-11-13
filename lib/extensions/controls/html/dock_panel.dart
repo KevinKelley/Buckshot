@@ -55,6 +55,13 @@ class DockPanel extends Control implements FrameworkContainer
 
   void onChildrenChanging(sender, ListChangedEventArgs args){
     if (!isLoaded) return;
+    args.newItems.forEach((item){
+      item.parent = this;
+    });
+
+    args.oldItems.forEach((item){
+      item.parent = null;
+    });
     invalidate();
   }
 

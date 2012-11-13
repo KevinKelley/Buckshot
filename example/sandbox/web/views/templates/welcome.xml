@@ -7,7 +7,7 @@
   <border background='{resource theme_dark_brush}' halign='center' borderthickness='3' bordercolor='SteelBlue' margin='15' padding='10' shadowx='3' shadowy='3' shadowblur='4' shadowcolor='Gray'>
     <stack>
       <textblock style='{resource headerText}' text='Select a demo from the left or create your own down below.' />
-      <image halign='center' alt='buckshot logo' sourceuri='web/resources/buckshot_logo.png' />
+      <image halign='center' alt='buckshot logo' uri='web/resources/buckshot_logo.png' />
       <textblock halign='center' style='{resource headerText}' text='Have fun!' />
     </stack>
   </border>

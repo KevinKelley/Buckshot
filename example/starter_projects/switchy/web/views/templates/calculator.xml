@@ -8,7 +8,7 @@
 		<border style='{resource calcHeader}'></border>
 		<border style='{resource borderSeperator}'></border>
 		<stack orientation='horizontal' valign='center' margin='0,0,0,2'>
-			<image width='50' alt="Buckshot Logo" sourceuri="web/resources/buckshot_logo.png" />
+			<image width='50' alt="Buckshot Logo" uri="web/resources/buckshot_logo.png" />
 			<stack>
 				<textblock style='{resource defaultText}' text='Buckshot' />
 				<textblock style='{resource defaultText}' text='Calculator' />
@@ -18,8 +18,8 @@
 			<textblock style='{resource defaultText}' text='Mode:' margin='0,0,0,5' />
 			<dropdownlist on.selectionChanged='selectionChanged_handler'>
 				<items>
-					<dropdownitem name='Standard' value='Standard' />
-					<dropdownitem name='Extended' value='Extended' />
+					<dropdownitem item='Standard' value='Standard' />
+					<dropdownitem item='Extended' value='Extended' />
 				</items>
 			</dropdownlist>
 		</stack>

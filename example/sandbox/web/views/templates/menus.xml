@@ -62,14 +62,14 @@
       </menuitem>
     </menu>
   </menustrip>
-  
+
   <textblock style='{resource headerText}' text='It also supports more complex content menu strips...' />
-  
+
   <menustrip halign='stretch'>
   <menu>
      <header>
         <stack>
-           <image alt='demo image' sourceuri='http://www.lucastudios.com/Content/images/Certificate64.png' />
+           <image alt='demo image' uri='http://www.lucastudios.com/Content/images/Certificate64.png' />
            <textblock halign='center' fontsize='14' text='Files' />
         </stack>
      </header>
@@ -90,7 +90,7 @@
   <menu>
      <header>
         <stack>
-           <image alt='demo image' sourceuri='http://www.lucastudios.com/Content/images/ChartGantt64.png' />
+           <image alt='demo image' uri='http://www.lucastudios.com/Content/images/ChartGantt64.png' />
            <textblock halign='center' fontsize='14' text='Data' />
         </stack>
      </header>
@@ -111,7 +111,7 @@
   <menu>
      <header>
         <stack>
-           <image alt='demo image' sourceuri='http://www.lucastudios.com/Content/images/Connected64.png' />
+           <image alt='demo image' uri='http://www.lucastudios.com/Content/images/Connected64.png' />
            <textblock halign='center' fontsize='14' text='Connection' />
         </stack>
      </header>
@@ -132,7 +132,7 @@
   <menu>
      <header>
         <stack>
-           <image alt='demo image' sourceuri='http://www.lucastudios.com/Content/images/MailBox64.png' />
+           <image alt='demo image' uri='http://www.lucastudios.com/Content/images/MailBox64.png' />
            <textblock halign='center' fontsize='14' text='Messages' />
         </stack>
      </header>
@@ -153,7 +153,7 @@
   <menu>
      <header>
         <stack>
-           <image alt='demo image' sourceuri='http://www.lucastudios.com/Content/images/WindowTriPaneSearch64.png' />
+           <image alt='demo image' uri='http://www.lucastudios.com/Content/images/WindowTriPaneSearch64.png' />
            <textblock halign='center' fontsize='14' text='Search' />
         </stack>
      </header>

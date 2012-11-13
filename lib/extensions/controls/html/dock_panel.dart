@@ -5,7 +5,7 @@
 library dockpanel_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 /**
  * A panel element that supports docking of child elements within it.
@@ -17,8 +17,8 @@ class DockPanel extends Control implements FrameworkContainer
   FrameworkProperty<bool> fillLast;
   FrameworkProperty<Brush> background;
 
-  final ObservableList<HtmlSurfaceElement> children =
-      new ObservableList<HtmlSurfaceElement>();
+  final ObservableList<HtmlPlatformElement> children =
+      new ObservableList<HtmlPlatformElement>();
 
   DockPanel()
   {
@@ -46,7 +46,7 @@ class DockPanel extends Control implements FrameworkContainer
 
     background = new FrameworkProperty(this, 'background',
         propertyChangedCallback: (Brush brush) {
-          HtmlSurfaceElement.setBackgroundBrush(this, brush);
+          HtmlPlatformElement.setBackgroundBrush(this, brush);
         },
         converter: const StringToSolidColorBrushConverter());
   }
@@ -73,7 +73,7 @@ class DockPanel extends Control implements FrameworkContainer
   /**
   * Sets given [DockLocation] value to the Dockpanel.dockProperty
   * for the given [element]. */
-  static void setDock(HtmlSurfaceElement element, value){
+  static void setDock(HtmlPlatformElement element, value){
     assert(value is String || value is DockLocation);
 
     if (element == null) return;
@@ -82,7 +82,7 @@ class DockPanel extends Control implements FrameworkContainer
 
     if (DockPanel.dockProperty == null) {
       DockPanel.dockProperty = new AttachedFrameworkProperty("dock",
-        (HtmlSurfaceElement e, DockLocation l){});
+        (HtmlPlatformElement e, DockLocation l){});
     }
 
     AttachedFrameworkProperty.setValue(element, dockProperty, value);
@@ -92,7 +92,7 @@ class DockPanel extends Control implements FrameworkContainer
   /**
   * Returns the [DockLocation] value currently assigned to the
   * Dockpanel.dockProperty for the given element. */
-  static DockLocation getDock(HtmlSurfaceElement element){
+  static DockLocation getDock(HtmlPlatformElement element){
     if (element == null) return DockLocation.left;
 
     final value = AttachedFrameworkProperty.getValue(element, dockProperty);
@@ -149,7 +149,7 @@ class DockPanel extends Control implements FrameworkContainer
     }
 
     // Adds child to container with correct alignment and ordering.
-    void addChild(Element container, HtmlSurfaceElement child, DockLocation loc){
+    void addChild(Element container, HtmlPlatformElement child, DockLocation loc){
       if (loc == DockLocation.top || loc == DockLocation.bottom){
         child.rawElement.style.setProperty('-webkit-flex', 'none');
       }
@@ -267,7 +267,7 @@ class DockPanel extends Control implements FrameworkContainer
 //    }
 //
 //    // Adds child to container with correct alignment and ordering.
-//    void addDockedChild(Grid container, HtmlSurfaceElement child, DockLocation loc){
+//    void addDockedChild(Grid container, HtmlPlatformElement child, DockLocation loc){
 //      switch(loc){
 //        case DockLocation.left:
 //          Grid.setColumn(child, 0);

@@ -7,8 +7,8 @@ part of menus_control_extensions_buckshot;
 /** Represents an item in a [Menu] control */
 class MenuItem extends Control
 {
-  FrameworkProperty<HtmlSurfaceElement> icon;
-  FrameworkProperty<HtmlSurfaceElement> header;
+  FrameworkProperty<HtmlPlatformElement> icon;
+  FrameworkProperty<HtmlPlatformElement> header;
 
   MenuItem();
   MenuItem.register() : super.register();

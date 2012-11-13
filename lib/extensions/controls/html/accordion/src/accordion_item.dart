@@ -3,8 +3,8 @@ part of tabcontrol_control_extensions_buckshot;
 
 class AccordionItem extends Control implements FrameworkContainer
 {
-  FrameworkProperty<HtmlSurfaceElement> header;
-  FrameworkProperty<HtmlSurfaceElement> body;
+  FrameworkProperty<HtmlPlatformElement> header;
+  FrameworkProperty<HtmlPlatformElement> body;
 
   AccordionItem()
   {

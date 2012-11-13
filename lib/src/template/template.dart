@@ -139,7 +139,7 @@ class Template {
   * Use the [deserialize] method to convert a template to a [FrameworkObject].
   */
   static Future<String> getTemplate(String uri){
-    return presenter.getTemplate(uri);
+    return platform.getTemplate(uri);
   }
 
   /**

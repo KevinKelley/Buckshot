@@ -5,7 +5,7 @@
 library funnyordie_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 /**
  * A FunnyOrDie video player control for [HtmlSurface].

@@ -1,4 +1,4 @@
-## Surface Elements ##
+## Box Model Surface Elements ##
 Included in this folder are abstract base elements that are commonly associated
 with surface rendering.  Presenter implementations can build on these abstracts
 to provide a consistent set of elements and controls.

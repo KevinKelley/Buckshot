@@ -7,7 +7,7 @@
 library plusone_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 /**
 * A control that provides a scrollable list of selectable items.
@@ -19,7 +19,7 @@ class ListBox extends Control implements FrameworkContainer
   FrameworkProperty<dynamic> selectedItem;
   /// Represents the [Panel] element which will contain the generated UI for
   /// each element of the collection.
-  FrameworkProperty<HtmlSurfaceElement> presentationPanel;
+  FrameworkProperty<HtmlPlatformElement> presentationPanel;
 
   /// Represents the UI that will display for each item in the collection.
   FrameworkProperty<String> itemsTemplate;
@@ -82,7 +82,7 @@ class ListBox extends Control implements FrameworkContainer
   }
 
   void _OnItemCreated(sender, ItemCreatedEventArgs args){
-    HtmlSurfaceElement item = args.itemCreated;
+    HtmlPlatformElement item = args.itemCreated;
 
     item.click + (_, __) {
       _selectedIndex =
@@ -153,7 +153,7 @@ class ListBox extends Control implements FrameworkContainer
     selectedItem = new FrameworkProperty(this, "selectedItem");
 
     presentationPanel = new FrameworkProperty(this, "presentationPanel",
-      propertyChangedCallback: (HtmlSurfaceElement p){
+      propertyChangedCallback: (HtmlPlatformElement p){
         assert(p is FrameworkContainer);
         assert(p.containerContent is List);
         if (_presenter == null) return;

@@ -14,9 +14,9 @@ class TreeNode extends Control implements FrameworkContainer
   TreeNode _parentNode = null;
 
   FrameworkProperty<dynamic> header;
-  FrameworkProperty<HtmlSurfaceElement> icon;
-  FrameworkProperty<HtmlSurfaceElement> folderIcon;
-  FrameworkProperty<HtmlSurfaceElement> fileIcon;
+  FrameworkProperty<HtmlPlatformElement> icon;
+  FrameworkProperty<HtmlPlatformElement> folderIcon;
+  FrameworkProperty<HtmlPlatformElement> fileIcon;
   FrameworkProperty<ObservableList<TreeNode>> childNodes;
   FrameworkProperty<dynamic> indicator;
   FrameworkProperty<Visibility> childVisibility;
@@ -33,7 +33,7 @@ class TreeNode extends Control implements FrameworkContainer
   void _initControl(){
     // Toggle visibility of child nodes when clicked.
     (Template
-      .findByName('__tree_node_indicator__', template) as HtmlSurfaceElement)
+      .findByName('__tree_node_indicator__', template) as HtmlPlatformElement)
       .click + (_, __){
         childVisibility.value = childVisibility.value == Visibility.visible
             ? Visibility.collapsed

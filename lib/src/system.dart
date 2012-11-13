@@ -60,11 +60,7 @@ void _registerCoreElements(){
   registerElement(new Setter.register());
   registerElement(new StyleTemplate.register());
   registerElement(new Var.register());
-//  registerElement(new AnimationResource.register());
-//  registerElement(new AnimationKeyFrame.register());
-//  registerElement(new AnimationState.register());
-//
-//  //actions
+//actions
   registerElement(new SetProperty.register());
   registerElement(new ToggleProperty.register());
 }
@@ -266,8 +262,9 @@ void registerGlobalEventHandler(String handlerName, EventHandler handler){
  * values for the root container, but you can also set other typical [Border]
  * properties like borderWidth, borderThickness, etc.
  */
-Future<FrameworkObject> setView(View view, [String elementID = 'BuckshotHost'])
+Future<FrameworkObject> setView(View view)
 {
+
   throw const NotImplementedException();
 //  final el = query('#${elementID}');
 //

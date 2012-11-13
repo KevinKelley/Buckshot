@@ -15,7 +15,7 @@ class Menu extends Control implements FrameworkContainer
   FrameworkProperty<ObservableList<MenuItem>> menuItems;
   FrameworkProperty<String> parentName;
   FrameworkProperty<dynamic> header;
-  FrameworkProperty<HtmlSurfaceElement> _menuParent;
+  FrameworkProperty<HtmlPlatformElement> _menuParent;
   FrameworkProperty<num> offsetX;
   FrameworkProperty<num> offsetY;
 
@@ -98,7 +98,7 @@ class Menu extends Control implements FrameworkContainer
     var mp = _menuParent.value;
     if (mp == null) new Future.immediate(null);
 
-    return htmlPresenter
+    return htmlPlatform
              .measure(mp)
              .chain((RectMeasurement r){
               rawElement.style.left = '${offsetX.value + r.left}px';

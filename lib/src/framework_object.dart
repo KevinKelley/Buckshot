@@ -81,8 +81,8 @@ abstract class FrameworkObject
 
   FrameworkObject() {
     applyVisualTemplate();
-    if (presenter != null){
-      presenter.initElement(this);
+    if (platform != null){
+      platform.initElement(this);
     }
     initProperties();
     initEvents();
@@ -538,7 +538,7 @@ abstract class FrameworkObject
     }
   }
 
-  /** Called when the object is loaded into a [presenter] view. */
+  /** Called when the object is loaded into a [platform] view. */
   @override void onLoaded(){
     isLoaded = true;
     updateDataContext();
@@ -555,7 +555,7 @@ abstract class FrameworkObject
     _log.fine('loaded $this');
   }
 
-  /** Called when the object is unloaded from a [presenter] view. */
+  /** Called when the object is unloaded from a [platform] view. */
   @override void onUnloaded(){
     isLoaded = false;
     unloaded.invoke(this, new EventArgs());

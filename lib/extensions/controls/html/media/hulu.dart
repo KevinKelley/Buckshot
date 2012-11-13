@@ -5,7 +5,7 @@
 library hulu_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 /**
  * A Hulu player control for [HtmlSurface].
@@ -33,7 +33,7 @@ class Hulu extends Control
   @override void onLoaded(){
     super.onLoaded();
 
-    htmlPresenter
+    htmlPlatform
       .measure(this)
       .then((RectMeasurement r){
         rawElement.attributes["width"] = '${r.width}px';

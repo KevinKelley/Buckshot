@@ -5,7 +5,7 @@
 library canvas_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 /**
  * Event for when a frame changes.
@@ -53,13 +53,13 @@ class CanvasBase extends Control
   void onLoaded() {
     super.onLoaded();
 
-    htmlPresenter.workers[_name] = _frameHandler;
+    htmlPlatform.workers[_name] = _frameHandler;
   }
 
   void onUnloaded() {
     super.onUnloaded();
 
-    htmlPresenter.workers.remove(_name);
+    htmlPlatform.workers.remove(_name);
   }
 
   String get _name => '__canvas_${_canvasId}__';

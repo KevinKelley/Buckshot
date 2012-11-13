@@ -25,7 +25,7 @@ export 'package:meta/meta.dart';
 // Also below, set reflectionEnabled = true.
 // import 'dart:mirrors';
 
-part 'src/presenter.dart';
+part 'src/platform.dart';
 part 'src/system.dart';
 part 'src/framework_object.dart';
 part 'src/framework_property.dart';

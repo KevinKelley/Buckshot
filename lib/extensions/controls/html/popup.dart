@@ -1,8 +1,7 @@
 library popup_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presenters/html/html_surface.dart';
-//import 'package:dartnet_event_model/events.dart';
+import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 /**
  * A popup control that hovers over a given element.
@@ -63,19 +62,19 @@ class Popup extends Control
   FrameworkProperty<Thickness> cornerRadius;
   FrameworkProperty<dynamic> content;
 
-  HtmlSurfaceElement _target;
+  HtmlPlatformElement _target;
   EventHandlerReference _ref;
   SurfacePoint _currentPos;
   static Popup _currentPopup;
 
   Popup();
-  Popup.with(HtmlSurfaceElement popupContent){
+  Popup.with(HtmlPlatformElement popupContent){
     content.value = popupContent;
   }
   Popup.register() : super.register();
   @override makeMe() => new Popup();
 
-  Future show([HtmlSurfaceElement target = null]){
+  Future show([HtmlPlatformElement target = null]){
     if (_currentPopup != null) _currentPopup.hide();
 
     if (target == null || !target.isLoaded){
@@ -91,7 +90,7 @@ class Popup extends Control
       _currentPopup = this;
       return new Future.immediate(true);
     }else{
-      return htmlPresenter
+      return htmlPlatform
         .measure(target)
         .chain((RectMeasurement r){
           rawElement.style.left = '${offsetX.value + r.left}px';

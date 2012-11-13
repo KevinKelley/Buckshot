@@ -5,6 +5,6 @@ now you can import them directly via the core Buckshot library.
 ### Control Extensions ###
 controls/
 
-### Presenter Extensions ###
-presenters/
+### Platform Extensions ###
+platforms/
 

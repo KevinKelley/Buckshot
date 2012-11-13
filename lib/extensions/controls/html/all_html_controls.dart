@@ -22,6 +22,9 @@ import 'package:buckshot/extensions/controls/html/treeview/tree_view.dart';
 import 'package:buckshot/extensions/controls/html/tab_control/tab_control.dart';
 import 'package:buckshot/extensions/controls/html/accordion/accordion.dart';
 import 'package:buckshot/extensions/controls/html/menus/menus.dart';
+import 'package:buckshot/extensions/controls/html/canvas/bitmap_canvas.dart';
+import 'package:buckshot/extensions/controls/html/canvas/webgl_canvas.dart';
+
 export 'package:buckshot/buckshot_browser.dart';
 export 'package:buckshot/extensions/controls/html/social/plus_one.dart';
 export 'package:buckshot/extensions/controls/html/list_box.dart';
@@ -36,10 +39,12 @@ export 'package:buckshot/extensions/controls/html/treeview/tree_view.dart';
 export 'package:buckshot/extensions/controls/html/tab_control/tab_control.dart';
 export 'package:buckshot/extensions/controls/html/accordion/accordion.dart';
 export 'package:buckshot/extensions/controls/html/menus/menus.dart';
+export 'package:buckshot/extensions/controls/html/canvas/bitmap_canvas.dart';
+export 'package:buckshot/extensions/controls/html/canvas/webgl_canvas.dart';
 
 void initHtmlControls(){
   initPresenter();
-  assert(htmlPresenter != null);
+  assert(htmlPlatform != null);
   registerElement(new PlusOne.register());
   registerElement(new ListBox.register());
   registerElement(new YouTube.register());
@@ -50,5 +55,7 @@ void initHtmlControls(){
   registerElement(new TreeView.register());
   registerElement(new TabControl.register());
   registerElement(new Accordion.register());
+  registerElement(new BitmapCanvas.register());
+  registerElement(new WebGLCanvas.register());
   registerMenuControls();
 }

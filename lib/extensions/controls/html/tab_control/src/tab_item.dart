@@ -6,13 +6,13 @@ part of tabcontrol_control_extensions_buckshot;
 
 class TabItem extends Control implements FrameworkContainer
 {
-  FrameworkProperty<HtmlSurfaceElement> header;
-  FrameworkProperty<HtmlSurfaceElement> icon;
+  FrameworkProperty<HtmlPlatformElement> header;
+  FrameworkProperty<HtmlPlatformElement> icon;
   FrameworkProperty<bool> closeEnabled;
   FrameworkProperty<Visibility> _closeButtonVisiblity;
   FrameworkProperty<dynamic> content;
 
-  HtmlSurfaceElement _visualTemplate;
+  HtmlPlatformElement _visualTemplate;
 
   TabItem(){
     stateBag[FrameworkObject.CONTAINER_CONTEXT] = content;
@@ -31,7 +31,7 @@ class TabItem extends Control implements FrameworkContainer
 
     content = new FrameworkProperty(this, 'content',
         propertyChangedCallback:(value){
-          assert(value is HtmlSurfaceElement);
+          assert(value is HtmlPlatformElement);
           assert(value.parent == null);
           value.parent = this;
     });

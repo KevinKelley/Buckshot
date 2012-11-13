@@ -1,6 +1,6 @@
 part of box_model_surface_buckshot;
 
-abstract class SurfaceImage extends BoxModelSurfaceElement
+abstract class SurfaceImage extends BoxModelElement
 {
   /// Represents the URI location of the image.
   FrameworkProperty<String> uri;

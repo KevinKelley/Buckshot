@@ -5,7 +5,7 @@
 library modaldialog_control_extensions_buckshot;
 
 import 'dart:html';
-import 'package:buckshot/extensions/presenters/html/html_surface.dart';
+import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 /**
 * Displays a general purpose modal dialog and returns results.
@@ -128,8 +128,8 @@ class ModalDialog extends Control
     log('Showing ModalDialog');
     _dialogCompleter = new Completer<DialogButtonType>();
 
-    b1 = bind(htmlPresenter.viewportWidth, cvRoot.width);
-    b2 = bind(htmlPresenter.viewportHeight, cvRoot.height);
+    b1 = bind(htmlPlatform.viewportWidth, cvRoot.width);
+    b2 = bind(htmlPlatform.viewportHeight, cvRoot.height);
 
     cvRoot.width.value = window.innerWidth;
     cvRoot.height.value = window.innerHeight;

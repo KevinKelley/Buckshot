@@ -6,7 +6,7 @@
     <!--
     Referencing an png file from a relative path in the project.
     -->
-    <image margin='5' halign='center' sourceuri='web/resources/buckshot_logo.png' height='50' />
+    <image margin='5' halign='center' uri='web/resources/buckshot_logo.png' height='50' />
 
 			<!--
 			Data binding the 'text' property to a 'message' object in the view model

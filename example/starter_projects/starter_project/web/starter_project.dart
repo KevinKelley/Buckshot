@@ -1,5 +1,6 @@
+library start_project_buckshot;
 
-import 'package:buckshot/buckshot.dart';
+import 'package:buckshot/buckshot_browser.dart';
 
 part 'views/main_view.dart';
 part 'viewmodels/viewmodel.dart';
@@ -7,13 +8,14 @@ part 'models/model.dart';
 
 
 main(){
+  initPlatform();
 
-  setView(new MainView())
+  htmlPlatform.render(new MainView())
      .then((rootVisual){
        // Since we want the app to take up the entire browser window,
        // we'll setup some manual bindings to the implicit Border
        // that our view is contained within.
 
-       bindToWindowDimensions(rootVisual.parent);
+       htmlPlatform.bindToBrowserDimensions(rootVisual.parent);
      });
 }

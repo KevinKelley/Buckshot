@@ -1,3 +1,4 @@
+part of start_project_buckshot;
 
 class MainView extends View
 {

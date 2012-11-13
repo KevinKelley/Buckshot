@@ -54,7 +54,7 @@ class View
    * what is provided in the string (Uri, or DOM id ['#something']), the
    * [Platform] will attempt to retrieve the resource and deserialize it.
    */
-  factory View.fromResource(String resourceName){
+  View.fromResource(String resourceName){
     _init(resourceName);
   }
 

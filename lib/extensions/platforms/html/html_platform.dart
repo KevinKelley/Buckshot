@@ -143,6 +143,12 @@ class HtmlPlatform extends BoxModelSurface
   void bindToBrowserDimensions(HtmlPlatformElement element){
     bind(viewportHeight, element.height);
     bind(viewportWidth, element.width);
+    if (viewportHeight.value == null){
+      element.height.value = window.innerHeight;
+    }
+    if (viewportWidth.value == null){
+      element.width.value = window.innerWidth;
+    }
   }
 
   @override Future<String> getTemplate(String uri){

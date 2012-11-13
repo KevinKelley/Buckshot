@@ -1,3 +1,4 @@
+part of start_project_buckshot;
 
 class ViewModel extends ViewModelBase
 {
@@ -33,6 +34,6 @@ class ViewModel extends ViewModelBase
   void click_handler(sender, args){
     final v = entry.value;
 
-    result.value = v.isEmpty() ? '' : 'You entered: "${entry.value}".';
+    result.value = v.isEmpty ? '' : 'You entered: "${entry.value}".';
   }
 }

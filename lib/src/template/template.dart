@@ -154,8 +154,8 @@ class Template {
     final tt = buckshotTemplate.trim();
     var rawTemplate;
 
-    return _initFramework()
-              .chain((_) => Template.getTemplate(tt))
+    return initFramework()
+              .chain((_) => platform.getTemplate(tt))
               .chain((template){
                 rawTemplate = template;
                 return Template.toFrameworkObject(Template.toXmlTree(template));

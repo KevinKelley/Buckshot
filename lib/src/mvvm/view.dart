@@ -12,19 +12,19 @@ part of core_buckshotui_org;
 */
 class View
 {
-  FrameworkObject _rootElement;
+  PlatformElement _rootElement;
   final Completer _c = new Completer();
 
   /**
    * Future completes when view is ready (has an element assigned to
    * rootVisual).
    */
-  Future<FrameworkObject> ready;
+  Future<PlatformElement> ready;
 
   /// Gets the visual root of the view.
-  FrameworkObject get rootVisual => _rootElement;
-  set rootVisual(FrameworkObject element) {
-    assert(element != null && element is FrameworkObject);
+  PlatformElement get rootVisual => _rootElement;
+  set rootVisual(PlatformElement element) {
+    assert(element != null && element is PlatformElement);
 
     if (_rootElement != null){
       throw const BuckshotException('View already initialized.');
@@ -45,23 +45,25 @@ class View
    *
    * Future View.ready will complete when the template is loaded.
    */
-  factory View.fromTemplate(String template) => new View._internal(template);
+  View.fromTemplate(String template) {
+    _init(template);
+  }
 
   /**
    * Constructs a view from a given template [resourceName].  Depending on
    * what is provided in the string (Uri, or DOM id ['#something']), the
    * [Platform] will attempt to retrieve the resource and deserialize it.
    */
-  factory View.fromResource(String resourceName) =>
-      new View._internal(resourceName);
+  factory View.fromResource(String resourceName){
+    _init(resourceName);
+  }
 
-
-  View._internal(String uriOrTemplate){
+  void _init(String uriOrTemplate){
     ready = _c.future;
 
     Template
-    .deserialize(uriOrTemplate)
-    .then((t) => rootVisual = t);
+      .deserialize(uriOrTemplate)
+      .then((t) => rootVisual = t);
   }
 
   /** Constructs a view from a given [element]. */

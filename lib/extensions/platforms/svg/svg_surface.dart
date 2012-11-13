@@ -13,7 +13,7 @@ part 'svg_surface_element.dart';
  * IMPORTANT:  This should be called first before making any other calls
  * to the Buckshot API.
  */
-void initPresenter(){
+void initPlatform(){
   svgPresenter = new SvgSurface();
 }
 
@@ -42,10 +42,14 @@ class SvgSurface extends SurfacePlatform
     _rootDiv.attributes['height'] = '500';
   }
 
-  @override void render(SurfaceElement rootElement){
-    assert(rootElement is SvgSurfaceElement);
-
-    _rootDiv.elements.add(rootElement.rawElement);
+  @override Future<PlatformElement> render(View view){
+    return
+       initFramework()
+       .chain((_) => view.ready)
+       .chain((rootVisual){
+          throw new NotImplementedException();
+          return new Future.immediate(rootVisual);
+      });
   }
 
 }

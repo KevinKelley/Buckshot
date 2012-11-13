@@ -67,7 +67,7 @@ void _registerCoreElements(){
 
 bool _frameworkInitialized = false;
 
-Future _initFramework(){
+Future initFramework(){
   if (_frameworkInitialized) return new Future.immediate(true);
   _frameworkInitialized = true;
 
@@ -84,50 +84,23 @@ Future _initFramework(){
     _registerCoreElements();
   }
 
-  return _loadTheme()
- //     .chain((_) => _loadResources())
-      .chain((_){
-//        if (!FrameworkAnimation._started){
-//          FrameworkAnimation._startAnimatonLoop();
-//        }
-
-        _log.info('Framework initialized.');
-        return new Future.immediate(true);
-      });
-
   // Initializes the system object name.
-  buckshot.name.value = '__sys__';
+  //buckshot.name.value = '__sys__';
 
 //  if (!Polly.browserOK){
 //    _log.warning('Buckshot Warning: Browser may not be compatible with Buckshot'
 //    ' framework.');
 //  }
 
-  _log.config(reflectionEnabled
+  _log.warning(reflectionEnabled
                 ? 'Reflection enabled.'
                 : 'Reflection disabled.');
 
-//  _initCSS();
-
-
-
-//  //any elements bound to these properties will also get updated...
-//  window.on.resize.add((e){
-//    if (window.innerWidth != windowWidth){
-//      windowWidth.value = window.innerWidth;
-//    }
-//
-//    if (window.innerHeight != windowHeight){
-//      windowHeight.value = window.innerHeight;
-//    }
-//  });
-
   return _loadTheme()
-//    .chain((_) => _loadResources())
-    .chain((_){
-      _log.info('Framework initialized.');
-      return new Future.immediate(true);
-    });
+          .chain((_){
+            _log.warning('Framework initialized.');
+            return new Future.immediate(true);
+          });
 }
 
 bool _themeLoaded = false;
@@ -191,17 +164,6 @@ getObjectByName(String name){
 }
 
 /**
- * Helper function which takes an [element] and binds it's
- * width and height values to the dimensions of the viewport.
- *
- * Currently only supports desktop browsers.
- */
-@deprecated void bindToWindowDimensions(FrameworkObject element){
-//  bind(windowHeight, element.height);
-//  bind(windowWidth, element.width);
-}
-
-/**
  * Register global event handlers here when reflection is not enabled.  Global
  * handlers are necessary in some cases, such as when content is generated
  * within a databound CollectinoPresenter template.
@@ -212,50 +174,17 @@ void registerGlobalEventHandler(String handlerName, EventHandler handler){
 }
 
 /**
- * Sets a [View] into the DOM for rendering. Returns a future which completes
- * when the view is ready (fully deserialized and constructed).
+ * Sets a [View] to the current [Platform] for rendering. Returns a future
+ * which completes when the view is ready (fully deserialized and constructed).
  *
- * ## Placement in DOM ##
- * By default Views will look for a DOM element with the 'BuckshotHost' ID,
- * but you can supply an optional ID to render the content elsewhere.  This
- * will allow you to render Buckshot content to multiple places on the page,
- * although typically you will have only one rendering location.
+ * ## Deprecated ##
+ * Use...
  *
- * ## Implicit Container For Root Views ##
- * Buckshot places root views into an implicit [Border] root container.  You
- * can manipulate this container with:
+ *     platform.render(view);
  *
- *     myView.rootVisual.parent.{...}
- *
- * This is useful if you want to do things like set explicit width & height
- * values for the root container, but you can also set other typical [Border]
- * properties like borderWidth, borderThickness, etc.
+ * ...instead.
  */
-Future<FrameworkObject> setView(View view)
-{
-
-  throw const NotImplementedException();
-//  final el = query('#${elementID}');
-//
-//  if (el == null){
-//    throw new BuckshotException('Could not find DOM element with '
-//        'ID of "${elementID}"');
-//  }
-//
-//  return _initFramework()
-//    .chain((_) => view.ready)
-//    .chain((rootVisual){
-//      el.elements.clear();
-//      final b = new Border()
-//        ..isLoaded = true;
-//      el.elements.add(b.rawElement);
-//      b.content.value = rootVisual;
-//      _log.fine('View ($rootVisual) set to DOM at ($elementID)');
-//      return new Future.immediate(rootVisual);
-//    });
-}
-
-
+@deprecated Future<FrameworkObject> setView(View view) => platform.render(view);
 
 
 /**

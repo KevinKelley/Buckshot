@@ -56,11 +56,13 @@ part 'src/html_platform_element.dart';
 /**
  * Initializes the Buckshot framework to use the [HtmlPlatform] presenter.
  *
+ * Optional argument [hostID] may also be specified (e.g. '#myhostdiv')
+ *
  * IMPORTANT:  This should be called first before making any other calls
  * to the Buckshot API.
  */
-void initPresenter(){
-  htmlPlatform = new HtmlPlatform();
+void initPlatform({String hostID : '#BuckshotHost'}){
+  htmlPlatform = new HtmlPlatform.host(hostID);
   registerElement(new Border.register());
   registerElement(new TextBlock.register());
   registerElement(new Stack.register());
@@ -105,7 +107,19 @@ class HtmlPlatform extends BoxModelSurface
       new Expando<HtmlPlatformElement>();
   Element _rootDiv;
 
-  HtmlPlatform({String hostID : '#BuckshotHost'}){
+  /** Initializes the HtmlPlatform with the default host ID '#BuckshotHost'. */
+  factory HtmlPlatform() => new HtmlPlatform._internal('#BuckshotHost');
+
+  /**
+   * Initializes thte HtmlPlatform using the given [hostID] which must begin
+   * with a '#'.
+   */
+  factory HtmlPlatform.host(String hostID) =>
+      new HtmlPlatform._internal(hostID);
+
+  HtmlPlatform._internal(String hostID){
+    assert(hostID != null);
+    assert(hostID.startsWith('#'));
     _rootDiv = query(hostID);
 
     if (_rootDiv == null){
@@ -119,6 +133,17 @@ class HtmlPlatform extends BoxModelSurface
   }
 
   String get namespace => 'http://surface.buckshotui.org/html';
+
+  /**
+   * Helper function which takes an [element] and binds it's
+   * width and height values to the dimensions of the viewport.
+   *
+   *  Currently only supports desktop browsers.
+   */
+  void bindToBrowserDimensions(HtmlPlatformElement element){
+    bind(viewportHeight, element.height);
+    bind(viewportWidth, element.width);
+  }
 
   @override Future<String> getTemplate(String uri){
     var c = new Completer();
@@ -161,11 +186,20 @@ class HtmlPlatform extends BoxModelSurface
     return c.future;
   }
 
-  @override void render(SurfaceElement rootElement){
-    assert(rootElement is HtmlPlatformElement);
-    _rootDiv.elements.clear();
-
-    _rootDiv.elements.add(rootElement.rawElement);
+  /**
+   * Renders the given [view] into a host [Border] container, which is
+   * implicitly created in the DOM host element.
+   */
+  @override Future<PlatformElement> render(View view){
+    return initFramework()
+            .chain((_) => view.ready)
+            .chain((rootVisual){
+              _rootDiv.elements.clear();
+              final b = new Border()..isLoaded = true;
+              _rootDiv.elements.add(b.rawElement);
+              b.content.value = rootVisual;
+              return new Future.immediate(rootVisual);
+            });
   }
 
   void clearSurface(){
@@ -174,8 +208,6 @@ class HtmlPlatform extends BoxModelSurface
 
   /** Initializes the given [element] to the [Presenter]. */
   @override void initElement(PlatformElement element){
-    super.initElement(element);
-
     if (element is HtmlPlatformElement){
       surfaceElement[element.rawElement] = element;
       Browser.appendClass(element.rawElement, '$element');

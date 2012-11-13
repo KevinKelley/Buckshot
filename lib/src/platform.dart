@@ -37,8 +37,8 @@ abstract class Platform extends FrameworkObject
 
   String get namespace;
 
-  /** Renders to the surface beginning from the given [rootElement]. */
-  void render(PlatformElement rootElement);
+  /** Renders to the given [view] to the current [Platform]. */
+  Future<PlatformElement> render(View view);
 
   /** Initializes the given [element] to the [Platform]. */
   void initElement(PlatformElement element);

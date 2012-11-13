@@ -43,7 +43,7 @@ export 'package:buckshot/extensions/controls/html/canvas/bitmap_canvas.dart';
 export 'package:buckshot/extensions/controls/html/canvas/webgl_canvas.dart';
 
 void initHtmlControls(){
-  initPresenter();
+  initPlatform();
   assert(htmlPlatform != null);
   registerElement(new PlusOne.register());
   registerElement(new ListBox.register());

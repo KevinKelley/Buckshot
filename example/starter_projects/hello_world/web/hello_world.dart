@@ -1,11 +1,17 @@
-import 'package:buckshot/buckshot.dart';
+import 'package:buckshot/buckshot_browser.dart';
 
 void main() {
-  // setView() renders a View into the web page at a DIV with the id
-  // of 'BuckshotHost'.  You can also specify a different id if you want to.
-  setView(
-      // The View.fromTemplate() constructor will automatically deserialize
-      // a buckshot template and create a View with it.
-      new View.fromTemplate('<textblock text="Hello World!" />')
+  // This function initializes the current platform.  In this case, since
+  // we imported buckshot_browser.dart, the platform is HTML DOM by default.
+  //
+  // You can also specify your own ID for the host DIV by passing it like so:
+  //     initPlatform(hostID : '#myhostdiv');
+  //
+  // otherwise the platform will default to '#BuckshotHost'.
+  initPlatform();
+
+  // platform.render() renders a View into the web page at the host DIV.
+  platform.render(
+    new View.fromTemplate('<textblock text="Hello World!" />')
   );
 }

@@ -14,7 +14,4 @@ SurfacePlatform surfacePlatform = platform as SurfacePlatform;
 abstract class SurfacePlatform extends Platform
 {
   Future<RectMeasurement> measure(SurfaceElement element);
-
-  /** Initializes the given [element] to the [Presenter]. */
-  void initElement(PlatformElement element){}
 }

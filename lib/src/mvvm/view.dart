@@ -45,32 +45,27 @@ class View
    *
    * Future View.ready will complete when the template is loaded.
    */
-  View.fromTemplate(String template)
-  {
-    ready = _c.future;
-
-    Template
-      .deserialize(template)
-      .then((t) => rootVisual = t);
-  }
+  factory View.fromTemplate(String template) => new View._internal(template);
 
   /**
    * Constructs a view from a given template [resourceName].  Depending on
    * what is provided in the string (Uri, or DOM id ['#something']), the
-   * constructor will retrieve the resource and deserialize it.
+   * [Platform] will attempt to retrieve the resource and deserialize it.
    */
-  View.fromResource(String resourceName)
-  {
+  factory View.fromResource(String resourceName) =>
+      new View._internal(resourceName);
+
+
+  View._internal(String uriOrTemplate){
     ready = _c.future;
 
     Template
-      .getTemplate(resourceName)
-      .chain((template) => Template.deserialize(template))
-      .then((t) => rootVisual = t);
+    .deserialize(uriOrTemplate)
+    .then((t) => rootVisual = t);
   }
 
   /** Constructs a view from a given [element]. */
-  View.from(FrameworkObject element)
+  View.fromElement(PlatformElement element)
   {
     ready = _c.future;
     rootVisual = element;

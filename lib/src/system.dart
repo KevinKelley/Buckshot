@@ -145,37 +145,6 @@ Future _loadTheme(){
 //  }
 }
 
-bool _resourcesLoaded = false;
-Future _loadResources(){
-//  if (_resourcesLoaded) return new Future.immediate(false);
-//  _resourcesLoaded = true;
-//
-//  if (!document.body.attributes.containsKey('data-buckshot-resources')){
-//    return new Future.immediate(false);
-//  }
-//
-//  _log.info('loading app resources'
-//      ' (${document.body.attributes['data-buckshot-resources']})');
-//
-//  return Template
-//      .deserialize(document.body.attributes['data-buckshot-resources']);
-}
-
-//StyleElement _buckshotCSS;
-@deprecated void _initCSS(){
-//  document.head.elements.add(
-//      new Element.html('<style id="__BuckshotCSS__"></style>'));
-//
-//  _buckshotCSS = document.head.query('#__BuckshotCSS__');
-//
-//  assert(_buckshotCSS != null);
-//
-//  if (_buckshotCSS == null){
-//    _log.warning('Unable to initialize Buckshot StyleSheet.');
-//  }
-}
-
-
 /**
  * Returns the object of a given [name] by searching through all
  * available in-scope libraries.

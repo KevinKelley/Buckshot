@@ -9,7 +9,7 @@ part of core_buckshotui_org;
 * [Binding] and [FrameworkProperty] model. */
 abstract class FrameworkObject
   extends HashableObject
-  implements PresenterElement
+  implements PlatformElement
 {
   StyleTemplate _style;
 

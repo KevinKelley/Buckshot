@@ -61,8 +61,6 @@ part of core_buckshotui_org;
 *
 */
 class Template {
-
-  //TODO make providers discoverable via reflection instead of pre-registered.
   final List<IPresentationFormatProvider> providers =
       [new XmlTemplateProvider()];
 
@@ -138,9 +136,7 @@ class Template {
   *
   * Use the [deserialize] method to convert a template to a [FrameworkObject].
   */
-  static Future<String> getTemplate(String uri){
-    return platform.getTemplate(uri);
-  }
+  static Future<String> getTemplate(String uri) => platform.getTemplate(uri);
 
   /**
   * Takes a buckshot Template and attempts deserialize it into an object
@@ -159,9 +155,10 @@ class Template {
     var rawTemplate;
 
     return _initFramework()
-              .chain((_){
-                rawTemplate = tt;
-                return Template.toFrameworkObject(Template.toXmlTree(tt));
+              .chain((_) => Template.getTemplate(tt))
+              .chain((template){
+                rawTemplate = template;
+                return Template.toFrameworkObject(Template.toXmlTree(template));
               })
               .chain((result){
                 if (result == null){

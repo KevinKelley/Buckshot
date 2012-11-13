@@ -38,10 +38,10 @@ abstract class Platform extends FrameworkObject
   String get namespace;
 
   /** Renders to the surface beginning from the given [rootElement]. */
-  void render(PresenterElement rootElement);
+  void render(PlatformElement rootElement);
 
   /** Initializes the given [element] to the [Platform]. */
-  void initElement(PresenterElement element);
+  void initElement(PlatformElement element);
 
   /**
    * Retrieves a template from the given [uri] using platform-supported
@@ -55,7 +55,7 @@ abstract class Platform extends FrameworkObject
 /**
  * Base contract for objects participating in the PAL.
  */
-abstract class PresenterElement
+abstract class PlatformElement
 {
   /** Fires when the element is loaded in the presentation. */
   FrameworkEvent<EventArgs> loaded;
@@ -66,13 +66,19 @@ abstract class PresenterElement
   /** Parent object of this object. */
   FrameworkObject parent;
 
-  /// Represents a name identifier for the element.
-  /// Assigning a name to an element
-  /// allows it to be found and bound to by other elements.
+  /**
+   * Represents a name identifier for the element.
+   *
+   * Assigning a name to an element allows it to be found and bound to by other
+   * elements.
+   */
   FrameworkProperty<String> name;
 
-  /// Represents the data context assigned to the FrameworkElement.
-  /// Declarative xml binding can be used to bind to data context.
+  /**
+   * Represents the data context assigned to the FrameworkElement.
+   *
+   * Declarative template binding can be used to bind to data context.
+   */
   FrameworkProperty<dynamic> dataContext;
 
   /**

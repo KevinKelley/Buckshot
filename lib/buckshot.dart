@@ -3,6 +3,19 @@
 // See LICENSE file for Apache 2.0 licensing information.
 
 /**
+ * This is the library header for the core buckshot library.
+ *
+ * ## Using the Library ##
+ * Typically you won't import this library directly, but instead through a
+ * PAL (Platform Abstraction Layer) library.  PAL library contain specific
+ * implementations and APIs for working with target platforms (HTML, SVG, etc).
+ *
+ * For HTML platform, the easiest way to get started is to...
+ *
+ *     import 'package:buckshot/buckshot_browser.dart';
+ *
+ * Other PAL libraries can be found in the extensions/platforms/ folder.
+ *
  *  ## Try Buckshot Online ##
  * <http://www.buckshotui.org/sandbox>
  */

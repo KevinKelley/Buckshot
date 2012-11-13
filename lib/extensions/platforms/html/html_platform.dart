@@ -82,6 +82,7 @@ void initPresenter(){
   registerElement(new RowDefinition.register());
   registerElement(new LayoutCanvas.register());
   registerElement(new RawHtml.register());
+  htmlPlatform._loadResources();
 }
 
 HtmlPlatform get htmlPlatform => surfacePlatform as HtmlPlatform;
@@ -99,19 +100,21 @@ class HtmlPlatform extends BoxModelSurface
   static const int _HTML_ELEMENT = 0;
   static const int _HTTP_RESOURCE = 1;
   static const int _SERIALIZED = 2;
-
+  bool _resourcesLoaded = false;
   final Expando<HtmlPlatformElement> surfaceElement =
       new Expando<HtmlPlatformElement>();
   Element _rootDiv;
 
-  HtmlPlatform(){
-    _rootDiv = query('#BuckshotHost');
+  HtmlPlatform({String hostID : '#BuckshotHost'}){
+    _rootDiv = query(hostID);
+
     if (_rootDiv == null){
       throw "Unable to initialize the HtmlSurface provider. "
         "Div with ID 'BuckshotHost' not found in HTML page.";
     }
 
     _setMutationObserver(_rootDiv);
+    _initCSS();
     _startEventLoop();
   }
 
@@ -170,7 +173,7 @@ class HtmlPlatform extends BoxModelSurface
   }
 
   /** Initializes the given [element] to the [Presenter]. */
-  @override void initElement(PresenterElement element){
+  @override void initElement(PlatformElement element){
     super.initElement(element);
 
     if (element is HtmlPlatformElement){
@@ -230,6 +233,28 @@ class HtmlPlatform extends BoxModelSurface
 
     // Assume its pointing to a HTTP resource
     return _HTTP_RESOURCE;
+  }
+
+  StyleElement _buckshotCSS;
+  void _initCSS(){
+    document.head.elements.add(
+        new Element.html('<style id="__BuckshotCSS__"></style>'));
+
+    _buckshotCSS = document.head.query('#__BuckshotCSS__');
+
+    assert(_buckshotCSS != null);
+  }
+
+  Future _loadResources(){
+    if (_resourcesLoaded) return new Future.immediate(false);
+    _resourcesLoaded = true;
+
+    if (!document.body.attributes.containsKey('data-buckshot-resources')){
+      return new Future.immediate(false);
+    }
+
+    return Template
+        .deserialize(document.body.attributes['data-buckshot-resources']);
   }
 
   void _setViewportWatcher(){

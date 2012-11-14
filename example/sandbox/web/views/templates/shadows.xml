@@ -22,12 +22,12 @@
             <textblock minwidth='40' style='{resource defaultText}' text='Color:' />
             <dropdownlist name='ddlColors'>
                <items>
-                  <dropdownitem name='Black' />
-                  <dropdownitem name='Gray' />
-                  <dropdownitem name='Blue' />
-                  <dropdownitem name='Red' />
-                  <dropdownitem name='Purple' />
-                  <dropdownitem name='Green' />
+                  <dropdownitem item='Black' />
+                  <dropdownitem item='Gray' />
+                  <dropdownitem item='Blue' />
+                  <dropdownitem item='Red' />
+                  <dropdownitem item='Purple' />
+                  <dropdownitem item='Green' />
                </items>
             </dropdownlist>
          </stack>

@@ -1,4 +1,6 @@
 
+part of sandbox_buckshot;
+
 class Clock extends View
 {
   Clock() : super.fromResource('web/views/templates/clock.xml'){

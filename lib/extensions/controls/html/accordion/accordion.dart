@@ -120,15 +120,15 @@ class Accordion extends Control implements FrameworkContainer
 '''
 <controltemplate controlType='${this.templateName}'>
   <template>
-    <border background='{template background}' valign='{template vAlign}' 
-            halign='{template hAlign}' height='{template height}' 
-            width='{template width}'
-            cursor='Arrow'>
+    <border background='{template background}' cursor='Arrow'>
       <collectionpresenter halign='stretch' name='__ac_presenter__' items='{template accordionItems}'>
+         <presentationpanel>
+            <stack halign='stretch' />
+         </presentationpanel>
          <itemstemplate>
             <stack halign='stretch'>
-              $headerTemplate
-              $bodyTemplate
+              ${headerTemplate}
+              ${bodyTemplate}
             </stack>
          </itemstemplate>
       </collectionpresenter>
@@ -151,10 +151,18 @@ class Accordion extends Control implements FrameworkContainer
          background='{resource theme_accordion_header_background_brush}' 
          halign='stretch'>
     <actions>
-      <setproperty event='mouseEnter' property='background' value='{resource theme_accordion_background_hover_brush}' />
-      <setproperty event='mouseLeave' property='background' value='{resource theme_accordion_header_background_brush}' />
-      <setproperty event='mouseDown' property='background' value='{resource theme_accordion_background_mouse_down_brush}' />
-      <setproperty event='mouseUp' property='background' value='{resource theme_accordion_background_hover_brush}' />
+      <setproperty event='mouseEnter' 
+                   property='background' 
+                   value='{resource theme_accordion_background_hover_brush}' />
+      <setproperty event='mouseLeave' 
+                   property='background' 
+                   value='{resource theme_accordion_header_background_brush}' />
+      <setproperty event='mouseDown' 
+                   property='background' 
+                   value='{resource theme_accordion_background_mouse_down_brush}' />
+      <setproperty event='mouseUp' 
+                   property='background' 
+                   value='{resource theme_accordion_background_hover_brush}' />
     </actions>
     <contentpresenter halign='stretch' content='{data header}' />                   
  </border>
@@ -166,7 +174,9 @@ class Accordion extends Control implements FrameworkContainer
    */
   String get bodyTemplate =>
 '''
- <border name='__accordion_body__' halign='stretch' background='{resource theme_accordion_body_background_brush}'>
+ <border name='__accordion_body__' 
+         halign='stretch' 
+         background='{resource theme_accordion_body_background_brush}'>
    <contentpresenter halign='stretch' content='{data body}' />
  </border>
 ''';

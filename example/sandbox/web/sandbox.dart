@@ -2,6 +2,8 @@
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
+library sandbox_buckshot;
+
 import 'dart:html';
 import 'package:dartnet_event_model/events.dart';
 import 'package:buckshot/extensions/controls/html/all_html_controls.dart';
@@ -13,34 +15,28 @@ part 'models/demo_model.dart';
 part 'views/main.dart';
 part 'views/error_view.dart';
 part 'views/calculator/calculator.dart';
-part 'views/calculator/extended_calc.dart';
-part 'views/calculator/standard_calc.dart';
 part 'views/clock.dart';
 
 void main() {
   initHtmlControls();
 
-  setView(new Main())
-    .then((t){
-        bindToWindowDimensions(t.parent);
+  htmlPlatform
+    .render(new Main())
+    .then((rootVisual){
+      htmlPlatform.bindToBrowserDimensions(rootVisual.parent);
+      (rootVisual.parent as Border).background.value =
+          getResource('theme_dark_brush');
 
-        (t.parent as Border).background.value = getResource('theme_dark_brush');
+      final demo = queryString['demo'];
 
-        (t.parent as Border).verticalScrollEnabled.value = true;
-
-        final demo = queryString['demo'];
-
-        if (demo != null){
-          t.dataContext.value.setTemplate('${demo}');
-        }else{
-          t.dataContext.value.setTemplate('welcome');
-          t.dataContext.value.setQueryStringTo('welcome');
-        }
+      if (demo != null){
+        rootVisual.dataContext.value.setTemplate('${demo}');
+      }else{
+        rootVisual.dataContext.value.setTemplate('welcome');
+        rootVisual.dataContext.value.setQueryStringTo('welcome');
+      }
     });
-
-
 }
-
 
 Map<String, String> get queryString {
   var results = {};

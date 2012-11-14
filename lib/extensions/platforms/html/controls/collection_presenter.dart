@@ -48,6 +48,7 @@ class CollectionPresenter
     rawElement.elements.clear();
     rawElement.elements.add(newPanel.rawElement);
     newPanel.parent = this;
+    _updateChildLayout();
   }
 
   @override onFirstLoad(){

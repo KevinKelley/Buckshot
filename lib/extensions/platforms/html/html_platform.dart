@@ -375,6 +375,8 @@ class HtmlPlatform extends BoxModelSurface
       if (container.containerContent is FrameworkContainer){
         _unloadChildren(container.containerContent);
       }
+    }else if (container.containerContent is String){
+      // do nothing
     }else{
       log('Invalid container type found: $container'
           ' ${container.containerContent}');
@@ -402,6 +404,8 @@ class HtmlPlatform extends BoxModelSurface
       if (container.containerContent is FrameworkContainer){
         _loadChildren(container.containerContent);
       }
+    }else if (container.containerContent is String){
+      // do nothing
     }else{
       log('Invalid container type found: $container'
           ' ${container.containerContent}');

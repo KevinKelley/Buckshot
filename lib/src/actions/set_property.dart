@@ -9,7 +9,6 @@ part of core_buckshotui_org;
 */
 class SetProperty extends ActionBase
 {
-  FrameworkProperty target;
   FrameworkProperty property;
   FrameworkProperty value;
 
@@ -20,20 +19,19 @@ class SetProperty extends ActionBase
 
   @override void initProperties(){
     super.initProperties();
-
-    target = new FrameworkProperty(this, 'target');
     property = new FrameworkProperty(this, 'property');
     value = new FrameworkProperty(this, 'value');
   }
 
   @override void onEventTrigger(){
     //TODO throw?
+//    print('triggered: target: $target, property: $property, value: $value');
     if (property.value == null || value.value == null) return;
 
     var el = target.value != null
         ? namedElements[target.value]
         : _source.value;
-
+//    print('>>> $el');
     if (el == null) return; //TODO throw?
 
     el

@@ -9,6 +9,7 @@ class StringToColorStringConverter implements ValueConverter{
   const StringToColorStringConverter();
 
   dynamic convert(dynamic value, {dynamic parameter}){
+    if (value is! String) return value;
 
     if (value.startsWith("#")){
       return value;

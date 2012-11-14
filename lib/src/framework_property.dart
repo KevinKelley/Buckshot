@@ -34,7 +34,7 @@ class FrameworkProperty<T> extends FrameworkPropertyBase
    * Sets the stored value of the FrameworkProperty.
    */
    set value(T newValue){
-     if (stringToValueConverter != null && newValue is String){
+     if (stringToValueConverter != null){
        newValue = stringToValueConverter.convert(newValue);
      }
 
@@ -55,9 +55,10 @@ class FrameworkProperty<T> extends FrameworkPropertyBase
      .invokeAsync(sourceObject,
          new PropertyChangingEventArgs(previousValue, _value));
 
-     if(_traceProperty.isEmpty) return;
-     if (_traceProperty.indexOf(propertyName) == -1) return;
-     log('***TRACE***: object $sourceObject property $propertyName assigned value: $_value');
+//     if(_traceProperty.isEmpty) return;
+//     if (_traceProperty.indexOf(propertyName) == -1) return;
+//     hierarchicalLoggingEnabled = true;
+//     _log.warning('***TRACE***: object $sourceObject property $propertyName assigned value: $_value');
    }
 
   /** Gets the stored value of the FrameworkProperty. */

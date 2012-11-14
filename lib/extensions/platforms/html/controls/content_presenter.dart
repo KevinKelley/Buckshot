@@ -36,7 +36,9 @@ class ContentPresenter
    */
 
   @override void onContentChanged(dynamic newContent){
-    assert(newContent is HtmlPlatformElement || newContent is String);
+    assert(newContent == null ||
+        newContent is HtmlPlatformElement ||
+        newContent is String);
 
     if (newContent == null){
       rawElement.elements.clear();
@@ -51,11 +53,13 @@ class ContentPresenter
 
     if (newContent is String){
       content.value = new TextBlock()..text.value = newContent;
+      updateLayout();
       return;
     }
 
     rawElement.elements.add(newContent.rawElement);
     newContent.parent = this;
+    updateLayout();
   }
 
 

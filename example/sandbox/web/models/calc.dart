@@ -2,7 +2,6 @@ library calculator_model;
 
 import 'dart:math' as Math;
 import 'package:dartnet_event_model/events.dart';
-
 part 'i_calculator.dart';
 part 'output_changed_event_args.dart';
 
@@ -18,58 +17,53 @@ class Calc implements ICalculator
 
   static const num PI = 3.1415926535897;
 
-  final List<Function> registeredMain;
-  final List<Function> registeredSub;
-  final StringBuffer numBuffer1;
-  final StringBuffer numBuffer2;
+  final List<Function> registeredMain = new List<Function>();
+  final List<Function> registeredSub = new List<Function>();
+  final StringBuffer numBuffer1 = new StringBuffer();
+  final StringBuffer numBuffer2 = new StringBuffer();
 
   Map<String, Function> operators;
+
   String currentOp = '';
   String memory = '0';
 
-  Calc()
-  :
-    registeredMain = [],
-    registeredSub = [],
-    numBuffer1 = new StringBuffer(),
-    numBuffer2 = new StringBuffer(),
-    mainOutputChanged = new FrameworkEvent<OutputChangedEventArgs>(),
-    subOutputChanged = new FrameworkEvent<OutputChangedEventArgs>(),
-    memoryMarkerChanged = new FrameworkEvent<OutputChangedEventArgs>()
-  {
+  Calc(){
     operators =
       {
-      '+-' : neg,
-      'C' : clear,
-      'CE' : clearEntry,
-      '<--' : backspace,
-      '.' : decimal,
-      'SQRT' : squareRoot,
-      '=' : eq,
-      '+' : add,
-      '-' : sub,
-      '*' : mul,
-      '/' : div,
-      '%' : percent,
-      '1/x' : reciproc,
-      'MC' : mc,
-      'MR' : mr,
-      'MS' : ms,
-      'M-' : mp,
-      'M+' : mm,
-      'cos' : cos,
-      'sin' : sin,
-      'x^2' : pow2,
-      'x^3' : pow3,
-      'pi' : pi
-     };
+       '+-' : neg,
+       'C' : clear,
+       'CE' : clearEntry,
+       '<--' : backspace,
+       '.' : decimal,
+       'SQRT' : squareRoot,
+       '=' : eq,
+       '+' : add,
+       '-' : sub,
+       '*' : mul,
+       '/' : div,
+       '%' : percent,
+       '1/x' : reciproc,
+       'MC' : mc,
+       'MR' : mr,
+       'MS' : ms,
+       'M-' : mp,
+       'M+' : mm,
+       'cos' : cos,
+       'sin' : sin,
+       'x^2' : pow2,
+       'x^3' : pow3,
+       'pi' : pi
+      };
   }
 
   /* Begin ICalculator Interface */
 
-  final FrameworkEvent<OutputChangedEventArgs> mainOutputChanged;
-  final FrameworkEvent<OutputChangedEventArgs> subOutputChanged;
-  final FrameworkEvent<OutputChangedEventArgs> memoryMarkerChanged;
+  final FrameworkEvent<OutputChangedEventArgs> mainOutputChanged =
+      new FrameworkEvent<OutputChangedEventArgs>();
+  final FrameworkEvent<OutputChangedEventArgs> subOutputChanged =
+      new FrameworkEvent<OutputChangedEventArgs>();
+  final FrameworkEvent<OutputChangedEventArgs> memoryMarkerChanged =
+      new FrameworkEvent<OutputChangedEventArgs>();
 
   void put(String something){
     if (_isNumber(something)){

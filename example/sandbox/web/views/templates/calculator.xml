@@ -18,8 +18,8 @@
 			<textblock style='{resource defaultText}' text='Mode:' margin='0,0,0,5' />
 			<dropdownlist on.selectionChanged='selectionChanged_handler'>
 				<items>
-					<dropdownitem name='Standard' value='Standard' />
-					<dropdownitem name='Extended' value='Extended' />
+					<dropdownitem item='Standard' value='Standard' />
+					<dropdownitem item='Extended' value='Extended' />
 				</items>
 			</dropdownlist>
 		</Stack>

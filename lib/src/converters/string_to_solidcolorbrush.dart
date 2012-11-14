@@ -11,8 +11,6 @@ class StringToSolidColorBrushConverter implements ValueConverter
   dynamic convert(dynamic value, {dynamic parameter}){
 
     if (value is! String) {
-      new Logger('buckshot.StringToSolidColorBrushConverter')
-        .warning('Expected ($value) to be type String');
       return value;
     }
 

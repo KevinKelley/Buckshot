@@ -1,3 +1,4 @@
+part of sandbox_buckshot;
 
 class ClockViewModel extends ViewModelBase
 {
@@ -10,8 +11,6 @@ class ClockViewModel extends ViewModelBase
   FrameworkProperty<String> dayAndMonth;
 
   ClockViewModel(){
-    _initClockViewModelProperties();
-
     _startTimer();
   }
 
@@ -36,9 +35,8 @@ class ClockViewModel extends ViewModelBase
     dayAndMonth.value = "${d.day} ${months[d.month]}";
   }
 
-
-
-  void _initClockViewModelProperties(){
+  @override void initProperties(){
+    super.initProperties();
     secondInDegs = new FrameworkProperty(this, 'secondInDegs',
         defaultValue: 0);
 

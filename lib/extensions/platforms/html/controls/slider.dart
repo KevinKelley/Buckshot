@@ -33,7 +33,7 @@ class Slider extends Control
     rawElement.on.change.add((e){
       final ie = rawElement as InputElement;
       if (value.value == ie.value) return; //no change
-      value.value = int.parse(ie.value);
+      value.value = double.parse(ie.value);
       e.stopPropagation();
     });
   }

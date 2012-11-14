@@ -1,3 +1,5 @@
+part of sandbox_buckshot;
+
 class Calculator extends View
 {
 

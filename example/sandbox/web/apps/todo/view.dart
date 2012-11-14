@@ -45,7 +45,7 @@ r'''
             <textblock foreground="White" width="85" margin="5,0" text="Due Date"></textblock>
             <textblock foreground="White" width="200" margin="5,0" text="Task"></textblock>
           </Stack>
-          <collectionpresenter datacontext="{data items}">
+          <collectionpresenter items="{data items}">
             <itemstemplate>
               <Stack orientation="horizontal" margin="2,0,0,0">
                 <textblock background="#334455" foreground="White" width="85" margin="5,0" text="{data date}"></textblock>

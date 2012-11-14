@@ -5,7 +5,6 @@ import 'package:buckshot/extensions/platforms/html/html_platform.dart';
 
 class ScrollViewer extends SurfaceScrollViewer implements HtmlPlatformElement
 {
-
   final Element rawElement = new DivElement();
 
   ScrollViewer.register() : super.register();

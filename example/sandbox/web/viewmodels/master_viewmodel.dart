@@ -9,6 +9,8 @@
  *
  * Properties that need to be bound to must be of type [FrameworkProperty].
  */
+part of sandbox_buckshot;
+
 class MasterViewModel extends ViewModelBase
 {
   const months = const ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
@@ -27,7 +29,7 @@ class MasterViewModel extends ViewModelBase
   FrameworkProperty<SomeColors> color;
   FrameworkProperty<List<DataTemplate>> fruit;
   FrameworkProperty<List<DataTemplate>> icons;
-  FrameworkProperty<FrameworkElement> renderedOutput;
+  FrameworkProperty<HtmlPlatformElement> renderedOutput;
   FrameworkProperty<String> templateText;
   FrameworkProperty<String> errorMessage;
   FrameworkProperty<TreeNode> demoTreeNodeSelected;
@@ -41,10 +43,6 @@ class MasterViewModel extends ViewModelBase
 
   MasterViewModel()
   {
-    _initDemoViewModelProperties();
-
-    _regEventHandlers();
-
     _startTimer();
 
     window.on.popState.add((e){
@@ -56,12 +54,8 @@ class MasterViewModel extends ViewModelBase
     });
   }
 
-  MasterViewModel.withView(this._mainView)
+  MasterViewModel.withView(this._mainView) : super()
   {
-    _initDemoViewModelProperties();
-
-    _regEventHandlers();
-
     _startTimer();
 
     window.on.popState.add((e){
@@ -98,7 +92,9 @@ class MasterViewModel extends ViewModelBase
 
 
   // Initialize the properties that we want to expose for template binding.
-  void _initDemoViewModelProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     timeStamp = new FrameworkProperty(this, "timeStamp",
         defaultValue:new Date.now().toString());
 
@@ -259,7 +255,8 @@ class MasterViewModel extends ViewModelBase
    * Event Handlers
    */
 
-  void _regEventHandlers(){
+  @override void initEvents(){
+    super.initEvents();
     registerEventHandler('refresh_handler', refresh_handler);
     registerEventHandler('clearall_handler', clearAll_handler);
     registerEventHandler('demotreeview_selection', demotreeview_selection);

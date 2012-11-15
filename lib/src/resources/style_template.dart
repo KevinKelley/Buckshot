@@ -106,18 +106,28 @@ class StyleTemplate extends FrameworkResource
   }
 
   void _setStyleBindings(FrameworkObject element){
+    if (!_setters.isEmpty){
+      new Logger('buckshot.pal.html.$this')
+        ..fine('setting style bindings for $element');
+    }
     _setters.forEach((_, Setter s){
       _bindSetterToElement(s, element);
     });
   }
 
   void _unsetStyleBindings(FrameworkObject element){
-    element.stateBag.forEach((String k, dynamic v){
-      if (k.startsWith(stateBagPrefix)){
-        v.unregister();
-        element.stateBag.remove(k);
-      }
-    });
+//    new Logger('buckshot.pal.html.$this')
+//      ..fine('unsetting style bindings for $element');
+
+//    element.stateBag.forEach((String k, dynamic v){
+//      if (k.startsWith(stateBagPrefix)){
+//        assert(v is Binding);
+//        new Logger('buckshot.pal.html.$this')
+//        ..fine('removing $k setter for $element');
+//        v.unregister();
+//        element.stateBag.remove(k);
+//      }
+//    });
   }
 
   void _bindSetterToElement(Setter setter, FrameworkObject element){
@@ -131,10 +141,11 @@ class StyleTemplate extends FrameworkResource
       instanceMirror
         .getField('${setter.property}')
         .then((p){
-          final b = new Binding(setter.value, p.reflectee);
-          p.reflectee
-            .sourceObject
-            .stateBag["$stateBagPrefix${setter.property}__"] = b;
+          p.reflectee.value = setter.value.value;
+//          final b = new Binding(setter.value, p.reflectee);
+//          p.reflectee
+//            .sourceObject
+//            .stateBag["$stateBagPrefix${setter.property}__"] = b;
         });
     }else{
       element
@@ -142,8 +153,13 @@ class StyleTemplate extends FrameworkResource
         .filter((FrameworkProperty p) =>
             p.propertyName == setter.property.value)
         .forEach((FrameworkProperty p) {
-          p.sourceObject.stateBag["$stateBagPrefix${setter.property.value}__"] =
-              new Binding(setter.value, p);
+          new Logger('buckshot.pal.html.$this')
+            ..fine('assigning ${setter.value} to ${p}');
+          p.value = setter.value.value;
+//          new Logger('buckshot.pal.html.$this')
+//           ..fine('binding ${setter.value} to $p for ${p.sourceObject}');
+//          p.sourceObject.stateBag["$stateBagPrefix${setter.property.value}__"] =
+//              new Binding(setter.value, p);
         });
     }
   }

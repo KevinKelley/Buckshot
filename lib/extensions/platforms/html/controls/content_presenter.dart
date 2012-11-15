@@ -42,6 +42,8 @@ class ContentPresenter
 
     if (newContent == null){
       rawElement.elements.clear();
+      new Logger('buckshot.pal.html.$this')
+      ..fine('setting content to null');
       return;
     }
 
@@ -52,11 +54,15 @@ class ContentPresenter
     rawElement.elements.clear();
 
     if (newContent is String){
+      new Logger('buckshot.pal.html.$this')
+      ..fine('wrapping "$newContent" in TextBlock');
       content.value = new TextBlock()..text.value = newContent;
       updateLayout();
       return;
     }
 
+    new Logger('buckshot.pal.html.$this')
+    ..fine('setting content to "$newContent"');
     rawElement.elements.add(newContent.rawElement);
     newContent.parent = this;
     updateLayout();

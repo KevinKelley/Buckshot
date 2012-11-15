@@ -58,7 +58,8 @@ abstract class Control
 
   void applyVisualTemplate(){
     assert(!_visualTemplateApplied && !_templateApplied);
-
+    new Logger('buckshot.pal.html.$this')
+      ..fine('applying visual template.');
     _visualTemplateApplied = true;
 
     if (defaultControlTemplate is ControlTemplate){
@@ -143,6 +144,8 @@ abstract class Control
   }
 
   void _bindTemplateBindings(){
+    new Logger('buckshot.pal.html.$this')
+      ..fine('binding template bindings');
     var tb = new HashMap<FrameworkProperty, String>();
     _getAllTemplateBindings(tb, template);
 
@@ -151,7 +154,8 @@ abstract class Control
     tb.forEach((FrameworkProperty k, String v){
       getPropertyByName(v)
         .then((prop){
-         //log('setting template binding from $prop to $k', element: this);
+          new Logger('buckshot.pal.html.$this')
+            ..fine('*** TEMPLATE($template) $v binding $prop to $k');
           assert(prop != null);
           new Binding(prop, k);
         });

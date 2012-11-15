@@ -91,7 +91,7 @@ class Binding
     bindingSet = true;
 
     if (bindingMode == BindingMode.TwoWay){
-      _fromProperty.sourceObject._bindings.add(this);
+      _fromProperty._bindings.add(this);
 
       //set the other binding, temporarily as a oneway
       //so that it doesn't feedback loop on this function
@@ -105,13 +105,12 @@ class Binding
 
       //now set it to the proper binding type
       _toProperty
-        .sourceObject
         ._bindings
         .last
         .bindingMode = BindingMode.TwoWay;
 
     }else{
-      _fromProperty.sourceObject._bindings.add(this);
+      _fromProperty._bindings.add(this);
 
       //fire the new binding for one-way/one-time bindings?  make optional?
       Binding._executeBindingsFor(_fromProperty);
@@ -125,13 +124,13 @@ class Binding
   {
     if (!bindingSet) return;
     bindingSet = false;
-    int i = _fromProperty.sourceObject._bindings.indexOf(this, 0);
+    int i = _fromProperty._bindings.indexOf(this, 0);
 
     if (i == -1) { throw const BuckshotException("Binding not found"
       " in binding registry when attempting to unregister.");
     }
 
-    _fromProperty.sourceObject._bindings.removeRange(i, 1);
+    _fromProperty._bindings.removeRange(i, 1);
 
     // remove the peer binding if two-way
     if (bindingMode != BindingMode.TwoWay) return;
@@ -140,7 +139,6 @@ class Binding
 
     int pi = _twoWayPartner
                 ._fromProperty
-                .sourceObject
                 ._bindings
                 .indexOf(_twoWayPartner, 0);
 
@@ -148,15 +146,20 @@ class Binding
       " not found in binding registry when attempting to unregister.");
     }
 
-    _twoWayPartner._fromProperty.sourceObject._bindings.removeRange(pi, 1);
+    _twoWayPartner._fromProperty._bindings.removeRange(pi, 1);
   }
 
   static void _executeBindingsFor(FrameworkProperty property)
   {
+    if (!property._bindings.isEmpty){
+      new Logger('buckshot.pal.html.Binding')
+        ..fine('Executing ${property._bindings.length} bindings for property $property');
+    }
     property
-      .sourceObject
       ._bindings
       .forEach((binding){
+        new Logger('buckshot.pal.html.Binding')
+          ..fine('... [$property] setting ${binding._toProperty} to ${binding._fromProperty}}');
           binding._toProperty.value =
               binding.converter.convert(binding._fromProperty.value);
 

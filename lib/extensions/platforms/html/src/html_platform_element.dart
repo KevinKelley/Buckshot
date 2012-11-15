@@ -79,7 +79,6 @@ abstract class HtmlPlatformElement implements BoxModelElement
 
     void mouseUpHandler(e){
       if (!element.mouseUp.hasHandlers) return;
-
       e.stopPropagation();
 
       localMouseCoordinate(element, e.pageX, e.pageY)
@@ -98,10 +97,10 @@ abstract class HtmlPlatformElement implements BoxModelElement
 
     void mouseDownHandler(e){
       element.rawElement.focus();
-
       if (!element.mouseDown.hasHandlers) return;
 
       e.stopPropagation();
+
       localMouseCoordinate(element, e.pageX, e.pageY)
       .then((p){
         element
@@ -119,7 +118,6 @@ abstract class HtmlPlatformElement implements BoxModelElement
 
     void mouseMoveHandler(e){
       if (!element.mouseMove.hasHandlers) return;
-
       e.stopPropagation();
 
       localMouseCoordinate(element, e.pageX, e.pageY)
@@ -215,18 +213,20 @@ abstract class HtmlPlatformElement implements BoxModelElement
 
       e.stopPropagation();
 
-      htmlPlatform.measure(element).then((RectMeasurement r){
-        localMouseCoordinate(element, e.pageX, e.pageY)
-          .then((p){
-            if (p.x > -1 && p.y > -1 && p.x < r.width
-                && p.y < r.height){
-              isMouseReallyOut = false;
-              return;
-            }
+      htmlPlatform
+        .measure(element)
+        .then((RectMeasurement r){
+          localMouseCoordinate(element, e.pageX, e.pageY)
+            .then((p){
+              if (p.x > -1 && p.y > -1 && p.x < r.width
+                  && p.y < r.height){
+                isMouseReallyOut = false;
+                return;
+              }
 
-            isMouseReallyOut = true;
-            element.mouseLeave.invoke(element, new EventArgs());
-        });
+              isMouseReallyOut = true;
+              element.mouseLeave.invoke(element, new EventArgs());
+          });
       });
     }
 

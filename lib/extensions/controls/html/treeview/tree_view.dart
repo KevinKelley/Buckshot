@@ -72,10 +72,11 @@ class TreeView extends Control implements FrameworkContainer
   /** Selects a [node] as the active node. */
   void selectNode(TreeNode node) => _onTreeNodeSelected(node);
 
-  /** Clears the selectged node. */
+  /** Clears the selected node. */
   void clearSelectedNode(){
-    if (selectedNode == null) return;
-
+    if (selectedNode.value == null) return;
+    new Logger('buckshot.pal.html.$this')
+    ..fine('clearing selected node ${selectedNode.value}');
     selectedNode.value._mouseEventStyles.value = mouseLeaveBorderStyle;
     selectedNode.value == null;
   }
@@ -126,7 +127,6 @@ class TreeView extends Control implements FrameworkContainer
       },
       defaultValue:new Thickness(0),
       converter:const StringToThicknessConverter());
-
   }
 
   void onChildrenChanging(sender, ListChangedEventArgs args){
@@ -149,14 +149,13 @@ class TreeView extends Control implements FrameworkContainer
   }
 
   void _onTreeNodeSelected(TreeNode node){
-
-    if (selectedNode.value != null){
-      selectedNode.value._mouseEventStyles.value = mouseLeaveBorderStyle;
-    }
+    clearSelectedNode();
 
     selectedNode.value = node;
     selectedNode.value._mouseEventStyles.value = mouseUpBorderStyle;
     treeNodeSelected.invokeAsync(this, new TreeNodeSelectedEventArgs(node));
+    new Logger('buckshot.pal.html.$this')
+    ..fine('node selected: ${selectedNode.value}');
   }
 
   void _initStyleTemplates(){

@@ -27,10 +27,6 @@ class FrameworkPropertyBase extends HashableObject
   /** Holds the friendly name of the property. */
   final String propertyName;
 
-  /** Fires when the property value changes. */
-  final FrameworkEvent<PropertyChangingEventArgs> propertyChanging
-    = new FrameworkEvent<PropertyChangingEventArgs>();
-
   /**
    * Holds a converter that is used to convert strings into the type
    * required by the property.

@@ -31,14 +31,14 @@ class LayoutCanvas extends Control implements FrameworkContainer
   EventHandlerReference _ref;
 
   LayoutCanvas(){
+    stateBag[FrameworkObject.CONTAINER_CONTEXT] = children;
+  }
+  LayoutCanvas.register() : super.register(){
     if (!reflectionEnabled){
       registerAttachedProperty('layoutcanvas.top', LayoutCanvas.setTop);
       registerAttachedProperty('layoutcanvas.left', LayoutCanvas.setLeft);
     }
-
-    stateBag[FrameworkObject.CONTAINER_CONTEXT] = children;
   }
-  LayoutCanvas.register() : super.register();
   makeMe() => new LayoutCanvas();
 
   get containerContent => children;

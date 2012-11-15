@@ -29,6 +29,31 @@ part of core_buckshotui_org;
 class FrameworkProperty<T> extends FrameworkPropertyBase
 {
   T _value;
+  final List<Binding> _bindings = new List<Binding>();
+
+  /**
+   * Sets the stored value of the FrameworkProperty without blocking.
+   */
+  set valueAsync(T newValue){
+    void _doIt(_){
+      if (stringToValueConverter != null){
+        newValue = stringToValueConverter.convert(newValue);
+      }
+
+      // don't rebind if the value is the same.
+      if (newValue == _value) return;
+
+      previousValue = _value;
+      _value = newValue;
+
+      // 1) callback
+      propertyChangedCallback(_value);
+
+      // 2) bindings
+      Binding._executeBindingsFor(this);
+    }
+    new Timer(0, _doIt);
+  }
 
   /**
    * Sets the stored value of the FrameworkProperty.
@@ -51,9 +76,9 @@ class FrameworkProperty<T> extends FrameworkPropertyBase
      Binding._executeBindingsFor(this);
 
      // 3) event
-     propertyChanging
-     .invokeAsync(sourceObject,
-         new PropertyChangingEventArgs(previousValue, _value));
+//     propertyChanging
+//     .invokeAsync(sourceObject,
+//         new PropertyChangingEventArgs(previousValue, _value));
 
 //     if(_traceProperty.isEmpty) return;
 //     if (_traceProperty.indexOf(propertyName) == -1) return;
@@ -94,7 +119,7 @@ class FrameworkProperty<T> extends FrameworkPropertyBase
     value = defaultValue;
   }
 
-  String toString() => 'FrameworkProperty (${propertyName}, value: ${_value})';
+  String toString() => 'FP: $sourceObject(${propertyName}, value: ${_value})';
 }
 
 /// A [FrameworkProperty] that supports participation in transition/animation features.

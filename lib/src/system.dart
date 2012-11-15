@@ -73,7 +73,11 @@ Future initFramework(){
 
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.WARNING;
-  Logger.root.on.record.add(_logit);
+  Logger.root.on.record.add((LogRecord record){
+    final event = '[${record.loggerName}] ${record.message}';
+    _logEvents.add(event);
+    print(event);
+  });
 
   if (!reflectionEnabled){
     _registerCoreElements();

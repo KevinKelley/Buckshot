@@ -10,19 +10,9 @@ part of core_buckshotui_org;
 
 var _logEvents = new ObservableList<String>();
 
-set logLevel(Level level){
-  Logger.root.level = level;
-}
-
-final _traceProperty = [];
-
-void _logit(LogRecord record){
-  final event = '[${record.loggerName} - ${record.level}'
-  ' - ${record.sequenceNumber}] ${record.message}';
-  _logEvents.add(event);
-  print(event);
-}
-
+/**
+ * Prints all known theme resources.
+ */
 void dumpTheme(){
   print('THEME RESOURCES');
   _resourceRegistry.forEach((k, v){

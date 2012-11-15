@@ -89,9 +89,6 @@ class AttachedFrameworkProperty extends FrameworkPropertyBase
     // properties change on children
     element.attachedPropertyChanged.invoke(element,
         new AttachedPropertyChangedEventArgs(element, property, value));
-
-    property.propertyChanging.invoke(property,
-        new PropertyChangingEventArgs(oldValue, value));
   }
 
   /**

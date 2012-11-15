@@ -17,7 +17,6 @@ abstract class FrameworkObject
       new HashMap<FrameworkProperty, String>();
 
   final HashMap<String, dynamic> stateBag = new HashMap<String, dynamic>();
-  final List<Binding> _bindings = new List<Binding>();
   final Set<FrameworkProperty> _frameworkProperties =
       new Set<FrameworkProperty>();
   final HashMap<String, FrameworkEvent> _bindableEvents =
@@ -413,7 +412,10 @@ abstract class FrameworkObject
    *       // Init your events here.
    *     }
    */
-  void initEvents(){}
+  void initEvents(){
+    new Logger('buckshot.object')
+    ..finest('initializing events for $this');
+  }
 
   /**
    * Called by the farmework during object initialization to initialize any
@@ -496,6 +498,9 @@ abstract class FrameworkObject
           }
         },
         defaultValue: new StyleTemplate());
+
+    new Logger('buckshot.object')
+    ..finest('initializing properties for $this');
   }
 
   /** Called when the object is loaded into a [platform] view. */

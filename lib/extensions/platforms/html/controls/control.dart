@@ -149,13 +149,11 @@ abstract class Control
     var tb = new HashMap<FrameworkProperty, String>();
     _getAllTemplateBindings(tb, template);
 
-//    log('*** template bindings: $tb', element:this);
+    new Logger('buckshot.$this')..fine('*** template bindings: $tb');
 
     tb.forEach((FrameworkProperty k, String v){
       getPropertyByName(v)
         .then((prop){
-          new Logger('buckshot.pal.html.$this')
-            ..fine('*** TEMPLATE($template) $v binding $prop to $k');
           assert(prop != null);
           new Binding(prop, k);
         });

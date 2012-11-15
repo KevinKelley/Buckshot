@@ -73,7 +73,7 @@ class ListBox extends Control implements FrameworkContainer
                             vscroll='{template vScroll}'
                             halign='stretch'
                             valign='stretch'>
-                <collectionPresenter name='__buckshot_listbox_presenter__' />
+                <collectionPresenter halign='stretch' name='__buckshot_listbox_presenter__' />
               </scrollviewer>
             </border>
           </template>
@@ -103,7 +103,7 @@ class ListBox extends Control implements FrameworkContainer
     item.mouseUp + (_, __) => onItemMouseUp(item);
   }
 
-  get containerContent => template;
+  @override get containerContent => template;
 
   /// Override this method to implement your own mouse over behavior for items in
   /// the ListBox.
@@ -171,6 +171,8 @@ class ListBox extends Control implements FrameworkContainer
           converter: const StringToScrollSettingConverter());
 
     vScroll = new FrameworkProperty(this, 'vScroll',
+          //TODO: should be ScrollSetting.auto but that doesn't work in
+          // some cases.
           defaultValue: ScrollSetting.auto,
           converter: const StringToScrollSettingConverter());
   }

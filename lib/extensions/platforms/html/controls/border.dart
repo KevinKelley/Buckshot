@@ -60,7 +60,7 @@ class Border extends SurfaceBorder implements HtmlPlatformElement
     rawElement.elements.clear();
     newChild.parent = this;
     rawElement.elements.add(newChild.rawElement);
-    HtmlPlatformElement.updateChildAlignment(this);
+    updateLayout();
   }
 
   @override void onBorderThicknessChanged(Thickness value){

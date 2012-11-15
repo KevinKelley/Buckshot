@@ -370,14 +370,16 @@ abstract class FrameworkObject
     currentObject.getPropertyByName(propertyChain[0]).then((prop){
       // couldn't resolve current property name to a property
       if (prop == null){
-        _propertyLog.warning('>>> property resolution failed. obj:'
-            ' ${currentObject} chain: ${propertyChain}');
+        new Logger('buckshot.property')
+          ..warning('Property resolution failed on $currentObject, chain:'
+              ' ${propertyChain}');
         c.complete(null);
       }else{
         // More properties in the chain, but cannot resolve further.
         if (prop.value is! FrameworkObject && propertyChain.length > 1){
-          _propertyLog.warning('>>> property resolution failed. obj:'
-              ' ${currentObject} value: ${prop.value} chain: ${propertyChain}');
+          new Logger('buckshot.property')
+            ..warning('Property resolution failed on $currentObject. Value:'
+                ' ${prop.value}, chain: ${propertyChain}');
           c.complete(null);
         }else{
           // return the property if there are no further names to resolve or
@@ -506,15 +508,18 @@ abstract class FrameworkObject
     isLoaded = true;
     updateLayout();
     loaded.invoke(this, new EventArgs());
-    _log.fine('loaded $this');
+    new Logger('buckshot.object')..finest('loaded $this');
   }
 
   /** Called when the object is unloaded from a [platform] view. */
   @override void onUnloaded(){
     isLoaded = false;
     unloaded.invoke(this, new EventArgs());
+    new Logger('buckshot.object')..finest('unloaded $this');
   }
-  @override void onFirstLoad(){}
+  @override void onFirstLoad(){
+    new Logger('buckshot.object')..finest('first load of $this');
+  }
 
   bool _dataContextUpdated = false;
   void updateDataContext(){

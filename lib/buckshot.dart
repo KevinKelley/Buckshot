@@ -33,6 +33,7 @@ import 'package:meta/meta.dart';
 
 export 'package:dartnet_event_model/events.dart';
 export 'package:meta/meta.dart';
+export 'package:logging/logging.dart';
 
 // Uncomment this to run with reflection.
 // Also below, set reflectionEnabled = true.

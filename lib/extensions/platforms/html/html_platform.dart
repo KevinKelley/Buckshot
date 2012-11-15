@@ -378,7 +378,8 @@ class HtmlPlatform extends BoxModelSurface
     }else if (container.containerContent is String){
       // do nothing
     }else{
-      log('Invalid container type found: $container'
+      new Logger('buckshot.pal.html')
+      ..warning('Invalid container type found: $container'
           ' ${container.containerContent}');
     }
   }
@@ -407,8 +408,9 @@ class HtmlPlatform extends BoxModelSurface
     }else if (container.containerContent is String){
       // do nothing
     }else{
-      log('Invalid container type found: $container'
-          ' ${container.containerContent}');
+      new Logger('buckshot.pal.html')
+        ..warning('Invalid container type found: $container'
+            ' ${container.containerContent}');
     }
   }
 }

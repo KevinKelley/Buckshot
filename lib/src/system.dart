@@ -31,9 +31,9 @@ void registerElement(FrameworkObject o){
   if (reflectionEnabled) return;
 
   _objectRegistry['${o.toString().toLowerCase()}'] = o.makeMe;
-  _log.info('Element (${o}) registered to framework.');
+  new Logger('buckshot.registration')
+    ..config('Element (${o}) registered to framework.');
 }
-
 
 /**
  * Registers an attached property [setterFunction] to the framework.
@@ -46,7 +46,8 @@ void registerAttachedProperty(String property, setterFunction){
   if (reflectionEnabled) return;
 
   _objectRegistry[property] = setterFunction;
-  _log.info('Attached property (${property}) registered to framework.');
+  new Logger('buckshot.registration')
+    ..config('Attached property (${property}) registered to framework.');
 }
 
 void _registerCoreElements(){
@@ -66,19 +67,13 @@ void _registerCoreElements(){
 }
 
 bool _frameworkInitialized = false;
-
 Future initFramework(){
   if (_frameworkInitialized) return new Future.immediate(true);
   _frameworkInitialized = true;
 
   hierarchicalLoggingEnabled = true;
-
-  _log.on.record.add((LogRecord record){
-    final event = '[${record.loggerName} - ${record.level}'
-      ' - ${record.sequenceNumber}] ${record.message}';
-    _logEvents.add(event);
-    print(event);
-  });
+  Logger.root.level = Level.WARNING;
+  Logger.root.on.record.add(_logit);
 
   if (!reflectionEnabled){
     _registerCoreElements();
@@ -92,20 +87,18 @@ Future initFramework(){
 //    ' framework.');
 //  }
 
-  _log.warning(reflectionEnabled
-                ? 'Reflection enabled.'
-                : 'Reflection disabled.');
+  new Logger('buckshot.system')
+    ..info('Reflection ${reflectionEnabled ? "enabled.": "disabled."}');
 
   return _loadTheme()
           .chain((_){
-            _log.warning('Framework initialized.');
+            new Logger('buckshot.system')..info('Framework initialized.');
             return new Future.immediate(true);
           });
 }
 
 bool _themeLoaded = false;
 Future _loadTheme(){
-
   if (_themeLoaded) return new Future.immediate(false);
   _themeLoaded = true;
 
@@ -113,7 +106,7 @@ Future _loadTheme(){
 //    _log.info('loading custom theme (${document.body.attributes['data-buckshot-theme']})');
 //    return Template.deserialize(document.body.attributes['data-buckshot-theme']);
 //  }else{
-    _log.info('loading default theme');
+    new Logger('buckshot.system')..info('loading default theme');
     return Template.deserialize(defaultTheme);
 //  }
 }
@@ -134,7 +127,8 @@ getObjectByName(String name){
     return _objectRegistry[lowerName]();
   }else{
     if (_mirrorCache.containsKey(lowerName)){
-      _log.fine('Returning cached object ($lowerName) from mirrorCache.');
+      new Logger('buckshot.object_by_name')
+        ..info('Returning cached object ($lowerName) from mirrorCache.');
       return _mirrorCache[lowerName];
     }
 
@@ -155,7 +149,8 @@ getObjectByName(String name){
 
     if (result != null){
       //cache result;
-      _log.fine('Caching mirror object ($lowerName)');
+      new Logger('buckshot.object_by_name')
+        ..info('Caching mirror object ($lowerName)');
       _mirrorCache[lowerName] = result;
     }
 
@@ -237,6 +232,8 @@ void registerResource(FrameworkResource resource){
  * This function is deprecated. Assign to property.value directly.
  */
 @deprecated void setValue(FrameworkProperty property, dynamic value){
+  new Logger('buckshot.property')
+    ..warning('Using deprecated setValue() API.');
   property.value = value;
 }
 
@@ -248,6 +245,8 @@ void registerResource(FrameworkResource resource){
  */
 @deprecated getValue(FrameworkProperty property){
   assert(property != null);
+  new Logger('buckshot.property')
+    ..warning('Using deprecated getValue() API.');
   return property.value;
 }
 
@@ -267,12 +266,12 @@ Future _functionToFuture(Function f){
 
 // Holds a registry of resources.
 final HashMap<String, FrameworkResource> _resourceRegistry =
-new HashMap<String, FrameworkResource>();
+  new HashMap<String, FrameworkResource>();
 
 // Holds a registry of global event handlers when reflection is not
 // enabled.
 final HashMap<String, EventHandler> _globalEventHandlers =
-new HashMap<String, EventHandler>();
+  new HashMap<String, EventHandler>();
 
 
 

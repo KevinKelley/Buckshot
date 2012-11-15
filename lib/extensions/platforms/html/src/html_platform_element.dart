@@ -378,7 +378,8 @@ abstract class HtmlPlatformElement implements BoxModelElement
                       rawElement.style.background =
                           "radial-gradient(50% 50%, ${brush.drawMode.value}, ${colorString})";
     }else{
-      log('Unrecognized brush "$brush" assignment. Defaulting to solid white.');
+      new Logger('buckshot.pal.html.HtmlPlatformElement')
+        ..warning('Unrecognized brush "$brush" assignment. Default to White.');
       rawElement.style.background =
           new SolidColorBrush.fromPredefined(Colors.White);
     }

@@ -8,46 +8,19 @@ part of core_buckshotui_org;
  * Top-level Logging and Debug
  */
 
-var _log = new Logger('buckshot')..level = Level.WARNING;
-
-// setting some logs at the top level to prevent excessive new-ups.
-var _propertyLog = new Logger('buckshot.properties')..level = Level.WARNING;
-var _getPropertyLog = new Logger('buckshot.properties.get')
-                        ..level = Level.WARNING;
-var _setPropertyLog = new Logger('buckshot.properties.set')
-                        ..level = Level.WARNING;
-var _resourceLog = new Logger('buckshot.resources')..level = Level.WARNING;
-var _bindingLog = new Logger('buckshot.binding')..level = Level.WARNING;
-var _polyfillLog = new Logger('buckshot.polyfill')..level = Level.INFO;
 var _logEvents = new ObservableList<String>();
+
+set logLevel(Level level){
+  Logger.root.level = level;
+}
 
 final _traceProperty = [];
 
-/**
- * Writes a [Logger] [message] at Level.WARNING with optional FrameworkElement
- * [element] info.
- */
-void log(String message,
-         {FrameworkObject element: null, Level logLevel : Level.WARNING}){
-  if (element == null){
-    _log.log(logLevel, message);
-    return;
-  }
-
-  new Logger('buckshot.${element}')..log(logLevel, "($element) $message");
-}
-
-/**
- * Writes a [Logger] [message] at Level.SEVERE with optional FrameworkElement
- * [element] info.
- */
-void logSevere(String message, [FrameworkObject element]){
-  if (element == null){
-    _log.severe(message);
-    return;
-  }
-
-  new Logger('buckshot.${element}').severe("($element) $message");
+void _logit(LogRecord record){
+  final event = '[${record.loggerName} - ${record.level}'
+  ' - ${record.sequenceNumber}] ${record.message}';
+  _logEvents.add(event);
+  print(event);
 }
 
 void dumpTheme(){

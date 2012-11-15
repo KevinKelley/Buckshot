@@ -125,7 +125,7 @@ class ModalDialog extends Control
    * one of the dialog buttons is clicked.
    */
   Future<DialogButtonType> show(){
-    log('Showing ModalDialog');
+    new Logger('buckshot.pal.html')..info('Showing ModalDialog');
     _dialogCompleter = new Completer<DialogButtonType>();
 
     b1 = bind(htmlPlatform.viewportWidth, cvRoot.width);

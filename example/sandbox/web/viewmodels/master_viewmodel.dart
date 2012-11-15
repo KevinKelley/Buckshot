@@ -213,7 +213,7 @@ class MasterViewModel extends ViewModelBase
     Futures
       .wait([titleView.ready, bodyView.ready])
       .chain((results){
-        log('$results');
+        new Logger('buckshot.example.sandbox.showModalDialog').info('$results');
         final md = new ModalDialog
           .with(results[0], results[1], ModalDialog.OkCancel);
 
@@ -267,7 +267,8 @@ class MasterViewModel extends ViewModelBase
 
 
   void debug_click(sender, args){
-    log('fired click event', element:sender);
+    new Logger('buckshot.example.sandbox')
+      ..warning('fired click event for $sender');
   }
 
   /**
@@ -387,7 +388,8 @@ class MasterViewModel extends ViewModelBase
           dockText.value = '$text bottom.';
           break;
         default:
-          log('Unable to parse dock panel direction', element: sender);
+          new Logger('buckshot.example.sandbox')
+            ..warning('Unable to parse dock panel direction for $sender');
           break;
       }
 

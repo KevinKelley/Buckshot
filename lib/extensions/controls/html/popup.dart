@@ -76,31 +76,25 @@ class Popup extends Control
 
   Future show([HtmlPlatformElement target = null]){
     if (_currentPopup != null) _currentPopup.hide();
+    new Logger('buckshot.pal.html.$this').fine('showing popup');
 
     if (target == null || !target.isLoaded){
+      new Logger('buckshot.pal.html.$this').fine('... with no target');
       rawElement.style.left = '${offsetX.value}px';
       rawElement.style.top = '${offsetY.value}px';
-      document.body.elements.add(rawElement);
-
-      // manually trigger loaded state since we aren't adding this
-      // to the visual tree using the API...
-      isLoaded = true;
       onLoaded();
-      updateLayout();
+      document.body.elements.add(rawElement);
       _currentPopup = this;
       return new Future.immediate(true);
     }else{
       return htmlPlatform
         .measure(target)
         .chain((RectMeasurement r){
+          new Logger('buckshot.pal.html.$this').fine('... with target $target');
           rawElement.style.left = '${offsetX.value + r.left}px';
           rawElement.style.top = '${offsetY.value + r.top}px';
-          document.body.elements.add(rawElement);
-
-          // manually trigger loaded state since we aren't adding this
-          // to the visual tree using the API...
-          isLoaded = true;
           onLoaded();
+          document.body.elements.add(rawElement);
           updateLayout();
           _currentPopup = this;
           return new Future.immediate(true);

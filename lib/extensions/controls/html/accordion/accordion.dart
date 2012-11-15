@@ -83,14 +83,13 @@ class Accordion extends Control implements FrameworkContainer
 
       if (selectionMode.value == SelectionMode.multi ||
           accordionItems.value.length == 1){
-        body.visibility = ai.visibility;
+        body.visibility.value = ai.visibility.value;
 
         header.click + (_, __){
-          print('click');
-          body.visibility.value = (body.visibility.value == null
-              || body.visibility.value == Visibility.visible )
+          body.visibility.value =
+              (body.visibility.value != Visibility.collapsed)
               ? Visibility.collapsed
-                  : Visibility.visible;
+              : Visibility.visible;
           //BUG: Multi-mode not working...
           print('$body ${body.visibility.value}');
         };

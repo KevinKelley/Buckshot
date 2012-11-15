@@ -128,6 +128,7 @@ class Border extends SurfaceBorder implements HtmlPlatformElement
   }
 
   @override void onVisibilityChanged(Visibility value){
+    new Logger('buckshot.pal.html.$this').fine('visibility changing $value');
     if (value == Visibility.visible){
       rawElement.style.visibility = '$value';
       rawElement.style.display =

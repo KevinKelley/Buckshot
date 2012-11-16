@@ -54,10 +54,10 @@ Future run(){
     });
 
     test('Can bind loosely too null', (){
-      Binding b = new Binding.loose(null, e1.b, BindingMode.OneWay);
+      Binding b = new Binding.loose(null, e1.b, bindingMode: BindingMode.OneWay);
       Expect.isFalse(b.bindingSet);
 
-      Binding b2 = new Binding.loose(e1.b, null, BindingMode.OneWay);
+      Binding b2 = new Binding.loose(e1.b, null, bindingMode: BindingMode.OneWay);
       Expect.isFalse(b.bindingSet);
     });
 
@@ -66,7 +66,7 @@ Future run(){
 
       Expect.notEquals(e1.a.value, e2.b.value);
 
-      Binding b = new Binding(e1.a, e2.b, BindingMode.OneTime);
+      Binding b = new Binding(e1.a, e2.b, bindingMode: BindingMode.OneTime);
 
       //should be false because the binding fires and then unregisters
       Expect.isFalse(b.bindingSet);
@@ -85,7 +85,7 @@ Future run(){
 
       Expect.notEquals(e1.a.value, e2.b.value);
 
-      Binding b = new Binding(e1.a, e2.b, BindingMode.OneWay);
+      Binding b = new Binding(e1.a, e2.b, bindingMode: BindingMode.OneWay);
 
       Expect.isTrue(b.bindingSet);
 
@@ -110,8 +110,8 @@ Future run(){
       Expect.notEquals(e2.b.value, e3.a.value);
 
       //setup a binding chain e1.a -> e2.b -> e3.a
-      Binding b1 = new Binding(e1.a, e2.b, BindingMode.OneWay);
-      Binding b2 = new Binding(e2.b, e3.a, BindingMode.OneWay);
+      Binding b1 = new Binding(e1.a, e2.b, bindingMode: BindingMode.OneWay);
+      Binding b2 = new Binding(e2.b, e3.a, bindingMode: BindingMode.OneWay);
 
       //chain should now be equal
       Expect.equals(e1.a.value, e2.b.value);
@@ -130,7 +130,7 @@ Future run(){
 
       Expect.notEquals(e1.a, e2.b);
 
-      Binding b = new Binding(e1.a, e2.b, BindingMode.OneWay);
+      Binding b = new Binding(e1.a, e2.b, bindingMode: BindingMode.OneWay);
 
       Expect.isTrue(b.bindingSet);
 
@@ -144,7 +144,7 @@ Future run(){
 
       Expect.notEquals(e1.a.value, e2.b.value);
 
-      Binding b = new Binding(e1.a, e2.b, BindingMode.TwoWay);
+      Binding b = new Binding(e1.a, e2.b, bindingMode: BindingMode.TwoWay);
 
       Expect.isTrue(b.bindingSet);
 
@@ -165,8 +165,8 @@ Future run(){
       Expect.notEquals(e2.b.value, e3.a.value);
 
       //setup a binding chain e1.a -> e2.b -> e3.a
-      Binding b1 = new Binding(e1.a, e2.b, BindingMode.OneWay);
-      Binding b2 = new Binding(e2.b, e3.a, BindingMode.OneWay);
+      Binding b1 = new Binding(e1.a, e2.b, bindingMode: BindingMode.OneWay);
+      Binding b2 = new Binding(e2.b, e3.a, bindingMode: BindingMode.OneWay);
 
       //chain should now be equal
       Expect.equals(e1.a.value, e2.b.value);
@@ -174,7 +174,7 @@ Future run(){
       Expect.equals(e1.a.value, e3.a.value);
 
       //now add circular binding...
-      Binding b3 = new Binding(e3.a, e1.a, BindingMode.OneWay);
+      Binding b3 = new Binding(e3.a, e1.a, bindingMode: BindingMode.OneWay);
 
       //we will never get here if the circular referencing isn't being interrupted
 

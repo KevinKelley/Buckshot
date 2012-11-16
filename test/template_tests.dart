@@ -3,20 +3,21 @@ library template_tests_buckshot;
 import 'dart:html';
 import 'package:buckshot/buckshot.dart';
 import 'package:unittest/unittest.dart';
+import 'mocks.dart';
 
 void run(){
+  registerElement(new TestObject.register());
 
   group('Template', (){
     test('event bindings wire up from template', (){
       final vm = new TestViewModel();
 
       Template
-      .deserialize("<button on.click='click_handler' content='click me' />")
-      .then(expectAsync1((Button t){
-        Expect.isTrue(t is Button, 't is button');
+      .deserialize("<testobject on.click='click_handler' content='click me' />")
+      .then(expectAsync1((TestObject t){
+        Expect.isTrue(t is TestObject, 't is button');
 
         t.dataContext.value = vm;
-        setView(new View.from(t));
 
         // fire the click event
         t.click.invoke(t, null);
@@ -39,69 +40,45 @@ void run(){
 
     test('core elements', (){
       String t = '''
-          <Stack>
-          <Grid></Grid>
-          <Border></Border>
-          <Button></Button>
-          <TextBlock></TextBlock>
-          <TextBox></TextBox>
-          <Slider></Slider>
-          <LayoutCanvas></LayoutCanvas>
-          </Stack>
+          <testobject>
+            <testobject />
+          </testobject>
           ''';
 
       Template.deserialize(t)
       .then(expectAsync1((result){
-        Expect.isTrue(result is Stack);
+        Expect.isTrue(result is TestObject);
         Expect.equals(7, result.children.length);
 
-        Expect.isTrue(result.children[0] is Grid, "Grid");
-        Expect.isTrue(result.children[1] is Border, "Border");
-        Expect.isTrue(result.children[2] is Button, "Button");
-        Expect.isTrue(result.children[3] is TextBlock, "TextBlock");
-        Expect.isTrue(result.children[4] is TextBox, "TextBox");
-        Expect.isTrue(result.children[5] is Slider, "Slider");
-        Expect.isTrue(result.children[6] is LayoutCanvas, "LayoutCanvas");
+        Expect.isTrue(result.children[0] is TestObject, "TestObject");
       }));
     });
     test('simple properties', (){
       String testString = "Hello World";
-      String t = '<TextBlock text="$testString"></TextBlock>';
+      String t = '<testobject data="$testString"></TextBlock>';
       Template.deserialize(t)
       .then(expectAsync1((result){
-        Expect.equals(testString, (result as TextBlock).text.value);
+        Expect.equals(testString, (result as TestObject).data.value);
       }));
     });
     test('enum properties', (){
-      String t = '<Stack orientation="horizontal" valign="center"></Stack>';
+      String t = '<testobject fruit="orange" />';
 
       Template
       .deserialize(t)
       .then(expectAsync1((result){
-        Expect.equals(Orientation.horizontal, result.orientation.value);
-        Expect.equals(VerticalAlignment.center, result.vAlign.value);
+        Expect.equals(Fruit.orange, result.fruit.value);
       }));
     });
     test('attached properties', (){
       String t = '''
-          <Stack Grid.column="3"
-          Grid.ROW="4"
-          LayoutCanvas.Top="5"
-          LayoutCanvas.left="6"
-          Grid.columnSpaN="7"
-          Grid.rowSpan="8">
-          </Stack>
+          <testobject testobject.foo='bar' />
           ''';
 
       Template
       .deserialize(t)
       .then(expectAsync1((result){
-        Expect.equals(3, Grid.getColumn(result));
-        Expect.equals(4, Grid.getRow(result));
-        Expect.equals(5, LayoutCanvas.getTop(result));
-        Expect.equals(6, LayoutCanvas.getLeft(result));
-        Expect.equals(7, Grid.getColumnSpan(result));
-        Expect.equals(8, Grid.getRowSpan(result));
+        Expect.equals('bar', TestObject.getFoo(result));
       }));
     });
 //    test('child element of non-container throws', (){
@@ -145,28 +122,28 @@ void run(){
 //          (err) => (err is PresentationProviderException));
 //    });
     test('simple property node assigns correctly', (){
-      String t = "<Stack><width>40</width></Stack>";
+      String t = "<testobject><data>42</data></testobject>";
 
       Template
       .deserialize(t)
       .then(expectAsync1((result){
-        Expect.equals(40, result.width.value);
+        Expect.equals('42', result.data.value);
       }));
     });
     test('enum property node assigns correctly', (){
-      String t = "<Stack><orientation>horizontal</orientation></Stack>";
+      String t = "<testobject><fruit>orange</fruit></testobject>";
 
       Template.deserialize(t)
       .then(expectAsync1((result){
-        Expect.equals(Orientation.horizontal, (result as Stack).orientation.value);
+        Expect.equals(Fruit.orange, (result as TestObject).fruit.value);
       }));
     });
     test('attached property node assigns correctly', (){
-      final t = "<Stack><grid.column>2</grid.column></Stack>";
+      final t = "<testobject><testobject.foo>bar</testobject.foo></testobject>";
       Template
       .deserialize(t)
       .then(expectAsync1((result){
-        Expect.equals(2, Grid.getColumn(result));
+        Expect.equals('bar', TestObject.getFoo(result));
       }));
     });
   });

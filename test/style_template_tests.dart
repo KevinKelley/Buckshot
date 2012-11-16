@@ -1,8 +1,8 @@
 library style_template_tests_buckshot;
 
-import 'dart:html';
 import 'package:buckshot/buckshot.dart';
 import 'package:unittest/unittest.dart';
+import 'mocks.dart';
 
 run(){
   group('StyleTemplate', (){
@@ -27,14 +27,14 @@ run(){
     });
     test('Set style to FrameworkElement', (){
       final st = new StyleTemplate();
-      st.setProperty("background", new SolidColorBrush(new Color.predefined(Colors.Red)));
+      st.setProperty("data", '42');
 
-      var b = new Border();
-      b.background.value = new SolidColorBrush(new Color.predefined(Colors.Blue));
-      Expect.equals(Colors.Blue.toString(), (b.background.value as SolidColorBrush).color.value.toColorString());
+      var b = new TestObject();
+      b.data.value = '0';
+      Expect.equals('0', b.data.value);
 
       b.style.value = st;
-      Expect.equals(Colors.Red.toString(), (b.background.value as SolidColorBrush).color.value.toColorString());
+      Expect.equals('42', b.data.value);
     });
     test('Value change binds to property', (){
       StyleTemplate st = new StyleTemplate();
@@ -66,7 +66,6 @@ run(){
       Expect.isTrue(st.registeredElements.some((e) => e == b));
       Binding bi = b.stateBag['${st.stateBagPrefix}background__'];
 
-      log('$bi');
       b.style.value = null;
       Expect.equals(statebagCount, b.stateBag.length);
       Expect.isFalse(st.registeredElements.some((e) => e == b));

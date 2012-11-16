@@ -3,46 +3,25 @@ library framework_properties_tests_buckshot;
 import 'dart:html';
 import 'package:buckshot/buckshot.dart';
 import 'package:unittest/unittest.dart';
+import 'mocks.dart';
 
 run(){
   group('FrameworkProperty', (){
     test('resolve 1st level property"', (){
-      Border b = new Border();
-      b.background.value =
-          new SolidColorBrush(new Color.predefined(Colors.Red));
+      TestObject b = new TestObject();
+      b.data.value = 'foo';
 
-      b.resolveProperty("background")
+      b.resolveProperty("data")
       .then(expectAsync1((result){
-        Expect.isTrue(result.value is SolidColorBrush);
+        Expect.isTrue(result.value is String);
+        Expect.equals('foo', result.data.value);
       }));
     });
     test('resolve nth level property', (){
-      final b1 = new Border();
-      final b2 = new Border();
-      final b3 = new Border();
-      final b4 = new Border();
-      b1.content.value = b2;
-      b2.content.value = b3;
-      b3.content.value = b4;
-
-      //set some properties
-      b3.width.value = 45;
-      b4.height.value = 26;
-
-      //get the background from the deepest nested border
-      b1.resolveProperty("content.content.content.height")
-      .then(expectAsync1((result){
-        Expect.equals(26, result.value);
-      }));
-
-    //get the width from the 2nd nested border (b3)
-    b1.resolveProperty("content.content.width")
-      .then(expectAsync1((result){
-        Expect.equals(45, result.value);
-      }));
+      Expect.fail('not implemented');
     });
     test('resolve returns null on property not found', (){
-      Border b = new Border();
+      TestObject b = new TestObject();
 
       b.resolveProperty("foo")
       .then(expectAsync1((result){
@@ -50,23 +29,22 @@ run(){
       }));
     });
     test('resolve returns null on orphan properties', (){
-      Border b = new Border();
-      b.background.value =
-          new SolidColorBrush(new Color.predefined(Colors.Red));
+      TestObject b = new TestObject();
+      b.data.value = '42';
 
-      b.resolveProperty("background.foo")
+      b.resolveProperty("data.foo")
       .then(expectAsync1((result){
         Expect.isNull(result);
       }));
     });
     test('resolve is case in-sensitive', (){
-      Border b = new Border();
-      b.background.value =
-          new SolidColorBrush(new Color.predefined(Colors.Red));
+      TestObject b = new TestObject();
+      b.data.value = '42';
 
-      b.resolveProperty("BaCkGrOuNd")
+      b.resolveProperty("DaTA")
       .then(expectAsync1((result){
-        Expect.isTrue(result.value is SolidColorBrush);
+        Expect.isTrue(result.value is String);
+        Expect.equals('42', result.data.value);
       }));
     });
   });

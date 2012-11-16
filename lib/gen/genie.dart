@@ -1,15 +1,11 @@
 library genie_buckshot_org;
 
 import 'dart:json';
-import 'package:xml/xml.dart';
 import 'dart:io';
-import 'package:buckshot/gen/logger.dart';
+import 'package:xml/xml.dart';
 
-part 'generator_file.dart';
-part 'gen_option.dart';
-
-
-Logger log = new Logger('generator.log');
+part 'src/generator_file.dart';
+part 'src/gen_option.dart';
 
 /**
  * Contains a list of valid extensions that the generator should
@@ -26,7 +22,6 @@ List<GenOption> _options;
  *     genCode('Foo', XML.parse("<textblock text='hello world!' />");, [GenOption.NO_EVENTS]);
  */
 String genCode(String baseFileName, XmlElement template, [List<GenOption> options = const []]){
-  log.pushContext('genie');
   if (options == null)
   {
     options = [];
@@ -61,8 +56,6 @@ class $baseFileName extends _${baseFileName}_g
 
     results['$baseFileName'] = view;
   }
-
-  log.popContext();
   return JSON.stringify(results);
 }
 

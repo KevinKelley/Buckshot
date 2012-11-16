@@ -9,13 +9,11 @@ part of core_buckshotui_org;
 class HorizontalAlignment{
   const HorizontalAlignment(this._str);
   final String _str;
-  
+
   static const center = const HorizontalAlignment("center");
   static const stretch = const HorizontalAlignment("stretch");
   static const left = const HorizontalAlignment("left");
   static const right = const HorizontalAlignment("right");
 
-  String asString() => _str;
-  
-  String toString() => asString();
+  String toString() => _str;
 }

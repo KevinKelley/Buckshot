@@ -4,20 +4,23 @@ part of core_buckshotui_org;
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-class AnimationState extends TemplateObject
+class AnimationState extends FrameworkObject
 {
   FrameworkProperty<String> target;
   FrameworkProperty<String> property;
   FrameworkProperty<dynamic> value;
 
-  AnimationState(){
-    _initAnimationStateProperties();
-  }
+  AnimationState();
 
   AnimationState.register() : super.register();
   makeMe() => new AnimationState();
 
-  _initAnimationStateProperties(){
+  @override void initEvents(){
+    super.initEvents();
+  }
+
+  @override void initProperties(){
+    super.initProperties();
 
     target = new FrameworkProperty(this, 'target');
 

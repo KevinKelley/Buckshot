@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Converts from [String] to [int] value.
 */
-class StringToNumericConverter implements IValueConverter {
+class StringToNumericConverter implements ValueConverter {
   const StringToNumericConverter();
 
   dynamic convert(dynamic value, {dynamic parameter}){

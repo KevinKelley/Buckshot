@@ -7,8 +7,8 @@ part of core_buckshotui_org;
 /**
 * Converts from [String] to [Visibility] enumerator.
 */
-class StringToVisibilityConverter implements IValueConverter{
-
+class StringToVisibilityConverter implements ValueConverter
+{
   const StringToVisibilityConverter();
 
   dynamic convert(dynamic value, {dynamic parameter}){

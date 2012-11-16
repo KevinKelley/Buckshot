@@ -8,15 +8,13 @@ part of core_buckshotui_org;
 // Default implementation for StyleTemplate interface.
 class StyleTemplate extends FrameworkResource
 {
-  final Set<FrameworkElement> _registeredElements = new HashSet<FrameworkElement>();
+  final Set<FrameworkObject> _registeredElements = new HashSet<FrameworkObject>();
   final HashMap<String, Setter> _setters = new HashMap<String, Setter>();
   final String stateBagPrefix = "__StyleBinding__";
   FrameworkProperty<ObservableList<Setter>> setters;
 
   StyleTemplate()
     {
-      _initStyleTemplateProperties();
-
       setters.value.listChanged + _onSettersCollectionChanging;
     }
 
@@ -24,7 +22,7 @@ class StyleTemplate extends FrameworkResource
   makeMe() => new StyleTemplate();
 
   /** Returns a [Collection] of [FrameworkElement]'s registered to the StyleTemplate */
-  Collection<FrameworkElement> get registeredElements => _registeredElements;
+  Collection<FrameworkObject> get registeredElements => _registeredElements;
 
   /**
   * Copies setters from one or more [templates] into the current StyleTemplate.
@@ -82,45 +80,57 @@ class StyleTemplate extends FrameworkResource
   }
 
   void _registerNewSetterBindings(Setter newSetter){
-    _registeredElements.forEach((FrameworkElement e)
+    _registeredElements.forEach((FrameworkObject e)
       {
           _bindSetterToElement(newSetter, e);
       });
   }
 
-  void _initStyleTemplateProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     setters = new FrameworkProperty(this, "setters",
         defaultValue:new ObservableList<Setter>());
   }
 
-  void _registerElement(FrameworkElement element){
+  void _registerElement(FrameworkObject element){
       _registeredElements.add(element);
       _setStyleBindings(element);
   }
 
-  void _unregisterElement(FrameworkElement element){
+  void _unregisterElement(FrameworkObject element){
     if (_registeredElements.contains(element)){
       _registeredElements.remove(element);
       _unsetStyleBindings(element);
     }
   }
 
-  void _setStyleBindings(FrameworkElement element){
+  void _setStyleBindings(FrameworkObject element){
+    if (!_setters.isEmpty){
+      new Logger('buckshot.pal.html.$this')
+        ..fine('setting style bindings for $element');
+    }
     _setters.forEach((_, Setter s){
       _bindSetterToElement(s, element);
     });
   }
 
-  void _unsetStyleBindings(FrameworkElement element){
-    element.stateBag.forEach((String k, dynamic v){
-      if (k.startsWith(stateBagPrefix)){
-        v.unregister();
-        element.stateBag.remove(k);
-      }
-    });
+  void _unsetStyleBindings(FrameworkObject element){
+//    new Logger('buckshot.pal.html.$this')
+//      ..fine('unsetting style bindings for $element');
+
+//    element.stateBag.forEach((String k, dynamic v){
+//      if (k.startsWith(stateBagPrefix)){
+//        assert(v is Binding);
+//        new Logger('buckshot.pal.html.$this')
+//        ..fine('removing $k setter for $element');
+//        v.unregister();
+//        element.stateBag.remove(k);
+//      }
+//    });
   }
 
-  void _bindSetterToElement(Setter setter, FrameworkElement element){
+  void _bindSetterToElement(Setter setter, FrameworkObject element){
 
     if (reflectionEnabled){
       final instanceMirror = buckshot.reflectMe(element);
@@ -131,10 +141,11 @@ class StyleTemplate extends FrameworkResource
       instanceMirror
         .getField('${setter.property}')
         .then((p){
-          final b = new Binding(setter.value, p.reflectee);
-          p.reflectee
-            .sourceObject
-            .stateBag["$stateBagPrefix${setter.property}__"] = b;
+          p.reflectee.value = setter.value.value;
+//          final b = new Binding(setter.value, p.reflectee);
+//          p.reflectee
+//            .sourceObject
+//            .stateBag["$stateBagPrefix${setter.property}__"] = b;
         });
     }else{
       element
@@ -142,8 +153,13 @@ class StyleTemplate extends FrameworkResource
         .filter((FrameworkProperty p) =>
             p.propertyName == setter.property.value)
         .forEach((FrameworkProperty p) {
-          p.sourceObject.stateBag["$stateBagPrefix${setter.property.value}__"] =
-              new Binding(setter.value, p);
+          new Logger('buckshot.pal.html.$this')
+            ..fine('assigning ${setter.value} to ${p}');
+          p.value = setter.value.value;
+//          new Logger('buckshot.pal.html.$this')
+//           ..fine('binding ${setter.value} to $p for ${p.sourceObject}');
+//          p.sourceObject.stateBag["$stateBagPrefix${setter.property.value}__"] =
+//              new Binding(setter.value, p);
         });
     }
   }

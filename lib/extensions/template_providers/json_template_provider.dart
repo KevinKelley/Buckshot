@@ -4,7 +4,7 @@
 
 library json_templateproviders_buckshotui_org;
 import 'dart:json';
-import 'package:buckshot/buckshot_browser.dart';
+import 'package:buckshot/buckshot.dart';
 import 'package:xml/xml.dart';
 
 /**
@@ -70,7 +70,7 @@ class JSONTemplateProvider implements IPresentationFormatProvider
   * Takes an object tree starting at [elementRoot] and attempts to
   * convert it to a serialized string
   * in the format of the implementing class. */
-  String serialize(FrameworkElement elementRoot){
+  String serialize(FrameworkObject elementRoot){
     throw const NotImplementedException();
   }
 

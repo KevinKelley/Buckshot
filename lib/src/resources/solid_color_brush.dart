@@ -44,10 +44,10 @@ class SolidColorBrush extends Brush
   makeMe() => new SolidColorBrush();
 
   void _initSolidColorBrushProperties(){
-    color = new FrameworkProperty(this, "color");
+    color = new FrameworkProperty(this, 'color');
   }
 
-  void renderBrush(Element element){
+  void renderBrush(element){
     element.style.background = "${color.value.toColorString()}";
 //    element.style.setProperty('fill', "${color}");
   }

@@ -4,11 +4,12 @@ part of core_buckshotui_org;
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-class StringToColorConverter implements IValueConverter{
+class StringToColorConverter implements ValueConverter{
 
   const StringToColorConverter();
 
   dynamic convert(dynamic value, {dynamic parameter}){
+    if (value is! String) return value;
     if (value.startsWith("#")){
       return new Color.hex(value);
     }

@@ -7,21 +7,18 @@ part of core_buckshotui_org;
 
 /**
  * Extends the [FrameworkEvent] event model by adding first/last
- * watcher functionality to the event lifecycle. 
+ * watcher functionality to the event lifecycle.
  */
 class BuckshotEvent<T extends EventArgs> extends FrameworkEvent
 {
   Function _gotFirstSubscriberCallback;
   Function _lostLastSubscriberCallback;
-  
+
   BuckshotEvent();
-  
-  BuckshotEvent._watchFirstAndLast(this._gotFirstSubscriberCallback, 
-      this._lostLastSubscriberCallback)
-  :
-    super();
-  
-  
+  BuckshotEvent.watchFirstAndLast(Function this._gotFirstSubscriberCallback,
+      Function this._lostLastSubscriberCallback)
+  : super();
+
   /**
   * Registers an EventHandler to the FrameworkEvent, and returns an
   * EventHandlerReference, which can be used to unregister the

@@ -12,9 +12,6 @@ class VerticalAlignment{
   static const stretch = const VerticalAlignment("stretch");
   static const top = const VerticalAlignment("top");
   static const bottom = const VerticalAlignment("bottom");
-  
-  /// Deperecated.  Use .toString()
-  String asString() => _str;
-  
+
   String toString() => _str;
 }

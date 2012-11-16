@@ -4,9 +4,47 @@ part of core_buckshotui_org;
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
+/** Enumerates Input types. */
+class InputTypes
+{
+  final String _str;
+  const InputTypes(this._str);
+
+  static const password = const InputTypes("password");
+  static const email = const InputTypes("email");
+  static const date = const InputTypes("date");
+  static const datetime = const InputTypes("datetime");
+  static const month = const InputTypes("month");
+  static const search = const InputTypes("search");
+  static const telephone = const InputTypes("tel");
+  static const text = const InputTypes("text");
+  static const time = const InputTypes("time");
+  static const url = const InputTypes("url");
+  static const week = const InputTypes("week");
+
+  static const List<InputTypes> validInputTypes =
+      const <InputTypes>[
+                         password,
+                         email,
+                         date,
+                         datetime,
+                         month,
+                         search,
+                         telephone,
+                         text,
+                         time,
+                         url,
+                         week];
+
+  static bool isValidInputType(InputTypes candidate) =>
+    validInputTypes.indexOf(candidate, 0) > -1;
+
+  String toString() => _str;
+}
+
 
 /** Provides a conversion between [String] and [InputTypes]. */
-class StringToInputTypesConverter implements IValueConverter{
+class StringToInputTypesConverter implements ValueConverter{
   const StringToInputTypesConverter();
 
   dynamic convert(dynamic value, {dynamic parameter}){

@@ -4,7 +4,7 @@ part of core_buckshotui_org;
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
 
-class AnimationKeyFrame extends TemplateObject
+class AnimationKeyFrame extends FrameworkObject
 {
   FrameworkProperty<num> time;
   FrameworkProperty<List<AnimationState>> states;
@@ -14,19 +14,23 @@ class AnimationKeyFrame extends TemplateObject
   //TODO add support for easing with 'animation-timing-function'
 
   AnimationKeyFrame(){
-    _initAnimationKeyFrameProperties();
-
-    this.stateBag[FrameworkObject.CONTAINER_CONTEXT] = states;
+    stateBag[FrameworkObject.CONTAINER_CONTEXT] = states;
   }
 
   AnimationKeyFrame.register() : super.register();
   makeMe() => new AnimationKeyFrame();
 
-  _initAnimationKeyFrameProperties(){
+  @override void initProperties(){
+    super.initProperties();
+
     time = new FrameworkProperty(this, 'time',
         converter:const StringToNumericConverter());
 
     states = new FrameworkProperty(this, 'states',
         defaultValue:new List<AnimationState>());
+  }
+
+  @override void initEvents(){
+
   }
 }

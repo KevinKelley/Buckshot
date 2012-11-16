@@ -1,7 +1,7 @@
 library binding_testsbuckshot;
 
 import 'dart:html';
-import 'package:buckshot/buckshot_browser.dart';
+import 'package:buckshot/buckshot.dart';
 import 'package:unittest/unittest.dart';
 
 
@@ -36,8 +36,8 @@ Future run(){
       );
 
       Expect.throws(
-          ()=> new Binding(null, e1.b,  bindingMode: BindingMode.OneWay),
-          (err)=> (err is BuckshotException)
+          ()=> new Binding(null, e1.b, bindingMode: BindingMode.OneWay),
+          (err) => err is BuckshotException
       );
     });
 
@@ -53,7 +53,7 @@ Future run(){
       );
     });
 
-    test('Can bind loosely to null', (){
+    test('Can bind loosely too null', (){
       Binding b = new Binding.loose(null, e1.b, bindingMode: BindingMode.OneWay);
       Expect.isFalse(b.bindingSet);
 
@@ -215,8 +215,8 @@ Future run(){
 
       Expect.notEquals(e1.a.value, e2.b.value);
 
-      Binding b = new Binding(e1.a, e2.b, bindingMode: BindingMode.OneWay,
-          converter: new TestValueConverter());
+      Binding b = new Binding(e1.a, e2.b,
+          bindingMode: BindingMode.OneWay, converter: new TestValueConverter());
 
       Expect.isTrue(b.bindingSet);
 
@@ -234,7 +234,7 @@ Future run(){
   return new Future.immediate(true);
 }
 
-class TestElement extends FrameworkElement
+class TestElement extends FrameworkObject
 {
   final String defaultA = "property A";
   final String defaultB = "property B";
@@ -245,29 +245,15 @@ class TestElement extends FrameworkElement
   }
 
   void initProperties(){
-    a = new FrameworkProperty(
-      this,
-      "a",
-      propertyChangedCallback: ((String value){
-
-        })
-        ,
-        defaultValue: defaultA);
-
-    b = new FrameworkProperty(
-      this,
-      "b",
-      propertyChangedCallback: ((String value){
-
-      }),
-      defaultValue: defaultB);
+    a = new FrameworkProperty(this, "a", defaultValue: defaultA);
+    b = new FrameworkProperty(this, "b", defaultValue: defaultB);
   }
 }
 
 /**
 * A demo value convert which takes any string and converts it to uppercase */
-class TestValueConverter implements IValueConverter
+class TestValueConverter implements ValueConverter
 {
-  dynamic convert(dynamic value, [dynamic parameter]) =>
+  @override convert(value, {parameter}) =>
       (value is String) ? value.toUpperCase() : value;
 }

@@ -39,6 +39,7 @@ class PropertyTransition
 
 class FrameworkAnimation
 {
+<<<<<<< HEAD
   static HashMap<String, RequestAnimationFrameCallback> workers;
   static bool _started = false;
 
@@ -59,6 +60,8 @@ class FrameworkAnimation
     window.requestAnimationFrame(_doWork);
   }
 
+=======
+>>>>>>> pal
   static void playAnimation(String name){
 
     AnimationResource anim = _resourceRegistry['$name'];

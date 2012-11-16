@@ -35,7 +35,7 @@ class Cursors
 /**
 * Converts a [String] value to [Cursors] enumerable.
 */
-class StringToCursorConverter implements IValueConverter {
+class StringToCursorConverter implements ValueConverter {
 
   const StringToCursorConverter();
 

@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Converts from [String] to a [bool] value.
 */
-class StringToBooleanConverter implements IValueConverter
+class StringToBooleanConverter implements ValueConverter
 {
   const StringToBooleanConverter();
 

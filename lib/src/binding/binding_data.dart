@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 class BindingData
 {
   final String dataContextPath;
-  final IValueConverter converter;
+  final ValueConverter converter;
   final BindingMode bindingMode;
   
   BindingData(this.dataContextPath, this.converter, this.bindingMode);

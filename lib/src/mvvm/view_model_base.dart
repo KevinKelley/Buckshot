@@ -11,5 +11,4 @@ part of core_buckshotui_org;
 */
 class ViewModelBase extends FrameworkObject
 {
-  makeMe() => null;
 }

@@ -7,12 +7,11 @@ part of core_buckshotui_org;
 /**
 * Converts a [String] to an [Orientation] enumerator.
 */
-class StringToOrientationConverter implements IValueConverter{
-
+class StringToOrientationConverter implements ValueConverter{
   const StringToOrientationConverter();
 
   dynamic convert(dynamic value, {dynamic parameter}){
-    if (!(value is String)) return value;
+    if (value is! String) return value;
     switch(value){
       case "horizontal":
         return Orientation.horizontal;

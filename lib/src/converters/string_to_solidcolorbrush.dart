@@ -3,7 +3,7 @@ part of core_buckshotui_org;
 // Copyright (c) 2012, John Evans
 // https://github.com/prujohn/Buckshot
 // See LICENSE file for Apache 2.0 licensing information.
-class StringToSolidColorBrushConverter implements IValueConverter
+class StringToSolidColorBrushConverter implements ValueConverter
 {
 
   const StringToSolidColorBrushConverter();
@@ -11,8 +11,6 @@ class StringToSolidColorBrushConverter implements IValueConverter
   dynamic convert(dynamic value, {dynamic parameter}){
 
     if (value is! String) {
-      new Logger('buckshot.StringToSolidColorBrushConverter')
-        .warning('Expected ($value) to be type String');
       return value;
     }
 

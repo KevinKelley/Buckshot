@@ -7,7 +7,7 @@ part of core_buckshotui_org;
 /**
 * Converts from [String] to [Location] value.
 */
-class StringToLocationConverter implements IValueConverter {
+class StringToLocationConverter implements ValueConverter {
   const StringToLocationConverter();
 
   dynamic convert(dynamic value, {dynamic parameter}){

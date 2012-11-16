@@ -15,7 +15,7 @@ part of core_buckshotui_org;
 * ## See Also ##
 * * Select the "Collections" example on the Online Sandbox: [Try Buckshot](http://www.buckshotui.org/sandbox)
 */
-class DataTemplate extends BuckshotObject
+class DataTemplate extends FrameworkObject
 {
   final HashMap<String, FrameworkProperty> _properties;
 
@@ -59,6 +59,9 @@ class DataTemplate extends BuckshotObject
   }
 
   makeMe() => null;
+
+  @override void initProperties() => super.initProperties();
+  @override void initEvents() => super.initEvents();
 
   /**
    * Returns a [FrameworkProperty] matching the given [propertyName], if match
@@ -118,12 +121,12 @@ class DataTemplate extends BuckshotObject
 
     if (defaultData == null && changedCallback != null){
       _properties[propertyName] = new FrameworkProperty(this, propertyName,
-          propertyChangedCallback: changedCallback);
+          propertyChangedCallback:changedCallback);
       return;
     }
 
     //defaultData != null && changedCallback != null
     _properties[propertyName] = new FrameworkProperty(this, propertyName,
-        propertyChangedCallback: changedCallback, defaultValue:defaultData);
+        propertyChangedCallback:changedCallback, defaultValue:defaultData);
   }
 }

@@ -1,10 +1,12 @@
 ![Buckshot Logo](http://www.buckshotui.org/sandbox/web/resources/buckshot_logo.png)
 
 ### Buckshot [buhk-shot] *noun* When darts land wildly all over the board. ###
-
-Buckshot is a an application framework for building multi-platform applications. 
-It is written in Google Dart and attempts to model the best of .net WPF (Silverlight)
-and other model-driven concepts.
+Buckshot is a multi-platform application framework. This core library provides
+the foundations for other target platforms to build from. Some of the core
+features provided include a template parser, data-binding, events,
+actions, style templates, and more.  Most developers will not import this core
+library directly, but will instead choose one of the platform extension
+libraries (see "Platform Choices" below).
 
 If you've worked with .net WPF or Silverlight then this framework will feel very 
 familiar to you.

@@ -1,19 +1,10 @@
-# DRAGONS! #
-This branch of buckshot is currently broken in many areas as the core is
-reorganized to work with the PAL (Presentation Abstraction Layer).
-
-All demos are currently broken.
-
-In other words: Don't use this branch!
-
-![Buckshot Logo](http://www.lucastudios.com/img/lucaui_logo_candidate2.png)
+![Buckshot Logo](http://www.buckshotui.org/sandbox/web/resources/buckshot_logo.png)
 
 ### Buckshot [buhk-shot] *noun* When darts land wildly all over the board. ###
 
-Buckshot is a UI Framework for modern web applications. It is written in Google 
-Dart and attempts to model the best of .net WPF (Silverlight) and Adobe Flex, 
-but without the need for a plug-in. Buckshot renders all output in HTML5/CSS3, 
-and makes use of features available in today's modern web browsers.
+Buckshot is a an application framework for building multi-platform applications. 
+It is written in Google Dart and attempts to model the best of .net WPF (Silverlight)
+and other model-driven concepts.
 
 If you've worked with .net WPF or Silverlight then this framework will feel very 
 familiar to you.
@@ -23,32 +14,39 @@ Project is currently in the **alpha** stage of development.  It will likely not
 move to beta or v1.0 until after Dart ships v1.0. This is to ensure that that 
 library is working correctly with the Dart APIs, which are still in flux.
 
-## For Modern Web Browsers ##
-While the project will attempt some compatibility with older/non-compliant browsers, 
-the target focus is centered squarely on **modern** web browsers.  If Buckshot 
-isn't working in your browser of choice, then it isn't modern.  Ok that may be a 
-bit harsh, but seriously: Use Chrome.
+## Buckshot is a Multi-Platform Framework##
+This means that Buckshot can target virtually any rendering technology where
+the Dart VM is available.
+
+### Platforms Choices ###
+* HTML5 - [Buckshot HTML Platform](https://github.com/prujohn/buckshot_html)
+
+Coming soon...
+
+* SVG
+* HTML5 Canvas
+* WebGL
+
+Coming eventually...
+
+* Native GUI
 
 ## Getting Started ##
-See the "getting_started" document in the doc/ folder.
+See the "getting_started" document in the platform library of your choice.
 
 ## Features ##
 <table>
 <tr>
-<td>Template-Driven</td>
-<td>Similar to Xaml, but more simplified and flexible.  Supports XML, JSON, and YAML formats.</td>
+<td>Template-Centric</td>
+<td>Similar to Xaml, but more simplified and flexible.  Supports XML and JSON formats.</td>
+</tr>
+<tr>
+<td>Multi-Platform</td>
+<td>Dozens of controls included with the core library, everything from primitive shapes to complex template-supporting controls, like ListBox and TreeView</td>
 </tr>
 <tr>
 <td>Actions</td>
 <td>Event-driven actions, like playing animations, changing properties, etc, in XML templates instead of code (you can also do it in code too, if desired)</td>
-</tr>
-<tr>
-<td>Controls</td>
-<td>Dozens of controls included with the core library, everything from primitive shapes to complex template-supporting controls, like ListBox and TreeView</td>
-</tr>
-<tr>
-<td>Animation</td>
-<td>Declaratively set keyframe animations for your elements, and off you go (still new, has some limitations)</td>
 </tr>
 <tr>
 <td>Data Binding</td>

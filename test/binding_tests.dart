@@ -192,7 +192,7 @@ Future run(){
 
       Expect.notEquals(e1.a.value, e2.b.value);
 
-      Binding b = new Binding(e1.a, e2.b, BindingMode.TwoWay);
+      Binding b = new Binding(e1.a, e2.b, bindingMode: BindingMode.TwoWay);
 
       Expect.isTrue(b.bindingSet);
 
@@ -215,7 +215,8 @@ Future run(){
 
       Expect.notEquals(e1.a.value, e2.b.value);
 
-      Binding b = new Binding(e1.a, e2.b, BindingMode.OneWay, new TestValueConverter());
+      Binding b = new Binding(e1.a, e2.b,
+          bindingMode: BindingMode.OneWay, converter: new TestValueConverter());
 
       Expect.isTrue(b.bindingSet);
 
@@ -233,7 +234,7 @@ Future run(){
   return new Future.immediate(true);
 }
 
-class TestElement extends FrameworkElement
+class TestElement extends FrameworkObject
 {
   final String defaultA = "property A";
   final String defaultB = "property B";
@@ -244,27 +245,15 @@ class TestElement extends FrameworkElement
   }
 
   void initProperties(){
-    a = new FrameworkProperty(
-      this,
-      "a",
-      ((String value){
-
-        })
-        , defaultA);
-
-    b = new FrameworkProperty(
-      this,
-      "b",
-      ((String value){
-
-      }), defaultB);
+    a = new FrameworkProperty(this, "a", defaultValue: defaultA);
+    b = new FrameworkProperty(this, "b", defaultValue: defaultB);
   }
 }
 
 /**
 * A demo value convert which takes any string and converts it to uppercase */
-class TestValueConverter implements IValueConverter
+class TestValueConverter implements ValueConverter
 {
-  Dynamic convert(Dynamic value, [Dynamic parameter]) =>
+  @override convert(value, {parameter}) =>
       (value is String) ? value.toUpperCase() : value;
 }

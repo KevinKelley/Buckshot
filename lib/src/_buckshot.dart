@@ -12,22 +12,6 @@ part of core_buckshotui_org;
 */
 @deprecated class _buckshot extends FrameworkObject
 {
-  /** Deprecated.  Use top-level registerElement() instead. */
-  @deprecated void registerElement(FrameworkObject o){
-    if (reflectionEnabled) return;
-
-    _objectRegistry['${o.toString().toLowerCase()}'] = o.makeMe;
-    _log.info('Element (${o}) registered to framework.');
-  }
-
-  @deprecated void registerAttachedProperty(String property, setterFunction){
-    if (reflectionEnabled) return;
-
-    _objectRegistry[property] = setterFunction;
-    _log.info('Attached property (${property}) registered to framework.');
-  }
-
-
   // Wrappers to prevent propagation of static warnings elsewhere.
   reflectMe(object) => reflect(object);
   get mirrorSystem => currentMirrorSystem();

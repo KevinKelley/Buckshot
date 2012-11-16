@@ -3,8 +3,10 @@ library resources_tests_buckshot;
 import 'dart:html';
 import 'package:buckshot/buckshot.dart';
 import 'package:unittest/unittest.dart';
+import 'mocks.dart';
 
 Future run(){
+  registerElement(new TestObject.register());
   group('Var Resource', (){
     test('String values work', (){
       var t = '''
@@ -27,9 +29,9 @@ Future run(){
     test('Object values work', (){
       var t = '''
           <resourcecollection>
-          <var key="contenttest">
-          <textblock text="hello world!"></textblock>
-          </var>
+            <var key="contenttest">
+              <testobject data='42' />
+            </var>
           </resourcecollection>
           ''';
 
@@ -37,8 +39,7 @@ Future run(){
       .deserialize(t)
       .then(expectAsync1((_){
         final result = getResource("contenttest");
-
-        Expect.isTrue(result is TextBlock);
+        Expect.isTrue(result is TestObject);
       }));
     });
   });

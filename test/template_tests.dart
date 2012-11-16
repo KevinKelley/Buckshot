@@ -13,7 +13,7 @@ void run(){
       final vm = new TestViewModel();
 
       Template
-      .deserialize("<testobject on.click='click_handler' content='click me' />")
+      .deserialize("<testobject on.click='click_handler' data='click me' />")
       .then(expectAsync1((TestObject t){
         Expect.isTrue(t is TestObject, 't is button');
 

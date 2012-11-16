@@ -88,7 +88,7 @@ class StringToFruitConverter implements ValueConverter
   const StringToFruitConverter();
 
   @override convert(value, {parameter}){
-    assert(value is String);
+    if (value is! String) return value;
 
     switch(value){
       case 'apple': return Fruit.apple;

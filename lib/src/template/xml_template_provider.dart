@@ -12,7 +12,7 @@ class XmlTemplateProvider implements IPresentationFormatProvider
   bool isFormat(String template) => template.startsWith('<');
 
   String serialize(FrameworkObject elementRoot){
-    throw const NotImplementedException();
+    throw new UnsupportedError('Serialization not yet supported.');
   }
 
   XmlElement toXmlTree(String template){

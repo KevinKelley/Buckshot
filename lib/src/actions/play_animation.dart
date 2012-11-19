@@ -24,7 +24,7 @@ class PlayAnimation extends ActionBase {
   void onEventTrigger(){
     if (animation.value == null || action.value == null) return;
 
-    throw new NotImplementedException('implement play animation...');
+    throw new UnsupportedError('implement play animation...');
     //FrameworkAnimation.playAnimation(animation.value);
   }
 }

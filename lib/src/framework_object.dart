@@ -316,7 +316,7 @@ abstract class FrameworkObject
   }
 
   FrameworkProperty _getPropertyByName(String propertyName){
-    throw const NotImplementedException('Convert to async .getPropertyName()'
+    throw new UnsupportedError('Convert to async .getPropertyName()'
         ' instead.');
   }
 

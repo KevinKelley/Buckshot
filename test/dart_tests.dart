@@ -1,6 +1,7 @@
 library dart_tests;
 
 import 'dart:html';
+import 'dart:svg';
 import 'package:unittest/unittest.dart';
 import 'package:xml/xml.dart';
 

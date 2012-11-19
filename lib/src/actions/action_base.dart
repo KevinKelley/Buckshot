@@ -79,7 +79,7 @@ abstract class ActionBase extends FrameworkObject
       }
     }else{
       // TODO Implement reflection lookup on event bindings.
-      throw const NotImplementedException('Needs mirror-based impl');
+      throw new UnsupportedError('Needs mirror-based impl');
     }
   }
 

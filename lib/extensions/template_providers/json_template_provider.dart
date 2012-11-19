@@ -71,7 +71,7 @@ class JSONTemplateProvider implements IPresentationFormatProvider
   * convert it to a serialized string
   * in the format of the implementing class. */
   String serialize(FrameworkObject elementRoot){
-    throw const NotImplementedException();
+    throw new UnsupportedError('Serialization not yet supported.');
   }
 
   /**

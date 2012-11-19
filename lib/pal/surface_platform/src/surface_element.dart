@@ -2,6 +2,7 @@ part of surface_buckshot;
 
 abstract class SurfaceElement extends FrameworkObject
 {
+  FrameworkProperty<HitTestVisibility> hitTest;
   FrameworkProperty<bool> userSelect;
   /// Represents the width of the FrameworkElement.
   FrameworkProperty<num> width;
@@ -49,9 +50,14 @@ abstract class SurfaceElement extends FrameworkObject
   void onOpacityChanged(num value);
   void onVisibilityChanged(Visibility value);
   void onDraggableChanged(bool draggable);
+  void onHitTestVisibilityChanged(HitTestVisibility value);
 
   @override void initProperties(){
     super.initProperties();
+
+    hitTest = new FrameworkProperty(this, 'hitTest',
+        propertyChangedCallback: onHitTestVisibilityChanged,
+        converter: const StringToHitTestVisibilityConverter());
 
     draggable = new FrameworkProperty(this, 'draggable',
         propertyChangedCallback: onDraggableChanged,

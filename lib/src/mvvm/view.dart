@@ -61,7 +61,7 @@ class View
   void _init(String uriOrTemplate){
     ready = _c.future;
 
-    Template
+    Templates
       .deserialize(uriOrTemplate)
       .then((t) => rootVisual = t);
   }

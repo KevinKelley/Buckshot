@@ -52,6 +52,7 @@ void registerAttachedProperty(String property, setterFunction){
 
 void _registerCoreElements(){
 //resources
+  registerElement(new Template.register());
   registerElement(new ResourceCollection.register());
   registerElement(new Color.register());
   registerElement(new LinearGradientBrush.register());
@@ -111,7 +112,7 @@ Future _loadTheme(){
 //    return Template.deserialize(document.body.attributes['data-buckshot-theme']);
 //  }else{
     new Logger('buckshot.system')..info('loading default theme');
-    return Template.deserialize(defaultTheme);
+    return Templates.deserialize(defaultTheme);
 //  }
 }
 

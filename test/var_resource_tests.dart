@@ -17,7 +17,7 @@ Future run(){
           <var key="urltest" value="http://www.lucastudios.com/img/lucaui_logo_candidate2.png"></var>
           </resourcecollection>
           ''';
-      Template.deserialize(t)
+      Templates.deserialize(t)
       .then(expectAsync1((_){
         Expect.equals("hello world!", getResource("test"));
         Expect.equals("#007777", getResource("colortest"));
@@ -35,7 +35,7 @@ Future run(){
           </resourcecollection>
           ''';
 
-      Template
+      Templates
       .deserialize(t)
       .then(expectAsync1((_){
         final result = getResource("contenttest");

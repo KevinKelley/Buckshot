@@ -60,7 +60,7 @@ part of core_buckshotui_org;
 *             - - text: world
 *
 */
-class Template {
+class Templates {
   final List<IPresentationFormatProvider> providers =
       [new XmlTemplateProvider()];
 
@@ -158,7 +158,7 @@ class Template {
               .chain((_) => platform.getTemplate(tt))
               .chain((template){
                 rawTemplate = template;
-                return Template.toFrameworkObject(Template.toXmlTree(template));
+                return Templates.toFrameworkObject(Templates.toXmlTree(template));
               })
               .chain((result){
                 if (result == null){
@@ -178,7 +178,7 @@ class Template {
    * Template.deserialize() instead.
    */
   static XmlElement toXmlTree(String template){
-    final t = new Template();
+    final t = new Templates();
 
     for(final p in t.providers){
       if(p.isFormat(template)){
@@ -207,8 +207,11 @@ class Template {
       if (element is FrameworkResource){
         element.rawData = xmlElement.toString();
         _processResource(element);
-        // complete nodes as null; they aren't added to the DOM
+        // complete nodes as null; they aren't returned.
         oc.complete(null);
+      }else if (element is Template){
+        // Template nodes return their root content.
+        oc.complete(element.rootVisual);
       }else{
         oc.complete(element);
       }

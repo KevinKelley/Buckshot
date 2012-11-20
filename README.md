@@ -25,7 +25,7 @@ the Dart VM is available.
 
 Coming soon...
 
-* SVG
+* [SVG](https://github.com/prujohn/buckshot_html)
 * HTML5 Canvas
 * WebGL
 

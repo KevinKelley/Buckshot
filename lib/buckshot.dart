@@ -114,10 +114,11 @@ part 'src/resources/gradient_stop.dart';
 //part 'src/animation/animation_state.dart';
 //part 'src/animation_css_compiler.dart';
 
-part 'src/template/presentation_format_provider.dart';
-part 'src/template/xml_template_provider.dart';
-part 'src/template/template.dart';
-part 'src/template/template_exception.dart';
+part 'src/templates/template.dart';
+part 'src/templates/presentation_format_provider.dart';
+part 'src/templates/xml_template_provider.dart';
+part 'src/templates/templates.dart';
+part 'src/templates/template_exception.dart';
 
 part 'src/converters/value_converter.dart';
 part 'src/primitives/thickness.dart';

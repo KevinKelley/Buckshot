@@ -12,7 +12,7 @@ void run(){
     test('event bindings wire up from template', (){
       final vm = new TestViewModel();
 
-      Template
+      Templates
       .deserialize("<testobject on.click='click_handler' data='click me' />")
       .then(expectAsync1((TestObject t){
         Expect.isTrue(t is TestObject, 't is button');
@@ -45,7 +45,7 @@ void run(){
           </testobject>
           ''';
 
-      Template.deserialize(t)
+      Templates.deserialize(t)
       .then(expectAsync1((result){
         Expect.isTrue(result is TestObject);
         Expect.equals(7, result.children.length);
@@ -56,7 +56,7 @@ void run(){
     test('simple properties', (){
       String testString = "Hello World";
       String t = '<testobject data="$testString"></TextBlock>';
-      Template.deserialize(t)
+      Templates.deserialize(t)
       .then(expectAsync1((result){
         Expect.equals(testString, (result as TestObject).data.value);
       }));
@@ -64,7 +64,7 @@ void run(){
     test('enum properties', (){
       String t = '<testobject fruit="orange" />';
 
-      Template
+      Templates
       .deserialize(t)
       .then(expectAsync1((result){
         Expect.equals(Fruit.orange, result.fruit.value);
@@ -75,7 +75,7 @@ void run(){
           <testobject testobject.foo='bar' />
           ''';
 
-      Template
+      Templates
       .deserialize(t)
       .then(expectAsync1((result){
         Expect.equals('bar', TestObject.getFoo(result));
@@ -124,7 +124,7 @@ void run(){
     test('simple property node assigns correctly', (){
       String t = "<testobject><data>42</data></testobject>";
 
-      Template
+      Templates
       .deserialize(t)
       .then(expectAsync1((result){
         Expect.equals('42', result.data.value);
@@ -133,14 +133,14 @@ void run(){
     test('enum property node assigns correctly', (){
       String t = "<testobject><fruit>orange</fruit></testobject>";
 
-      Template.deserialize(t)
+      Templates.deserialize(t)
       .then(expectAsync1((result){
         Expect.equals(Fruit.orange, (result as TestObject).fruit.value);
       }));
     });
     test('attached property node assigns correctly', (){
       final t = "<testobject><testobject.foo>bar</testobject.foo></testobject>";
-      Template
+      Templates
       .deserialize(t)
       .then(expectAsync1((result){
         Expect.equals('bar', TestObject.getFoo(result));

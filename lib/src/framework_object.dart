@@ -93,9 +93,10 @@ abstract class FrameworkObject
     if (this is FrameworkResource) return;
     _style = new StyleTemplate();
   }
-
   FrameworkObject.register();
   makeMe();
+
+  @override String get namespace => '';
 
   /// Gets a boolean value indicating whether the given object
   /// is a container or not.

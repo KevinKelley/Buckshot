@@ -57,6 +57,8 @@ abstract class Platform extends FrameworkObject
  */
 abstract class PlatformElement
 {
+  String get namespace;
+
   /** Fires when the element is loaded in the presentation. */
   FrameworkEvent<EventArgs> loaded;
 

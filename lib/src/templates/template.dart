@@ -40,3 +40,4 @@ class Template extends FrameworkObject implements FrameworkContainer
 
   @override get containerContent => rootVisual.value;
 }
+

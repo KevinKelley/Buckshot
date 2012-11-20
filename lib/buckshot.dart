@@ -27,11 +27,11 @@ import 'dart:isolate';
 import 'dart:math';
 
 import 'package:xml/xml.dart';
-import 'package:dartnet_event_model/events.dart';
+import 'package:dartnet_event_model/dartnet_event_model.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-export 'package:dartnet_event_model/events.dart';
+export 'package:dartnet_event_model/dartnet_event_model.dart';
 export 'package:meta/meta.dart';
 export 'package:logging/logging.dart';
 

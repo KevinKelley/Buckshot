@@ -211,7 +211,7 @@ class Templates {
         oc.complete(null);
       }else if (element is Template){
         // Template nodes return their root content.
-        oc.complete(element.rootVisual);
+        oc.complete(element.rootVisual.value);
       }else{
         oc.complete(element);
       }

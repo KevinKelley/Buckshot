@@ -608,7 +608,7 @@ class Templates {
     xmlElement
       .attributes
       .forEach((String k, String v){
-        if (k.startsWith('xmlns:')) return;
+        if (k.startsWith('xmlns')) return;
         if (k.contains(".")){
           if (k.startsWith('on.')){
             // event

@@ -245,7 +245,7 @@ class Templates {
     }
 
     final objectOrMirror = getObjectByName(lowerTagName);
-    print('namespaces for $lowerTagName: ${xmlElement.namespacesInScope}');
+    print('namespaces for $lowerTagName: ${xmlElement.namespacesInScope} ${xmlElement.parent}');
     if (objectOrMirror == null){
       throw new TemplateException('Element "${xmlElement.name}"'
       ' not found.');

@@ -124,7 +124,7 @@ Future _loadTheme(){
 *
  * Returns null if not found.
  */
-getObjectByName(String name){
+getObjectByName(String name, {String namespace}){
   final lowerName = name.toLowerCase();
 
   if (!reflectionEnabled){

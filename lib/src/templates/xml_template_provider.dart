@@ -9,12 +9,15 @@ part of core_buckshotui_org;
 */
 class XmlTemplateProvider implements IPresentationFormatProvider
 {
+  @override
   bool isFormat(String template) => template.startsWith('<');
 
+  @override
   String serialize(FrameworkObject elementRoot){
     throw new UnsupportedError('Serialization not yet supported.');
   }
 
+  @override
   XmlElement toXmlTree(String template){
     return XML.parse(template);
   }

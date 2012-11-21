@@ -48,7 +48,7 @@ String genCode(String baseFileName, XmlElement template, [List<GenOption> option
   if (!_hasOption(GenOption.ONLY_G_FILES)){
     view =
 '''
-class $baseFileName extends _${baseFileName}_g 
+class $baseFileName extends _${baseFileName}_g
 {
     ${new DataContext().generate()}
 }
@@ -76,7 +76,7 @@ class DataContext implements GeneratorComponent
 
     if (!_hasOption(GenOption.NO_COMMENTS)){
       f.add(
-          '''   
+          '''
           // You can set the datacontext of the view to a different view model by
           // returning a different value in "setDataContext()" below.
       ''');

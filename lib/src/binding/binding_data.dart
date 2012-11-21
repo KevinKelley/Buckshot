@@ -9,6 +9,6 @@ class BindingData
   final String dataContextPath;
   final ValueConverter converter;
   final BindingMode bindingMode;
-  
+
   BindingData(this.dataContextPath, this.converter, this.bindingMode);
 }

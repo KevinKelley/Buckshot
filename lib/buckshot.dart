@@ -122,11 +122,9 @@ part 'src/templates/template_exception.dart';
 
 part 'src/converters/value_converter.dart';
 part 'src/primitives/thickness.dart';
-part 'src/primitives/tuple.dart';
 
 part 'src/events/buckshot_exception.dart';
 part 'src/events/animation_exception.dart';
-part 'src/events/framework_property_resolution_exception.dart';
 
 //Use this to generate clean dart docs of just the buckshot library
 main(){}

@@ -174,7 +174,7 @@ class FrameworkElement extends FrameworkObject
     e.rawElement.style.transform =
         '''
         translateX(${tx}px) translateY(${ty}px) translateZ(${tz}px)
-        scaleX(${sx}) scaleY(${sy}) scaleZ(${sz}) 
+        scaleX(${sx}) scaleY(${sy}) scaleZ(${sz})
         rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)
         ''';
   }
@@ -405,8 +405,8 @@ class FrameworkElement extends FrameworkObject
       "width",
 <<<<<<< HEAD:lib/src/core/framework_element.dart
       propertyChangedCallback: (dynamic value) => calculateWidth(value),
-=======
-      (dynamic value) => calculateWidth(value),
+identical(===, =
+      (dynamic value)) => calculateWidth(value),
 >>>>>>> pal:lib/src/framework_element.dart
       defaultValue:"auto",
       converter:const StringToNumericConverter());
@@ -416,8 +416,8 @@ class FrameworkElement extends FrameworkObject
       "height",
 <<<<<<< HEAD:lib/src/core/framework_element.dart
       propertyChangedCallback: (dynamic value) => calculateHeight(value),
-=======
-      (dynamic value) => calculateHeight(value),
+identical(===, =
+      (dynamic value)) => calculateHeight(value),
 >>>>>>> pal:lib/src/framework_element.dart
       defaultValue:"auto",
       converter:const StringToNumericConverter());

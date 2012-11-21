@@ -6,18 +6,18 @@ part of core_buckshotui_org;
 
 /**
 * Enumerates possible [RadialGradientBrush] draw modes.
-* 
+*
 * ## See Also
 * * [LinearGradientDirection]
 */
 class RadialGradientDrawMode {
   final String _str;
-  
+
   const RadialGradientDrawMode(this._str);
-  
+
   static const contain = const RadialGradientDrawMode("contain");
   static const cover = const RadialGradientDrawMode("cover");
-  
+
   String toString() => _str;
 }
 

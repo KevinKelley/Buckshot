@@ -14,36 +14,36 @@ part of core_buckshotui_org;
 final String defaultTheme =
 '''
 <resourcecollection>
-  <!-- 
-  "Theme: 50 Shades of Grrr" 
+  <!--
+  "Theme: 50 Shades of Grrr"
   -->
 
   <color key='theme_debug' value='Orange' />
 
-  <!-- 
-  Default Palette 
+  <!--
+  Default Palette
   -->
   <color key='theme_background_light' value='White' />
   <color key='theme_background_dark' value='WhiteSmoke' />
   <color key='theme_background_mouse_hover' value='LightGray' />
   <color key='theme_background_mouse_down' value='DarkGray' />
 
-  <!-- 
-  Default Brushes 
+  <!--
+  Default Brushes
   -->
   <solidcolorbrush key='theme_light_brush' color='{resource theme_background_light}' />
   <solidcolorbrush key='theme_dark_brush' color='{resource theme_background_dark}' />
 
-  <!-- 
-  Shadows 
-  --> 
+  <!--
+  Shadows
+  -->
   <color key='theme_shadow_color' value='Black' />
   <var key='theme_shadow_x' value='2' />
   <var key='theme_shadow_y' value='2' />
   <var key='theme_shadow_blur' value='4' />
 
-  <!-- 
-  Border 
+  <!--
+  Border
   -->
   <color key='theme_border_color' value='LightGray' />
   <color key='theme_border_color_dark' value='DarkGray' />
@@ -52,14 +52,14 @@ final String defaultTheme =
   <var key='theme_border_corner_radius' value='0' />
   <!-- Note that border does not have a default background brush. -->
 
-  <!-- 
-  Text 
+  <!--
+  Text
   -->
   <var key='theme_text_font_family' value='Arial' />
   <color key='theme_text_foreground' value='Black' />
 
-  <!-- 
-  TextBox 
+  <!--
+  TextBox
   -->
   <color key='theme_textbox_border_color' value='Black' />
   <color key='theme_textbox_foreground' value='Black' />
@@ -81,8 +81,8 @@ final String defaultTheme =
   <var key='theme_textarea_padding' value='0' />
   <var key='theme_textarea_font_family' value='courier' />
 
-  <!-- 
-  Button 
+  <!--
+  Button
   -->
   <color key='theme_button_border_color' value='LightGray' />
   <solidcolorbrush key='theme_button_background' color='{resource theme_background_dark}' />
@@ -95,7 +95,7 @@ final String defaultTheme =
   <var key='theme_button_border_thickness' value='{resource theme_border_thickness}' />
   <var key='theme_button_padding' value='{resource theme_border_padding}' />
 
-  <!-- 
+  <!--
   Accordion
   -->
   <var key='theme_accordion_header_padding' value='{resource theme_border_padding}' />
@@ -110,7 +110,7 @@ final String defaultTheme =
   <solidcolorbrush key='theme_accordion_header_background_brush' color='{resource theme_background_dark}' />
   <solidcolorbrush key='theme_accordion_body_background_brush' color='{resource theme_background_light}' />
 
-  <!-- 
+  <!--
   Menu & MenuStrip
   -->
   <var key='theme_menu_padding' value='{resource theme_border_padding}' />
@@ -139,7 +139,7 @@ final String defaultTheme =
   <!--
   TabControl
   -->
-  
+
   <var key='zoidberg' value='http://www.buckshotui.org/resources/images/zoidberg.jpg' />
   <var key='buckshot_logo_uri' value='http://www.buckshotui.org/resources/images/buckshot_logo.png' />
 </resourcecollection>

@@ -10,13 +10,13 @@ class Colors{
   const Colors(this._hex, this._name);
   final String _hex;
   final String _name;
-  
+
   //source: http://msdn.microsoft.com/en-us/library/system.windows.media.solidcolorbrush.Color.hex(VS.95).aspx
-  
+
   String toString() => _hex;
-  
+
   String get name => _name;
-  
+
   static const AliceBlue = const Colors("#F0F8FF", "AliceBlue");
   static const AntiqueWhite = const Colors("#FAEBD7", "AntiqueWhite");
   static const Aqua = const Colors("#00FFFF", "Aqua");

@@ -10,9 +10,9 @@ part of core_buckshotui_org;
 class BuckshotException implements Exception
 {
   final String _msg;
-  
+
   const BuckshotException(this._msg);
-  
+
   String toString() => _msg == null ? 'BuckshotException' : 'BuckshotException: $_msg';
 }
 

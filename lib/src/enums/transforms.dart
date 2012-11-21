@@ -5,7 +5,7 @@ part of core_buckshotui_org;
 // See LICENSE file for Apache 2.0 licensing information.
 
 class Transforms
-{  	
+{
   	static const originX = 0;
     static const originY = 1;
   	static const originZ = 2;
@@ -18,6 +18,6 @@ class Transforms
   	static const rotateX = 9;
   	static const rotateY = 10;
   	static const rotateZ = 11;
-  	
-  //	static void setTransformOrigin(FrameworkElement e) => 
+
+  //	static void setTransformOrigin(FrameworkElement e) =>
 }

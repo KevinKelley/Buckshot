@@ -125,8 +125,9 @@ class AnimatingFrameworkProperty<T> extends FrameworkProperty<T>
   AnimatingFrameworkProperty(FrameworkObject sourceObject, String propertyName, String this.cssPropertyPeer, {Function propertyChangedCallback, T defaultValue: null, converter: null})
   : super(sourceObject, propertyName, propertyChangedCallback:propertyChangedCallback, defaultValue:defaultValue, converter:converter)
   {
-    if (sourceObject is! FrameworkObject)
+    if (sourceObject is! FrameworkObject) {
       throw const BuckshotException('AnimatingFrameworkProperty can only be'
           ' used with elements that derive from FrameworkObject.');
+    }
   }
 }

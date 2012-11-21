@@ -12,6 +12,6 @@ class Orientation
   final String _str;
   static const horizontal = const Orientation("horizontal");
   static const vertical = const Orientation("vertical");
-  
+
   String toString() => _str;
 }

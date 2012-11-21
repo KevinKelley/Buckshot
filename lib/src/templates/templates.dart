@@ -198,9 +198,7 @@ class Templates {
    * The [xmlElement] tree most conform to the Buckshot template schema.
    */
   static Future<FrameworkObject> toFrameworkObject(XmlElement xmlElement){
-
     final oc = new Completer();
-
     String lowerTagName = xmlElement.name.toLowerCase();
 
     void completeElementParse(element){
@@ -215,13 +213,6 @@ class Templates {
       }else{
         oc.complete(element);
       }
-    }
-
-    final objectOrMirror = getObjectByName(lowerTagName);
-
-    if (objectOrMirror == null){
-      throw new TemplateException('Element "${xmlElement.name}"'
-      ' not found.');
     }
 
     void processElement(newElement){
@@ -251,6 +242,13 @@ class Templates {
       .then((_){
         completeElementParse(newElement);
       });
+    }
+
+    final objectOrMirror = getObjectByName(lowerTagName);
+
+    if (objectOrMirror == null){
+      throw new TemplateException('Element "${xmlElement.name}"'
+      ' not found.');
     }
 
     if (!reflectionEnabled){

@@ -9,13 +9,13 @@ part of core_buckshotui_org;
  */
 class DockLocation {
   final String _str;
-  
+
   const DockLocation(this._str);
-  
+
   static const top = const DockLocation('top');
   static const bottom = const DockLocation('bottom');
   static const left = const DockLocation('left');
   static const right = const DockLocation('right');
-  
+
   String toString() => _str;
 }

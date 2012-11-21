@@ -6,11 +6,11 @@ part of core_buckshotui_org;
 
 /**
 * Enumerates visibility states. */
-class Visibility{ 
+class Visibility{
   const Visibility(this._str);
   final String _str;
   static const visible = const Visibility('visible');
   static const collapsed = const Visibility('hidden');
-  
+
   String toString() => _str;
 }

@@ -7,8 +7,8 @@ part of core_buckshotui_org;
 class AnimationException implements Exception {
 
   final String _msg;
-  
+
   const AnimationException(this._msg);
-  
+
   String toString() => _msg == null ? 'AnimationException' : 'AnimationException: $_msg';
 }

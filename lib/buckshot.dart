@@ -82,7 +82,6 @@ part 'src/converters/string_to_solidcolorbrush.dart';
 part 'src/converters/string_to_radialgradientdrawmode.dart';
 part 'src/converters/string_to_visibility.dart';
 part 'src/converters/string_to_inputtypes.dart';
-part 'src/converters/string_to_location.dart';
 
 part 'src/enums/visibility.dart';
 part 'src/enums/orientation.dart';
@@ -94,7 +93,6 @@ part 'src/enums/horizontal_alignment.dart';
 part 'src/enums/vertical_alignment.dart';
 part 'src/enums/transforms.dart';
 part 'src/enums/transition_timing.dart';
-part 'src/enums/dock_location.dart';
 
 part 'src/resources/framework_resource.dart';
 part 'src/resources/resource_collection.dart';

@@ -36,11 +36,11 @@ class TestObject extends FrameworkObject implements FrameworkContainer
   @override get containerContent => children;
 
   static void setFoo(FrameworkObject element, value){
-    assert(value is String || value is DockLocation);
+    //assert(value is String || value is DockLocation);
 
     if (element == null) return;
 
-    value = const StringToLocationConverter().convert(value);
+    //value = const StringToLocationConverter().convert(value);
 
     if (TestObject.fooProperty == null) {
       TestObject.fooProperty = new AttachedFrameworkProperty("foo",

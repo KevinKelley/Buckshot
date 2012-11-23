@@ -128,6 +128,7 @@ getObjectByName(String name, List<XmlNamespace> namespaces){
   final lowerName = name.toLowerCase();
 
   if (!reflectionEnabled){
+    new Logger('buckshot.register.getObjectByName').warning('looking up: $lowerName $namespaces');
     return _getObjectNoReflection(lowerName, namespaces);
   }else{
     if (_mirrorCache.containsKey(lowerName)){

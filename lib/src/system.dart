@@ -166,7 +166,7 @@ getObjectByName(String name, List<XmlNamespace> namespaces){
 
 FrameworkObject _getObjectNoReflection(String name,
                                        List<XmlNamespace> namespaces){
-  if (namespaces == null || namespaces.isEmpty){
+  FrameworkObject lookupRelaxed(){
     // Attempts a friendly lookup on the first item found matching the name,
     // ignoring namespaces.
     Function found;
@@ -182,6 +182,10 @@ FrameworkObject _getObjectNoReflection(String name,
     return found != null ? found() : null;
   }
 
+  if (namespaces == null || namespaces.isEmpty){
+    return lookupRelaxed();
+  }
+
   // Attempts a namespace-constrained lookup
   for(final XmlNamespace n in namespaces){
     final lookup = '${n.uri}::$name';
@@ -190,7 +194,7 @@ FrameworkObject _getObjectNoReflection(String name,
     }
   }
 
-  return null;
+  return lookupRelaxed();
 }
 
 /**

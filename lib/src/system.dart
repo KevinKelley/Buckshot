@@ -166,7 +166,7 @@ getObjectByName(String name, List<XmlNamespace> namespaces){
 
 FrameworkObject _getObjectNoReflection(String name,
                                        List<XmlNamespace> namespaces){
-  if (namespaces == null){
+  if (namespaces == null || namespaces.isEmpty){
     // Attempts a friendly lookup on the first item found matching the name,
     // ignoring namespaces.
     Function found;

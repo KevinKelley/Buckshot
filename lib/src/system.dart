@@ -171,9 +171,9 @@ FrameworkObject _getObjectNoReflection(String name,
     // ignoring namespaces.
     Function found;
     final lookup = '::$name';
+    new Logger('buckshot.register.getObjectByName')
+      .warning('...relaxed mode lookup: $name');
     _objectRegistry.forEach((String s, Function f){
-      new Logger('buckshot.register.getObjectByName')
-        .warning('...no namespaces. looking up: $name');
       if (found != null) return;
       if (!s.endsWith(lookup)) return;
       found = f;
@@ -194,6 +194,8 @@ FrameworkObject _getObjectNoReflection(String name,
     }
     final lookup = '${n.uri}::$name';
     if (_objectRegistry.containsKey(lookup)){
+      new Logger('buckshot.register.getObjectByName')
+        .warning('...found: $lookup');
       return _objectRegistry[lookup]();
     }
   }

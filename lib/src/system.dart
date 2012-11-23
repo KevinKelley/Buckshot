@@ -188,6 +188,10 @@ FrameworkObject _getObjectNoReflection(String name,
 
   // Attempts a namespace-constrained lookup
   for(final XmlNamespace n in namespaces){
+    if (name.contains(':') && (!name.startsWith('${n.name}:'))){
+      //prefix doesn't match so continue.
+      continue;
+    }
     final lookup = '${n.uri}::$name';
     if (_objectRegistry.containsKey(lookup)){
       return _objectRegistry[lookup]();

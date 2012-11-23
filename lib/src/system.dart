@@ -190,7 +190,11 @@ FrameworkObject _getObjectNoReflection(String name,
   for(final XmlNamespace n in namespaces){
     if (name.contains(':') && (!name.startsWith('${n.name}:'))){
       //prefix doesn't match so continue.
+      new Logger('buckshot.register.getObjectByName')
+        .warning('...no prefix match..continuing');
       continue;
+    }else{
+
     }
     final lookup = '${n.uri}::$name';
     if (_objectRegistry.containsKey(lookup)){

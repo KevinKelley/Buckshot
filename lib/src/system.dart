@@ -186,7 +186,7 @@ FrameworkObject _getObjectNoReflection(String elementName,
       .warning('...relaxed mode lookup: $name');
     _objectRegistry.forEach((String s, Function f){
       if (found != null) return;
-      if (!s.endsWith(lookup)) return;
+      if (s == lookup) return;
       found = f;
     });
 

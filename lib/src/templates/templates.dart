@@ -155,18 +155,19 @@ class Templates {
     var rawTemplate;
 
     return initFramework()
-              .chain((_) => platform.getTemplate(tt))
-              .chain((template){
-                rawTemplate = template;
-                return Templates.toFrameworkObject(Templates.toXmlTree(template));
-              })
-              .chain((result){
-                if (result == null){
-                  return new Future.immediate(result);
-                }
-                result.stateBag['__buckshot_template__'] = rawTemplate;
+            .chain((_) => platform.getTemplate(tt))
+            .chain((template){
+              rawTemplate = template;
+              // TODO raise xml parser exceptions in a friendlier manner
+              return Templates.toFrameworkObject(Templates.toXmlTree(template));
+            })
+            .chain((result){
+              if (result == null){
                 return new Future.immediate(result);
-              });
+              }
+              result.stateBag['__buckshot_template__'] = rawTemplate;
+              return new Future.immediate(result);
+            });
 
   }
 

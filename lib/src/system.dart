@@ -214,7 +214,7 @@ FrameworkObject _getObjectNoReflection(String elementName,
       return _objectRegistry[lookup]();
     }
   }
-  return lookupRelaxed();
+  return prefix.isEmpty ? lookupRelaxed() : null;
 }
 
 /**

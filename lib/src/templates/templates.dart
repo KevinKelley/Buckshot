@@ -249,7 +249,7 @@ class Templates {
         xmlElement.namespacesInScope);
     if (objectOrMirror == null){
       throw new TemplateException('Element "${xmlElement.name}"'
-      ' not found.');
+      ' not found in template fragment $xmlElement');
     }
 
     if (!reflectionEnabled){

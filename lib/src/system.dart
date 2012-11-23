@@ -129,7 +129,7 @@ getObjectByName(String name, List<XmlNamespace> namespaces){
 
   if (!reflectionEnabled){
     new Logger('buckshot.register.getObjectByName')
-      .warning('looking up: $lowerName $namespaces');
+      .finer('looking up: $lowerName $namespaces');
     return _getObjectNoReflection(lowerName, namespaces);
   }else{
     if (_mirrorCache.containsKey(lowerName)){
@@ -183,7 +183,7 @@ FrameworkObject _getObjectNoReflection(String elementName,
     Function found;
     final lookup = '::$name';
     new Logger('buckshot.register.getObjectByName')
-      .warning('...relaxed mode lookup: $name');
+      .finer('...relaxed mode lookup: $name');
     _objectRegistry.forEach((String s, Function f){
       if (found != null) return;
       if (s != lookup) return;
@@ -210,7 +210,7 @@ FrameworkObject _getObjectNoReflection(String elementName,
     final lookup = '${n.uri}::$name';
     if (_objectRegistry.containsKey(lookup)){
       new Logger('buckshot.register.getObjectByName')
-        .warning('...found: $lookup');
+        .finer('...found: $lookup');
       return _objectRegistry[lookup]();
     }
   }

@@ -128,7 +128,8 @@ getObjectByName(String name, List<XmlNamespace> namespaces){
   final lowerName = name.toLowerCase();
 
   if (!reflectionEnabled){
-    new Logger('buckshot.register.getObjectByName').warning('looking up: $lowerName $namespaces');
+    new Logger('buckshot.register.getObjectByName')
+      .warning('looking up: $lowerName $namespaces');
     return _getObjectNoReflection(lowerName, namespaces);
   }else{
     if (_mirrorCache.containsKey(lowerName)){
@@ -171,6 +172,8 @@ FrameworkObject _getObjectNoReflection(String name,
     Function found;
     final lookup = '::$name';
     _objectRegistry.forEach((String s, Function f){
+      new Logger('buckshot.register.getObjectByName')
+        .warning('...no namespaces. looking up: $name');
       if (found != null) return;
       if (!s.endsWith(lookup)) return;
       found = f;

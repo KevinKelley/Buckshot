@@ -188,13 +188,12 @@ FrameworkObject _getObjectNoReflection(String name,
 
   // Attempts a namespace-constrained lookup
   for(final XmlNamespace n in namespaces){
-    if (name.contains(':') && (!name.startsWith('${n.name}:'))){
-      //prefix doesn't match so continue.
-      new Logger('buckshot.register.getObjectByName')
-        .warning('...no prefix match..continuing');
-      continue;
+    if (name.contains(':')){
+      // name has prefix, but does not match namespace prefix, skip.
+      if(!name.startsWith('${n.name}:')) continue;
     }else{
-
+      // namespace has prefix but name does not, skip.
+      if (!n.name.isEmpty) continue;
     }
     final lookup = '${n.uri}::$name';
     if (_objectRegistry.containsKey(lookup)){

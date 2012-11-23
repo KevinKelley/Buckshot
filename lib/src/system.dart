@@ -15,10 +15,10 @@ final Map<String, dynamic> _mirrorCache = new Map<String, dynamic>();
 
 /// Central registry of named [FrameworkObject] elements.
 final HashMap<String, FrameworkObject> namedElements =
-    new HashMap<String, FrameworkObject>();
+  new HashMap<String, FrameworkObject>();
 
 final HashMap<String, Function> _objectRegistry =
-    new HashMap<String, dynamic>();
+  new HashMap<String, Function>();
 
 /**
  * Registers an object to the framework.
@@ -27,12 +27,12 @@ final HashMap<String, Function> _objectRegistry =
  * removed once reflection is supported on all Dart platforms.
  */
 void registerElement(FrameworkObject o){
-  hierarchicalLoggingEnabled = true;
   if (reflectionEnabled) return;
-
-  _objectRegistry['${o.toString().toLowerCase()}'] = o.makeMe;
+  _objectRegistry['${o.namespace}::${o.toString().toLowerCase()}'] = o.makeMe;
+  hierarchicalLoggingEnabled = true;
   new Logger('buckshot.registration')
-    ..config('Element (${o}) registered to framework.');
+    ..config('Element (${o}) registered to framework as'
+      ' "${o.namespace}::${o.toString().toLowerCase()}".');
 }
 
 /**
@@ -124,12 +124,11 @@ Future _loadTheme(){
 *
  * Returns null if not found.
  */
-getObjectByName(String name, {String namespace}){
+getObjectByName(String name, List<XmlNamespace> namespaces){
   final lowerName = name.toLowerCase();
 
   if (!reflectionEnabled){
-    if (!_objectRegistry.containsKey(lowerName)) return null;
-    return _objectRegistry[lowerName]();
+    return _getObjectNoReflection(lowerName, namespaces);
   }else{
     if (_mirrorCache.containsKey(lowerName)){
       new Logger('buckshot.object_by_name')
@@ -161,6 +160,33 @@ getObjectByName(String name, {String namespace}){
 
     return result;
   }
+}
+
+FrameworkObject _getObjectNoReflection(String name,
+                                       List<XmlNamespace> namespaces){
+  if (namespaces == null){
+    // Attempts a friendly lookup on the first item found matching the name,
+    // ignoring namespaces.
+    Function found;
+    final lookup = '::$name';
+    _objectRegistry.forEach((String s, Function f){
+      if (found != null) return;
+      if (!s.endsWith(lookup)) return;
+      found = f;
+    });
+
+    return found != null ? found() : null;
+  }
+
+  // Attempts a namespace-constrained lookup
+  for(final XmlNamespace n in namespaces){
+    final lookup = '${n.uri}::$name';
+    if (_objectRegistry.containsKey(lookup)){
+      return _objectRegistry[lookup]();
+    }
+  }
+
+  return null;
 }
 
 /**

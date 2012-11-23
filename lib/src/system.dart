@@ -164,8 +164,19 @@ getObjectByName(String name, List<XmlNamespace> namespaces){
   }
 }
 
-FrameworkObject _getObjectNoReflection(String name,
+FrameworkObject _getObjectNoReflection(String elementName,
                                        List<XmlNamespace> namespaces){
+  var prefix = '';
+  var name = '';
+
+  if (elementName.contains(':')){
+    final es = elementName.split(':');
+    prefix = es[0];
+    name = es[1];
+  }else{
+    name = elementName;
+  }
+
   FrameworkObject lookupRelaxed(){
     // Attempts a friendly lookup on the first item found matching the name,
     // ignoring namespaces.
@@ -188,13 +199,14 @@ FrameworkObject _getObjectNoReflection(String name,
 
   // Attempts a namespace-constrained lookup
   for(final XmlNamespace n in namespaces){
-    if (name.contains(':')){
+    if (!prefix.isEmpty){
       // name has prefix, but does not match namespace prefix, skip.
-      if(!name.startsWith('${n.name}:')) continue;
+      if(n.name != prefix) continue;
     }else{
       // namespace has prefix but name does not, skip.
       if (!n.name.isEmpty) continue;
     }
+
     final lookup = '${n.uri}::$name';
     if (_objectRegistry.containsKey(lookup)){
       new Logger('buckshot.register.getObjectByName')
@@ -202,7 +214,6 @@ FrameworkObject _getObjectNoReflection(String name,
       return _objectRegistry[lookup]();
     }
   }
-
   return lookupRelaxed();
 }
 
